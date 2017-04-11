@@ -20,7 +20,7 @@ class NavViewController: UINavigationController {
         navigationBar.isTranslucent = false  //不透明处理
         UINavigationBar.appearance().shadowImage = UIImage() //隐藏导航栏下黑线
       //改变title文字格式
-        navigationBar.titleTextAttributes = [NSFontAttributeName:UIFont.systemFont(ofSize: 36),NSForegroundColorAttributeName:UIColor.white]
+        navigationBar.titleTextAttributes = [NSFontAttributeName:UIFont.systemFont(ofSize: 20),NSForegroundColorAttributeName:UIColor.white]
       //修改BarItem 字体颜色样式
         UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName:UIFont.systemFont(ofSize: 11)], for: UIControlState(rawValue: 0))
         leftItemHidden = false

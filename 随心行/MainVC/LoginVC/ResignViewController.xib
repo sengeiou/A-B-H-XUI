@@ -12,6 +12,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResignViewController" customModule="随心行" customModuleProvider="target">
             <connections>
+                <outlet property="accTexfild" destination="EHi-Df-XoA" id="l9v-TB-SSt"/>
+                <outlet property="againFild" destination="jOw-Cw-HXG" id="urX-JS-egE"/>
+                <outlet property="codeBut" destination="6vy-6p-qWE" id="wJ3-Lm-SOt"/>
+                <outlet property="codeFild" destination="kyQ-Ea-pVk" id="ZO0-41-WXU"/>
+                <outlet property="passFild" destination="No0-R0-JK9" id="gaL-I8-ell"/>
+                <outlet property="protocolBut" destination="RT1-oH-Ca0" id="Rye-py-MKI"/>
+                <outlet property="resignBut" destination="Jnn-88-FTL" id="GFi-8Z-jFx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,7 +34,7 @@
                             <rect key="frame" x="16" y="0.0" width="283" height="52"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -96,13 +103,16 @@
                             <state key="normal" title="获取验证码">
                                 <color key="titleColor" red="0.062745098040000002" green="0.58039215690000001" blue="0.98823529409999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
+                            <connections>
+                                <action selector="getCodeSelect:" destination="-1" eventType="touchUpInside" id="iZ1-BW-PsD"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="验证码" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kyQ-Ea-pVk">
                             <rect key="frame" x="0.0" y="0.0" width="157" height="55"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -122,6 +132,9 @@
                     <rect key="frame" x="30" y="609" width="315" height="28"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="《乐普随心行软件许可及服务协议》"/>
+                    <connections>
+                        <action selector="protocolSelect:" destination="-1" eventType="touchUpInside" id="GaR-jH-afM"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击上面的“注册”按钮，即表示您同意" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YC8-P3-Txb">
                     <rect key="frame" x="30" y="589" width="315" height="16"/>
@@ -139,6 +152,9 @@
                     <state key="normal" title="注册">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="resignSelect:" destination="-1" eventType="touchUpInside" id="yFj-Mt-ub6"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="0.92537945509999997" green="0.92556017639999999" blue="0.92537814380000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

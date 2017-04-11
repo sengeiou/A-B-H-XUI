@@ -10,6 +10,18 @@ import UIKit
 
 
 class Defaultinfos: NSObject {
+ 
+    //类型是NSObject可用这方法创建单例
+//    static let manager:Defaultinfos = {
+//        return Defaultinfos.init()
+//    }()
+//    class func shared() -> Defaultinfos {
+//        return manager;
+//    }
+//    
+//    private override init(){
+//        
+//    }
     
     class func putKeyWithNsobject(key: String,value: NSObject) {
     let defaults = UserDefaults.standard

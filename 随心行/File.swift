@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import AFNetworking
 
 let MainScreen = UIScreen.main.bounds
 
 let FirstLun = "FIRSTLUN"
 
 /*请求前缀*/
-let Prefix = "https://openapi.5gcity.com/"
+let Prefix = "http://openapi.5gcity.com/"
 
 /*请求头*/
 let Head = "3A73DE89-2C32-4DD8-A8F8-B43C1FC26C17"
@@ -29,8 +30,14 @@ func ColorFromRGB(rgbValue: Int) -> UIColor{
     return UIColor(red: ((CGFloat)((rgbValue & 0xFF0000) >> 16)) / 255.0, green: ((CGFloat)((rgbValue & 0xFF00) >> 8)) / 255.0, blue: ((CGFloat)(rgbValue & 0xFF)) / 255.0, alpha: 1.0)
 }
 
+func systLanage()->String{
+    var defaults = Bundle.main.preferredLocalizations.first! as NSString
+    defaults = defaults.substring(to: 2) as NSString
+    return defaults as String
+}
+
 extension UIImage{
-   class func ImageWithColor(color: UIColor,size: CGSize) ->UIImage{
+    class func ImageWithColor(color: UIColor,size: CGSize) ->UIImage{
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
@@ -52,4 +59,5 @@ extension UIBarButtonItem{
         return UIBarButtonItem(customView: backbut)
     }
 }
+
 

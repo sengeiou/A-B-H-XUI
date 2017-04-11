@@ -21,11 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let nav = NavViewController(rootViewController: loginVC)
             window?.rootViewController = nav
         }
-        else{
-            let firstLunVC = ViewController(nibName: "ViewController", bundle: nil)
-//            let nav = NavViewController(rootViewController: loginVC)
-            window?.rootViewController = firstLunVC
-        }
+//        else{
+//            let firstLunVC = ViewController(nibName: "ViewController", bundle: nil)
+////            let nav = NavViewController(rootViewController: loginVC)
+//            window?.rootViewController = firstLunVC
+//        }
         return true
     }
 
