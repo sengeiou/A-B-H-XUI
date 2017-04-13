@@ -13,6 +13,10 @@ let MainScreen = UIScreen.main.bounds
 
 let FirstLun = "FIRSTLUN"
 
+let AccountToken = "TOKEN"
+
+let Account = "ACCOUNT"
+
 /*请求前缀*/
 let Prefix = "http://openapi.5gcity.com/"
 
@@ -34,6 +38,27 @@ func systLanage()->String{
     var defaults = Bundle.main.preferredLocalizations.first! as NSString
     defaults = defaults.substring(to: 2) as NSString
     return defaults as String
+}
+
+func RequestKeyDic() -> NSMutableDictionary {
+    var token = Defaultinfos.getValueForKey(key: AccountToken)
+//    let result :Any? = nil
+//    
+    if let token1 = token as? String{
+        print(token1)
+    }
+    else{
+        token = ""
+    }
+//
+//    guard let token2 = result as? String else {
+////        print(token2)
+//        return
+//    }
+
+//    let nsDic : NSMutableDictionary = NSMutableDictionary(dictionary: ["Token" : token? "":token as!String ,"Language":systLanage(),"AppId":"71"])
+     let nsDic = NSMutableDictionary()
+    return nsDic
 }
 
 extension UIImage{

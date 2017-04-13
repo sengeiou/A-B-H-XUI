@@ -35,17 +35,19 @@ class Defaultinfos: NSObject {
         defaults.synchronize()
     }
     
-   class func getValueForKey(key: String) -> NSObject {
+   class func getValueForKey(key: String) -> Any? {
         let defaults = UserDefaults.standard
-        var result = defaults.object(forKey: key)
-        if (result == nil) {
-            result = nil
-        }
-        return result as! NSObject
+        let result = defaults.object(forKey: key)
+        return result as Any
     }
     
     class func getIntValueForKey(key:String) -> Int{
         let defaults = UserDefaults.standard
         return defaults.integer(forKey: key)
+    }
+    
+    class func removeValueForKey(key:String){
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: key)
     }
 }

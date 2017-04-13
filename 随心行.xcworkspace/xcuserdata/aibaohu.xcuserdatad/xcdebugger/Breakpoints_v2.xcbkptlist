@@ -2,4 +2,133 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/ResignViewController.swift"
+            timestampString = "513761342.649773"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "getCodeSelect(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.ResignViewController.getCodeSelect (__ObjC.UIButton) -&gt; ()"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/ResignViewController.swift"
+                  timestampString = "513761343.446214"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "3496">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.ResignViewController.(getCodeSelect (__ObjC.UIButton) -&gt; ()).(closure #2)"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/ResignViewController.swift"
+                  timestampString = "513761343.447735"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.ResignViewController.(getCodeSelect (__ObjC.UIButton) -&gt; ()).(closure #3)"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/ResignViewController.swift"
+                  timestampString = "513761343.449491"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/ResignViewController.swift"
+            timestampString = "513761342.649773"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "getCodeSelect(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.ResignViewController.getCodeSelect (__ObjC.UIButton) -&gt; ()"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/ResignViewController.swift"
+                  timestampString = "513761343.453005"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "3696">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.ResignViewController.(getCodeSelect (__ObjC.UIButton) -&gt; ()).(closure #3)"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/ResignViewController.swift"
+                  timestampString = "513761343.454217"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/ResignViewController.swift"
+            timestampString = "513761342.649773"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "getCodeSelect(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

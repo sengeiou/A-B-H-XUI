@@ -26,6 +26,18 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         createUI()
+        
+//        let fmdb = FMDbase.shared()
+//        let user = UserInfo()
+//        user.userId = "123456"
+//        user.deviceId = "imed"
+//        user.devicePh = "7894561"
+//        user.deviceIma = "baidu.com1"
+//        user.relatoin = "老大1"
+//        user.userName = "welcome1"
+//        user.userPass = "******1"
+//        user.userIma = "2manhua.com1"
+//        fmdb.insertUserInfo(userInfo: user)
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,6 +52,11 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         view.endEditing(true)
         super.viewWillDisappear(animated)
+//        let fmdb = FMDbase.shared()
+//        let user = UserInfo()
+//        user.userId = "123456"
+//        user.deviceId = "imed"
+//        fmdb.delegateUser(userInfo: user)
     }
     
     func createUI() {
@@ -55,8 +72,21 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
             MBProgressHUD.showError(Localizeable(key: "请输入手机号") as String!)
             return
         }
+        
         codeFild.becomeFirstResponder()
         let httpMar = MyHttpSessionMar.shared
+        let parameterDic = RequestKeyDic()
+        parameterDic.addEntries(from: ["LoginName":accTexfild.text!])
+        httpMar.post(Prefix + "api/User/CheckUser", parameters: parameterDic, progress: { (Progress) in
+            
+        }, success: { (URLSessionDataTask, result) in
+            
+        }) { (DataTask, Error) in
+            
+        }
+
+        let checkUserPar :Dictionary<String,String> = ["LoginName":accTexfild.text!,"Token":"","Language":systLanage(),"AppId":"71"];
+        
         let parameters:Dictionary<String,String> = ["Phone":accTexfild.text!,"VildateSence":"2","Token":"","Language":systLanage(),"AppId":"71"]
         print( parameters);
         print(Prefix+"api/User/SendSMSCode")

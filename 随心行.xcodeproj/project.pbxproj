@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10A6EA1E9CD5C40036B1E0 /* FMDbase.swift */; };
+		EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10A6EC1E9CD5FE0036B1E0 /* UserInfo.swift */; };
+		EE10A6EF1E9CD6DB0036B1E0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */; };
 		EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BA41E9744220065827E /* NavViewController.swift */; };
 		EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BA61E9764C40065827E /* LoginViewController.swift */; };
 		EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BA71E9764C40065827E /* LoginViewController.xib */; };
@@ -31,6 +34,9 @@
 /* Begin PBXFileReference section */
 		4C7D6C9227326DC4F0CD900F /* Pods____.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "Pods____.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87D42D50C237D5F863861812 /* Pods-随心行.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-随心行.release.xcconfig"; path = "Pods/Target Support Files/Pods-随心行/Pods-随心行.release.xcconfig"; sourceTree = "<group>"; };
+		EE10A6EA1E9CD5C40036B1E0 /* FMDbase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDbase.swift; sourceTree = "<group>"; };
+		EE10A6EC1E9CD5FE0036B1E0 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		EE3E3BA41E9744220065827E /* NavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA61E9764C40065827E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA71E9764C40065827E /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -62,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE10A6EF1E9CD6DB0036B1E0 /* libsqlite3.0.tbd in Frameworks */,
 				F510CAACD04BE977C9B70BD0 /* Pods____.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +88,7 @@
 		72D4383772E4771526AEDD42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */,
 				4C7D6C9227326DC4F0CD900F /* Pods____.framework */,
 			);
 			name = Frameworks;
@@ -157,6 +165,8 @@
 				EE7C36081E9615BD000481E2 /* LocalizeableInfo.swift */,
 				EEE1A32B1E98853A00E90096 /* Defaultinfos.swift */,
 				EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */,
+				EE10A6EC1E9CD5FE0036B1E0 /* UserInfo.swift */,
+				EE10A6EA1E9CD5C40036B1E0 /* FMDbase.swift */,
 			);
 			path = "全局方法";
 			sourceTree = "<group>";
@@ -315,7 +325,9 @@
 				EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */,
 				EEAA30AC1E98DABB00D92A32 /* MBProgressHUD.m in Sources */,
 				EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */,
+				EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */,
 				EE7C35F21E95DBFC000481E2 /* ViewController.swift in Sources */,
+				EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */,
 				EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
