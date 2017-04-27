@@ -18,6 +18,7 @@
                 <outlet property="codeFild" destination="kyQ-Ea-pVk" id="ZO0-41-WXU"/>
                 <outlet property="passFild" destination="No0-R0-JK9" id="gaL-I8-ell"/>
                 <outlet property="protocolBut" destination="RT1-oH-Ca0" id="Rye-py-MKI"/>
+                <outlet property="protocolLab" destination="YC8-P3-Txb" id="ziY-d5-1am"/>
                 <outlet property="resignBut" destination="Jnn-88-FTL" id="GFi-8Z-jFx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -53,7 +54,7 @@
                             <rect key="frame" x="16" y="0.0" width="283" height="52"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -72,7 +73,7 @@
                             <rect key="frame" x="16" y="0.0" width="283" height="52"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

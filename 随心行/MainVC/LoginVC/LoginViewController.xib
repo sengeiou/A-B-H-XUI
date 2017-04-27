@@ -14,6 +14,7 @@
                 <outlet property="accFie" destination="yfY-sX-Xr7" id="l7x-Kv-2ox"/>
                 <outlet property="findPassBut" destination="xa3-7G-raV" id="vlu-Le-itk"/>
                 <outlet property="headTop" destination="DB7-JC-eWn" id="rPR-ax-hCx"/>
+                <outlet property="image" destination="KR3-qL-L5u" id="bp4-uQ-dwd"/>
                 <outlet property="loginBut" destination="SQX-wd-VxI" id="tjB-5t-tyP"/>
                 <outlet property="passFie" destination="rA7-MK-qkk" id="ygB-AS-E2k"/>
                 <outlet property="resignBut" destination="iuP-mb-nGk" id="L2T-Hs-0F8"/>
@@ -69,7 +70,7 @@
                             <rect key="frame" x="16" y="0.0" width="283" height="52"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -90,7 +91,7 @@
                         <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="findPassSelect" destination="-1" eventType="touchUpOutside" id="8Is-3J-aa8"/>
+                        <action selector="findPassSelect" destination="-1" eventType="touchUpInside" id="MZ8-dQ-KoA"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iuP-mb-nGk">

@@ -23,7 +23,7 @@ class Defaultinfos: NSObject {
 //        
 //    }
     
-    class func putKeyWithNsobject(key: String,value: NSObject) {
+    class func putKeyWithNsobject(key: String,value: Any) {
     let defaults = UserDefaults.standard
         defaults.set(value, forKey: key)
         defaults.synchronize()

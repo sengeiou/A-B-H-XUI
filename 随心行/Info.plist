@@ -39,5 +39,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow this app to access your camera or not</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow this app to access your album or not</string>
 </dict>
 </plist>

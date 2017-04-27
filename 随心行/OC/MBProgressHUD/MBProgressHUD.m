@@ -543,7 +543,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height += kPadding;
 	}
 	
-	totalSize.width += 2 * margin;
+	totalSize.width +=  2 * margin;
 	totalSize.height += 2 * margin;
 	
 	// Position elements

@@ -47,9 +47,9 @@ class FMDbase: NSObject {
                 TableBuilder.column(Expression<String>("devicePh"))
                 TableBuilder.column(Expression<String>("deviceIma"))
                 TableBuilder.column(Expression<String>("relation"))
-                TableBuilder.column(Expression<String>("userName"))
-                TableBuilder.column(Expression<String>("userPass"))
-                TableBuilder.column(Expression<String>("userIma"))
+//                TableBuilder.column(Expression<String>("userName"))
+//                TableBuilder.column(Expression<String>("userPass"))
+//                TableBuilder.column(Expression<String>("userIma"))
             }))
           
         }catch let error as NSError{
@@ -62,19 +62,19 @@ class FMDbase: NSObject {
         do{
             let userTab = Table("tb_user")
             var userId = ""
-            let alice = userTab.filter(Expression<String>("userid") == userInfo.userId).filter(Expression<String>("deviceid") == userInfo.deviceId)
+            let alice = userTab.filter(Expression<String>("userid") == userInfo.userId!).filter(Expression<String>("deviceid") == userInfo.deviceId!)
             
             for user in try db.prepare(alice){
                 print("userid \(user[Expression<String>("userid")])")
                 userId = user[Expression<String>("userid")]
             }
             if userId != "" {
-                let update = alice.update(Expression<String>("devicePh") <- userInfo.devicePh,Expression<String>("deviceIma") <- userInfo.deviceIma,Expression<String>("relation") <- userInfo.relatoin,Expression<String>("userName") <- userInfo.userName,Expression<String>("userPass") <- userInfo.userPass,Expression<String>("userIma") <- userInfo.userIma)
+                let update = alice.update(Expression<String>("devicePh") <- userInfo.devicePh!,Expression<String>("deviceIma") <- userInfo.deviceIma!,Expression<String>("relation") <- userInfo.relatoin!/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
                 let result = try db.run(update)
                 print("更新用户数据 ：\(result)")
             }
             else{
-                let result = userTab.insert(Expression<String>("userid") <- userInfo.userId,Expression<String>("deviceid") <- userInfo.deviceId,Expression<String>("devicePh") <- userInfo.devicePh,Expression<String>("deviceIma") <- userInfo.deviceIma,Expression<String>("relation") <- userInfo.relatoin,Expression<String>("userName") <- userInfo.userName,Expression<String>("userPass") <- userInfo.userPass,Expression<String>("userIma") <- userInfo.userIma)
+                let result = userTab.insert(Expression<String>("userid") <- userInfo.userId!,Expression<String>("deviceid") <- userInfo.deviceId!,Expression<String>("devicePh") <- userInfo.devicePh!,Expression<String>("deviceIma") <- userInfo.deviceIma!,Expression<String>("relation") <- userInfo.relatoin!/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
                 let rowID = try db.run(result)
                 print("插入用户数据 ：\(rowID)")
             }
@@ -84,9 +84,32 @@ class FMDbase: NSObject {
         }
     }
     
+    func selectUser(userid: String, deviceid: String) -> UserInfo? {
+        do {
+            let userTab = Table("tb_user")
+            let alice = userTab.filter(Expression<String>("userid") == userid).filter(Expression<String>("deviceid") == deviceid)
+            let userInfo = getNewUser()
+            for user in try db.prepare(alice){
+                print("userid \(user[Expression<String>("userid")])")
+                userInfo.userId = user[Expression<String>("userid")]
+                userInfo.deviceId = user[Expression<String>("deviceid")]
+                userInfo.devicePh = user[Expression<String>("devicePh")]
+                userInfo.deviceIma = user[Expression<String>("deviceIma")]
+                userInfo.relatoin = user[Expression<String>("relation")]
+//                userInfo.userName = user[Expression<String>("userName")]
+//                userInfo.userPass = user[Expression<String>("userPass")]
+//                userInfo.userIma = user[Expression<String>("userIma")]
+            }
+            return userInfo
+        } catch  let error as NSError {
+            print("查找用户数据失败 ：\(error.description)")
+            return nil
+        }
+    }
+    
     func delegateUser(userInfo : UserInfo) {
         do{
-            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userInfo.userId,userInfo.deviceId)
+            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userInfo.userId!,userInfo.deviceId!)
            try db.execute(sql)
             print("删除用户数据")
         }catch let error as NSError{

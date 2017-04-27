@@ -15,6 +15,8 @@
 		EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BA71E9764C40065827E /* LoginViewController.xib */; };
 		EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BAA1E979FE20065827E /* ResignViewController.swift */; };
 		EE3E3BAD1E979FE20065827E /* ResignViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BAB1E979FE20065827E /* ResignViewController.xib */; };
+		EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */; };
+		EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */; };
 		EE7C35F01E95DBFC000481E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C35EF1E95DBFC000481E2 /* AppDelegate.swift */; };
 		EE7C35F21E95DBFC000481E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C35F11E95DBFC000481E2 /* ViewController.swift */; };
 		EE7C35F51E95DBFC000481E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE7C35F31E95DBFC000481E2 /* Main.storyboard */; };
@@ -23,11 +25,21 @@
 		EE7C36041E95EBBB000481E2 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36031E95EBBB000481E2 /* File.swift */; };
 		EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7C36081E9615BD000481E2 /* LocalizeableInfo.swift */; };
 		EE7C360A1E9621A8000481E2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EE7C360C1E9621A8000481E2 /* Localizable.strings */; };
+		EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7CAD191EA5C5CB00A40760 /* BandDeviceViewController.swift */; };
+		EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */; };
+		EE7CAD1E1EA5E40C00A40760 /* ScanCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */; };
 		EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */; };
 		EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A61E98DABB00D92A32 /* MBProgressHUD+MJ.m */; };
 		EEAA30AB1E98DABB00D92A32 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EEAA30A71E98DABB00D92A32 /* MBProgressHUD.bundle */; };
 		EEAA30AC1E98DABB00D92A32 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A91E98DABB00D92A32 /* MBProgressHUD.m */; };
+		EEC3D55B1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3D5591EAF5B67009E9C09 /* SelectPhotoCollectionViewController.swift */; };
+		EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC3D55A1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib */; };
+		EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3D55D1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift */; };
+		EEC3D5601EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC3D55E1EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib */; };
 		EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE1A32B1E98853A00E90096 /* Defaultinfos.swift */; };
+		EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE3A0661EAEE7BB00E75FC2 /* DeviceInfoViewController.swift */; };
+		EEE3A0691EAEE7BB00E75FC2 /* DeviceInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEE3A0671EAEE7BB00E75FC2 /* DeviceInfoViewController.xib */; };
+		EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE3A06B1EAEEEC600E75FC2 /* PhotoView.swift */; };
 		F510CAACD04BE977C9B70BD0 /* Pods____.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7D6C9227326DC4F0CD900F /* Pods____.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +54,8 @@
 		EE3E3BA71E9764C40065827E /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		EE3E3BAA1E979FE20065827E /* ResignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignViewController.swift; sourceTree = "<group>"; };
 		EE3E3BAB1E979FE20065827E /* ResignViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResignViewController.xib; sourceTree = "<group>"; };
+		EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationViewController.swift; sourceTree = "<group>"; };
+		EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelationViewController.xib; sourceTree = "<group>"; };
 		EE7C35EC1E95DBFC000481E2 /* 随心行.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "随心行.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE7C35EF1E95DBFC000481E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE7C35F11E95DBFC000481E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,13 +67,23 @@
 		EE7C36031E95EBBB000481E2 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		EE7C36081E9615BD000481E2 /* LocalizeableInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizeableInfo.swift; sourceTree = "<group>"; };
 		EE7C360B1E9621A8000481E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EE7CAD191EA5C5CB00A40760 /* BandDeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandDeviceViewController.swift; sourceTree = "<group>"; };
+		EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BandDeviceViewController.xib; sourceTree = "<group>"; };
+		EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
 		EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHttpSessionMar.swift; sourceTree = "<group>"; };
 		EEAA30A51E98DABB00D92A32 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		EEAA30A61E98DABB00D92A32 /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 		EEAA30A71E98DABB00D92A32 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		EEAA30A81E98DABB00D92A32 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		EEAA30A91E98DABB00D92A32 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		EEC3D5591EAF5B67009E9C09 /* SelectPhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectPhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		EEC3D55A1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectPhotoCollectionViewController.xib; sourceTree = "<group>"; };
+		EEC3D55D1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		EEC3D55E1EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		EEE1A32B1E98853A00E90096 /* Defaultinfos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaultinfos.swift; sourceTree = "<group>"; };
+		EEE3A0661EAEE7BB00E75FC2 /* DeviceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfoViewController.swift; sourceTree = "<group>"; };
+		EEE3A0671EAEE7BB00E75FC2 /* DeviceInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceInfoViewController.xib; sourceTree = "<group>"; };
+		EEE3A06B1EAEEEC600E75FC2 /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 		F86256DB931E77C2A58C82C1 /* Pods-随心行.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-随心行.debug.xcconfig"; path = "Pods/Target Support Files/Pods-随心行/Pods-随心行.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +121,7 @@
 		EE3E3BA11E97432E0065827E /* MainVC */ = {
 			isa = PBXGroup;
 			children = (
+				EE7CAD181EA5C5A400A40760 /* Device */,
 				EE3E3BA31E9743C40065827E /* NavVC */,
 				EE3E3BA21E9743690065827E /* LoginVC */,
 			);
@@ -110,6 +135,13 @@
 				EE3E3BA71E9764C40065827E /* LoginViewController.xib */,
 				EE3E3BAA1E979FE20065827E /* ResignViewController.swift */,
 				EE3E3BAB1E979FE20065827E /* ResignViewController.xib */,
+				EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */,
+				EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */,
+				EEE3A0661EAEE7BB00E75FC2 /* DeviceInfoViewController.swift */,
+				EEE3A0671EAEE7BB00E75FC2 /* DeviceInfoViewController.xib */,
+				EEC3D5591EAF5B67009E9C09 /* SelectPhotoCollectionViewController.swift */,
+				EEC3D55A1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib */,
+				EEE3A06A1EAEEEAD00E75FC2 /* View */,
 			);
 			path = LoginVC;
 			sourceTree = "<group>";
@@ -171,6 +203,16 @@
 			path = "全局方法";
 			sourceTree = "<group>";
 		};
+		EE7CAD181EA5C5A400A40760 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				EE7CAD191EA5C5CB00A40760 /* BandDeviceViewController.swift */,
+				EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */,
+				EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */,
+			);
+			path = Device;
+			sourceTree = "<group>";
+		};
 		EEAA30A31E98DA8400D92A32 /* OC */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +231,16 @@
 				EEAA30A91E98DABB00D92A32 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		EEE3A06A1EAEEEAD00E75FC2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EEE3A06B1EAEEEC600E75FC2 /* PhotoView.swift */,
+				EEC3D55D1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift */,
+				EEC3D55E1EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,11 +306,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */,
 				EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */,
+				EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */,
 				EE7C35FA1E95DBFC000481E2 /* LaunchScreen.storyboard in Resources */,
+				EEE3A0691EAEE7BB00E75FC2 /* DeviceInfoViewController.xib in Resources */,
 				EE3E3BAD1E979FE20065827E /* ResignViewController.xib in Resources */,
 				EE7C360A1E9621A8000481E2 /* Localizable.strings in Resources */,
 				EE7C35F71E95DBFC000481E2 /* Assets.xcassets in Resources */,
+				EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */,
+				EEC3D5601EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib in Resources */,
 				EE7C35F51E95DBFC000481E2 /* Main.storyboard in Resources */,
 				EEAA30AB1E98DABB00D92A32 /* MBProgressHUD.bundle in Resources */,
 			);
@@ -319,18 +376,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEC3D55B1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.swift in Sources */,
+				EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */,
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
+				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
+				EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */,
+				EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */,
 				EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */,
 				EEAA30AC1E98DABB00D92A32 /* MBProgressHUD.m in Sources */,
 				EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */,
+				EE7CAD1E1EA5E40C00A40760 /* ScanCodeViewController.swift in Sources */,
 				EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */,
 				EE7C35F21E95DBFC000481E2 /* ViewController.swift in Sources */,
 				EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */,
 				EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
+				EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */,
 				EE7C35F01E95DBFC000481E2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
