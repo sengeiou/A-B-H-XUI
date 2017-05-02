@@ -15,13 +15,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        print(Defaultinfos.getIntValueForKey(key: FirstLun))
-        if Defaultinfos.getIntValueForKey(key: FirstLun) == 1{
+        if ((Defaultinfos.getValueForKey(key: Account)) != nil || Defaultinfos.getValueForKey(key: Account) as! String != ""){
+            let homeVC = HomeViewController()
+            homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+            let homeNav = NavViewController(rootViewController: homeVC)
+            
+            let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+            messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+            let messNav = NavViewController(rootViewController: messVC)
+            
+            let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+            meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+            let meNav = NavViewController(rootViewController: meVC)
+            
+            //            let tabVC = MainTabViewController()
+            let tabVC = UITabBarController()
+            tabVC.viewControllers = [homeNav,messNav,meNav]
+            window?.rootViewController = tabVC
+        }
+       else if Defaultinfos.getIntValueForKey(key: FirstLun) == 1{
             let loginVC = LoginViewController(nibName: "LoginViewController", bundle: nil)
             let nav = NavViewController(rootViewController: loginVC)
             window?.rootViewController = nav
         }
-//        else{
+        
+        print(Defaultinfos.getIntValueForKey(key: FirstLun),Defaultinfos.getValueForKey(key: Account))
+         //        else{
 //            let firstLunVC = ViewController(nibName: "ViewController", bundle: nil)
 ////            let nav = NavViewController(rootViewController: loginVC)
 //            window?.rootViewController = firstLunVC

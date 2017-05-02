@@ -10,6 +10,12 @@
 		EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10A6EA1E9CD5C40036B1E0 /* FMDbase.swift */; };
 		EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE10A6EC1E9CD5FE0036B1E0 /* UserInfo.swift */; };
 		EE10A6EF1E9CD6DB0036B1E0 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */; };
+		EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2206CB1EB85F4600885C15 /* HomeViewController.swift */; };
+		EE2206D01EB85F7400885C15 /* MessTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2206CE1EB85F7400885C15 /* MessTableViewController.swift */; };
+		EE2206D11EB85F7400885C15 /* MessTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE2206CF1EB85F7400885C15 /* MessTableViewController.xib */; };
+		EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2206D31EB85F9200885C15 /* MeTableViewController.swift */; };
+		EE2206D61EB85F9200885C15 /* MeTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE2206D41EB85F9200885C15 /* MeTableViewController.xib */; };
+		EE2206D81EB864D400885C15 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2206D71EB864D400885C15 /* MainTabViewController.swift */; };
 		EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BA41E9744220065827E /* NavViewController.swift */; };
 		EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BA61E9764C40065827E /* LoginViewController.swift */; };
 		EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BA71E9764C40065827E /* LoginViewController.xib */; };
@@ -49,6 +55,12 @@
 		EE10A6EA1E9CD5C40036B1E0 /* FMDbase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDbase.swift; sourceTree = "<group>"; };
 		EE10A6EC1E9CD5FE0036B1E0 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		EE2206CB1EB85F4600885C15 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		EE2206CE1EB85F7400885C15 /* MessTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessTableViewController.swift; sourceTree = "<group>"; };
+		EE2206CF1EB85F7400885C15 /* MessTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessTableViewController.xib; sourceTree = "<group>"; };
+		EE2206D31EB85F9200885C15 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
+		EE2206D41EB85F9200885C15 /* MeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeTableViewController.xib; sourceTree = "<group>"; };
+		EE2206D71EB864D400885C15 /* MainTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA41E9744220065827E /* NavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA61E9764C40065827E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA71E9764C40065827E /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -118,9 +130,47 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EE2206C91EB85EB600885C15 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				EE2206D21EB85F8300885C15 /* MePeVC */,
+				EE2206CD1EB85F6000885C15 /* MessPeVC */,
+				EE2206CA1EB85F2800885C15 /* HomePeVC */,
+				EE2206D71EB864D400885C15 /* MainTabViewController.swift */,
+			);
+			path = HomeVC;
+			sourceTree = "<group>";
+		};
+		EE2206CA1EB85F2800885C15 /* HomePeVC */ = {
+			isa = PBXGroup;
+			children = (
+				EE2206CB1EB85F4600885C15 /* HomeViewController.swift */,
+			);
+			path = HomePeVC;
+			sourceTree = "<group>";
+		};
+		EE2206CD1EB85F6000885C15 /* MessPeVC */ = {
+			isa = PBXGroup;
+			children = (
+				EE2206CE1EB85F7400885C15 /* MessTableViewController.swift */,
+				EE2206CF1EB85F7400885C15 /* MessTableViewController.xib */,
+			);
+			path = MessPeVC;
+			sourceTree = "<group>";
+		};
+		EE2206D21EB85F8300885C15 /* MePeVC */ = {
+			isa = PBXGroup;
+			children = (
+				EE2206D31EB85F9200885C15 /* MeTableViewController.swift */,
+				EE2206D41EB85F9200885C15 /* MeTableViewController.xib */,
+			);
+			path = MePeVC;
+			sourceTree = "<group>";
+		};
 		EE3E3BA11E97432E0065827E /* MainVC */ = {
 			isa = PBXGroup;
 			children = (
+				EE2206C91EB85EB600885C15 /* HomeVC */,
 				EE7CAD181EA5C5A400A40760 /* Device */,
 				EE3E3BA31E9743C40065827E /* NavVC */,
 				EE3E3BA21E9743690065827E /* LoginVC */,
@@ -307,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */,
+				EE2206D61EB85F9200885C15 /* MeTableViewController.xib in Resources */,
 				EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */,
 				EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */,
 				EE7C35FA1E95DBFC000481E2 /* LaunchScreen.storyboard in Resources */,
@@ -316,6 +367,7 @@
 				EE7C35F71E95DBFC000481E2 /* Assets.xcassets in Resources */,
 				EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */,
 				EEC3D5601EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib in Resources */,
+				EE2206D11EB85F7400885C15 /* MessTableViewController.xib in Resources */,
 				EE7C35F51E95DBFC000481E2 /* Main.storyboard in Resources */,
 				EEAA30AB1E98DABB00D92A32 /* MBProgressHUD.bundle in Resources */,
 			);
@@ -381,9 +433,11 @@
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
+				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
 				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
 				EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */,
 				EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */,
+				EE2206D01EB85F7400885C15 /* MessTableViewController.swift in Sources */,
 				EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */,
 				EEAA30AC1E98DABB00D92A32 /* MBProgressHUD.m in Sources */,
 				EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */,
@@ -391,7 +445,9 @@
 				EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */,
 				EE7C35F21E95DBFC000481E2 /* ViewController.swift in Sources */,
 				EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */,
+				EE2206D81EB864D400885C15 /* MainTabViewController.swift in Sources */,
 				EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */,
+				EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
 				EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */,
@@ -526,6 +582,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = VHVLE5FL92;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/随心行/PrefixHeader.pch";
 				INFOPLIST_FILE = "随心行/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -544,6 +604,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/随心行/PrefixHeader.pch";
 				INFOPLIST_FILE = "随心行/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

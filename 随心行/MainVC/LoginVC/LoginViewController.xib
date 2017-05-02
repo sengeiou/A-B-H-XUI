@@ -14,7 +14,6 @@
                 <outlet property="accFie" destination="yfY-sX-Xr7" id="l7x-Kv-2ox"/>
                 <outlet property="findPassBut" destination="xa3-7G-raV" id="vlu-Le-itk"/>
                 <outlet property="headTop" destination="DB7-JC-eWn" id="rPR-ax-hCx"/>
-                <outlet property="image" destination="KR3-qL-L5u" id="bp4-uQ-dwd"/>
                 <outlet property="loginBut" destination="SQX-wd-VxI" id="tjB-5t-tyP"/>
                 <outlet property="passFie" destination="rA7-MK-qkk" id="ygB-AS-E2k"/>
                 <outlet property="resignBut" destination="iuP-mb-nGk" id="L2T-Hs-0F8"/>

@@ -15,14 +15,13 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var resignBut: UIButton!
     @IBOutlet weak var loginBut: UIButton!
     @IBOutlet weak var headTop: NSLayoutConstraint!
-    @IBOutlet weak var image: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeMehod()
         createUI()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -64,10 +63,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBAction func resignSelect(_ sender: UIButton) {
         navigationController?.pushViewController(ResignViewController(nibName: "ResignViewController", bundle: nil), animated: true)
         
-//         self.navigationController?.pushViewController(DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil), animated: true)
+        //         self.navigationController?.pushViewController(DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil), animated: true)
     }
     
     @IBAction func loginSelect(_ sender: UIButton) {
+            
         Defaultinfos.removeValueForKey(key: AccountToken)
         if accFie.text == "" {
             MBProgressHUD.showError(Localizeable(key: "请输入手机号") as String!)
@@ -94,34 +94,64 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 MBProgressHUD.showError(Localizeable(key: "账号密码不正确") as String!)
             }
             else if resultDic["State"] as! Int == 0{
-               
-                print("登录返回 \(resultDic["Item"])")
-                let userDic = resultDic["Item"] as! Dictionary<String, Any>
+                
+                let userDic = (resultDic["Item"]) as! Dictionary<String, AnyObject>
+                print("登录返回 \(userDic)")
+                
                 var user = UnarchiveUser()
                 if(user == nil) {
                     user = UserInfo()
                 }
-//                let userid = userDic["UserId"]
-//                user?.userId = String(format: "%@", userDic["UserId"] as! Any)
-//                 user?.userId = userDic["UserId"] as Any
-                user?.userPh = String(format: "%@", userDic["LoginName"] as! CVarArg)
-                user?.userName = String(format: "%@", userDic["Username"] as! CVarArg)
-                
-                downloadedFrom(url: URL(string: (userDic["Avatar"] as! String?)!)!) { (Image) in
+                user?.userId = StrongGoString(object: userDic["UserId"] as AnyObject)
+                user?.userPh = StrongGoString(object: userDic["LoginName"] as AnyObject)
+                user?.userName = StrongGoString(object: userDic["Username"] as AnyObject)
+                print("string = \(StrongGoString(object: userDic["Avatar"] as AnyObject))")
+                //                print(URL(string: userDic["Avatar"] as! String)!)
+                var url = StrongGoString(object: userDic["Avatar"] as AnyObject)
+                if url == ""{
+                    url = "0"
+                }
+                downloadedFrom(url: URL(string: url)!) { (Image) in
                     user?.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
-                    MBProgressHUD.hide()
-                    MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
+                    print("image \(Image)  data \(UIImageJPEGRepresentation(Image, 1)?.base64EncodedString())")
                     let fmbase = FMDbase.shared()
+                    logUser(user: user!)
                     fmbase.insertUserInfo(userInfo: user!)
                     ArchiveRoot(userInfo: user!)
                     
                     Defaultinfos.putKeyWithNsobject(key: Account, value: self.accFie.text!)
-                    Defaultinfos.putKeyWithNsobject(key: AccountToken, value: userDic["AccessToken"]!)
+                    Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"]!)
+                    DispatchQueue.main.async() { () -> Void in
+                        MBProgressHUD.hide()
+                        MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                        let homeVC = HomeViewController()
+                        homeVC.tabBarItem.title = "首页"
+                        homeVC.tabBarItem.selectedImage = UIImage(named: "tab_home_pre")
+                        let homeNav = NavViewController(rootViewController: homeVC)
+                        
+                        let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                        messVC.tabBarItem.title = "消息"
+                        messVC.tabBarItem.selectedImage = UIImage(named: "tab_messg_pre")
+                        let messNav = NavViewController(rootViewController: messVC)
+                        
+                        let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                        meVC.tabBarItem.title = "我的"
+//                        meVC.tabBarItem.selectedImage = UIImage(named: "tab_mine_pre")
+                        meVC.tabBarItem.selectedImage = #imageLiteral(resourceName: "tab_mine_pre")
+                        let meNav = NavViewController(rootViewController: meVC)
+                        
+                        let tabVC = MainTabViewController()
+                        tabVC.viewControllers = [homeNav,messNav,meNav]
+                        UIApplication.shared.keyWindow?.rootViewController = tabVC
+                    }
                 }
             }
             else{
                 if (resultDic["Message"] != nil){
-                  MBProgressHUD.showError(resultDic["Message"] as! String)
+                    MBProgressHUD.showError(resultDic["Message"] as! String)
                 }
             }
         }) { (URLSessionDataTask, Error) in
@@ -129,10 +159,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             MBProgressHUD.showError(Error.localizedDescription)
         }
     }
-
+    
     func keyboardWillShow(not:Notification){
         // 1.取出键盘的frame
-//       let keyBoardF = not.userInfo?[UIKeyboardFrameEndUserInfoKey] as! CGRect
+        //       let keyBoardF = not.userInfo?[UIKeyboardFrameEndUserInfoKey] as! CGRect
         // 2.取出键盘弹出的时间
         let duration = not.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
         UIView.animate(withDuration: TimeInterval(duration)) {
@@ -142,7 +172,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     func keyboardWillHidden(not:Notification){
         let duration = not.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! CGFloat
-        UIView.animate(withDuration: TimeInterval(duration)) { 
+        UIView.animate(withDuration: TimeInterval(duration)) {
             self.view.transform = CGAffineTransform.identity
         }
     }

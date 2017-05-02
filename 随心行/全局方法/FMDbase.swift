@@ -62,19 +62,19 @@ class FMDbase: NSObject {
         do{
             let userTab = Table("tb_user")
             var userId = ""
-            let alice = userTab.filter(Expression<String>("userid") == userInfo.userId!).filter(Expression<String>("deviceid") == userInfo.deviceId!)
+            let alice = userTab.filter(Expression<String>("userid") == StrongGoString(object: userInfo.userId as AnyObject)).filter(Expression<String>("deviceid") == StrongGoString(object: userInfo.deviceId as AnyObject))
             
             for user in try db.prepare(alice){
                 print("userid \(user[Expression<String>("userid")])")
                 userId = user[Expression<String>("userid")]
             }
             if userId != "" {
-                let update = alice.update(Expression<String>("devicePh") <- userInfo.devicePh!,Expression<String>("deviceIma") <- userInfo.deviceIma!,Expression<String>("relation") <- userInfo.relatoin!/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
+                let update = alice.update(Expression<String>("devicePh") <- StrongGoString(object: userInfo.devicePh as AnyObject) ,Expression<String>("deviceIma") <- StrongGoString(object: userInfo.deviceIma as AnyObject),Expression<String>("relation") <- StrongGoString(object: userInfo.relatoin as AnyObject)/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
                 let result = try db.run(update)
                 print("更新用户数据 ：\(result)")
             }
             else{
-                let result = userTab.insert(Expression<String>("userid") <- userInfo.userId!,Expression<String>("deviceid") <- userInfo.deviceId!,Expression<String>("devicePh") <- userInfo.devicePh!,Expression<String>("deviceIma") <- userInfo.deviceIma!,Expression<String>("relation") <- userInfo.relatoin!/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
+                let result = userTab.insert(Expression<String>("userid") <- StrongGoString(object: userInfo.userId as AnyObject),Expression<String>("deviceid") <- StrongGoString(object: userInfo.deviceId as AnyObject),Expression<String>("devicePh") <- StrongGoString(object: userInfo.devicePh as AnyObject),Expression<String>("deviceIma") <- StrongGoString(object: userInfo.deviceIma as AnyObject),Expression<String>("relation") <- StrongGoString(object: userInfo.relatoin as AnyObject)/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
                 let rowID = try db.run(result)
                 print("插入用户数据 ：\(rowID)")
             }

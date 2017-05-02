@@ -54,6 +54,10 @@ func getNewUser() -> UserInfo {
     return user
 }
 
+func logUser(user: UserInfo){
+    print("user.userId: \(user.userId) \n user.userPh: \(user.userPh) \n user.deviceId: \(user.deviceId) \n user.devicePh: \(user.devicePh) \n user.deviceIma: \(user.deviceIma) \n user.relatoin: \(user.relatoin) \n user.userName: \(user.userName) \n user.userPass: \(user.userPass) \n user.userIma: \(user.userIma)")
+}
+
 func Localizeable(key: NSString) ->NSString {
     return LocalizeableInfo.swiftStaticFunc(translation_key: key)
 }
@@ -90,6 +94,20 @@ func CheckText(str: String) -> Bool {
     let pred = NSPredicate(format: "SELF MATCHES %@", regex)
     let result : Bool = pred.evaluate(with: str)
     return result
+}
+
+//传入数据强转string
+func StrongGoString(object: AnyObject) -> String{
+    var str:String = ""
+    if let token = object as? String {
+        str = token
+//        print("是string")
+    }
+    if let token = object as? Int {
+        str = String(format: "%d", token)
+//        print("是int")
+    }
+    return str
 }
 
 //类方法扩展
