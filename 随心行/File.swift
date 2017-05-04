@@ -97,7 +97,7 @@ func CheckText(str: String) -> Bool {
 }
 
 //传入数据强转string
-func StrongGoString(object: AnyObject) -> String{
+func StrongGoString(object: Any?) -> String{
     var str:String = ""
     if let token = object as? String {
         str = token

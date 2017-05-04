@@ -15,7 +15,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        if ((Defaultinfos.getValueForKey(key: Account)) != nil || Defaultinfos.getValueForKey(key: Account) as! String != ""){
+//        Defaultinfos.removeValueForKey(key: Account)
+        let account1:String? = Defaultinfos.getValueForKey(key: Account) as? String
+//        print("首次  \(account1)")
+//        if account1 != nil {
+//            print("非空 \(account1)")
+//        }
+//        else{
+//            print("空 \(account1)")
+//        }
+//        if let account = Defaultinfos.getValueForKey(key: Account){
+//            print(account)
+//        }
+//        else{
+//            print("0")
+//        }
+//         print(Defaultinfos.getIntValueForKey(key: FirstLun),Defaultinfos.getValueForKey(key: Account)!,account1 as Any)
+        if account1 != nil{
             let homeVC = HomeViewController()
             homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
             let homeNav = NavViewController(rootViewController: homeVC)
@@ -28,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
             let meNav = NavViewController(rootViewController: meVC)
             
-            //            let tabVC = MainTabViewController()
             let tabVC = UITabBarController()
             tabVC.viewControllers = [homeNav,messNav,meNav]
             window?.rootViewController = tabVC
@@ -39,12 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = nav
         }
         
-        print(Defaultinfos.getIntValueForKey(key: FirstLun),Defaultinfos.getValueForKey(key: Account))
-         //        else{
-//            let firstLunVC = ViewController(nibName: "ViewController", bundle: nil)
-////            let nav = NavViewController(rootViewController: loginVC)
-//            window?.rootViewController = firstLunVC
-//        }
+        AMapServices.shared().apiKey = "6ac033c36632fb55fa0c057059298c37"
         return true
     }
 

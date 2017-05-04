@@ -46,8 +46,8 @@ class FMDbase: NSObject {
                 TableBuilder.column(Expression<String>("deviceid"))
                 TableBuilder.column(Expression<String>("devicePh"))
                 TableBuilder.column(Expression<String>("deviceIma"))
+                TableBuilder.column(Expression<String>("deviceName"))
                 TableBuilder.column(Expression<String>("relation"))
-//                TableBuilder.column(Expression<String>("userName"))
 //                TableBuilder.column(Expression<String>("userPass"))
 //                TableBuilder.column(Expression<String>("userIma"))
             }))
@@ -69,12 +69,12 @@ class FMDbase: NSObject {
                 userId = user[Expression<String>("userid")]
             }
             if userId != "" {
-                let update = alice.update(Expression<String>("devicePh") <- StrongGoString(object: userInfo.devicePh as AnyObject) ,Expression<String>("deviceIma") <- StrongGoString(object: userInfo.deviceIma as AnyObject),Expression<String>("relation") <- StrongGoString(object: userInfo.relatoin as AnyObject)/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
+                let update = alice.update(Expression<String>("devicePh") <- StrongGoString(object: userInfo.devicePh as AnyObject) ,Expression<String>("deviceIma") <- StrongGoString(object: userInfo.deviceIma as AnyObject),Expression<String>("relation") <- StrongGoString(object: userInfo.relatoin as AnyObject),Expression<String>("deviceName") <- StrongGoString(object: userInfo.deviceName as AnyObject)/*,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
                 let result = try db.run(update)
                 print("更新用户数据 ：\(result)")
             }
             else{
-                let result = userTab.insert(Expression<String>("userid") <- StrongGoString(object: userInfo.userId as AnyObject),Expression<String>("deviceid") <- StrongGoString(object: userInfo.deviceId as AnyObject),Expression<String>("devicePh") <- StrongGoString(object: userInfo.devicePh as AnyObject),Expression<String>("deviceIma") <- StrongGoString(object: userInfo.deviceIma as AnyObject),Expression<String>("relation") <- StrongGoString(object: userInfo.relatoin as AnyObject)/*,Expression<String>("userName") <- userInfo.userName!,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
+                let result = userTab.insert(Expression<String>("userid") <- StrongGoString(object: userInfo.userId as AnyObject),Expression<String>("deviceid") <- StrongGoString(object: userInfo.deviceId as AnyObject),Expression<String>("devicePh") <- StrongGoString(object: userInfo.devicePh as AnyObject),Expression<String>("deviceIma") <- StrongGoString(object: userInfo.deviceIma as AnyObject),Expression<String>("relation") <- StrongGoString(object: userInfo.relatoin as AnyObject),Expression<String>("deviceName") <- userInfo.deviceName!/*,Expression<String>("userPass") <- userInfo.userPass!,Expression<String>("userIma") <- userInfo.userIma!*/)
                 let rowID = try db.run(result)
                 print("插入用户数据 ：\(rowID)")
             }
@@ -84,11 +84,37 @@ class FMDbase: NSObject {
         }
     }
     
-    func selectUser(userid: String, deviceid: String) -> UserInfo? {
+    func selectUsers(userid: String) -> NSMutableArray? {
         do {
+            let devices:NSMutableArray = []
+            let userTab = Table("tb_user")
+            let alice = userTab.filter(Expression<String>("userid") == userid)
+            for user in try db.prepare(alice){
+                let userInfo = getNewUser()
+                print("userid \(user[Expression<String>("userid")])")
+                userInfo.userId = user[Expression<String>("userid")]
+                userInfo.deviceId = user[Expression<String>("deviceid")]
+                userInfo.devicePh = user[Expression<String>("devicePh")]
+                userInfo.deviceIma = user[Expression<String>("deviceIma")]
+                userInfo.relatoin = user[Expression<String>("relation")]
+                userInfo.deviceName = user[Expression<String>("deviceName")]
+//                userInfo.userPass = user[Expression<String>("userPass")]
+//                userInfo.userIma = user[Expression<String>("userIma")]
+                devices.add(userInfo)
+            }
+            return devices
+        } catch  let error as NSError {
+            print("查找用户数据失败 ：\(error.description)")
+            return nil
+        }
+    }
+    
+    func selectUser(userid: String,deviceid: String) -> UserInfo? {
+        do {
+//            let devices:NSMutableArray = []
+            let userInfo = getNewUser()
             let userTab = Table("tb_user")
             let alice = userTab.filter(Expression<String>("userid") == userid).filter(Expression<String>("deviceid") == deviceid)
-            let userInfo = getNewUser()
             for user in try db.prepare(alice){
                 print("userid \(user[Expression<String>("userid")])")
                 userInfo.userId = user[Expression<String>("userid")]
@@ -96,9 +122,10 @@ class FMDbase: NSObject {
                 userInfo.devicePh = user[Expression<String>("devicePh")]
                 userInfo.deviceIma = user[Expression<String>("deviceIma")]
                 userInfo.relatoin = user[Expression<String>("relation")]
-//                userInfo.userName = user[Expression<String>("userName")]
-//                userInfo.userPass = user[Expression<String>("userPass")]
-//                userInfo.userIma = user[Expression<String>("userIma")]
+                userInfo.deviceName = user[Expression<String>("deviceName")]
+                //                userInfo.userPass = user[Expression<String>("userPass")]
+                //                userInfo.userIma = user[Expression<String>("userIma")]
+//                devices.add(userInfo)
             }
             return userInfo
         } catch  let error as NSError {

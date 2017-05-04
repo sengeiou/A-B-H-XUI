@@ -10,7 +10,7 @@ import UIKit
 import MobileCoreServices
 
 class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,photoSelectDelegate {
-
+    
     @IBOutlet weak var deviceRelat: UITextField!
     @IBOutlet weak var devicePh: UITextField!
     @IBOutlet weak var devicePhoto: UIButton!
@@ -23,7 +23,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         initializeMethod()
         createUI()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -72,8 +72,8 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         appDelete.window?.addSubview(poView)
         poView.clickValueClosure { (Button) in
             print(Button!)
-        let sourceType: UIImagePickerControllerSourceType
-        switch Button!.tag {
+            let sourceType: UIImagePickerControllerSourceType
+            switch Button!.tag {
             case 101:
                 let layout = UICollectionViewFlowLayout()
                 layout.scrollDirection = UICollectionViewScrollDirection.vertical
@@ -82,7 +82,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 let selectVC = SelectPhotoCollectionViewController(collectionViewLayout: layout)
                 selectVC.imaArr = [UIImage(named: "icon_img_3")!,UIImage(named: "icon_img_1")!,UIImage(named: "icon_img_2")!]
                 selectVC.delegate = self;
-//                let selectVC = SelectPhotoCollectionViewController(nibName: "SelectPhotoCollectionViewController", bundle: nil)
+                //                let selectVC = SelectPhotoCollectionViewController(nibName: "SelectPhotoCollectionViewController", bundle: nil)
                 self.navigationController?.pushViewController(selectVC, animated: true)
                 break;
             case 102:
@@ -135,25 +135,25 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         MBProgressHUD.showMessage(Localizeable(key: "请求中...") as String!)
         let dic = RequestKeyDic()
         dic.addEntries(from: ["Item":["Birthday": "",
-            "DeviceID": user!.deviceId!,
-            "Gender": "",
-            "Grade": "",
-            "Height": "",
-            "Nickname": deviceRelat.text!,
-            "UpdateTime": "",
-            "Weight": "",
-            "Avatar": user!.deviceIma!,
-            "UserId": Defaultinfos.getIntValueForKey(key: UserID),
-            "Sim": "",
-            "Age": "",
-            "BloodType": "",
-            "CellPhone":devicePh.text!,
-            "CellPhone2": "",
-            "Address": "",
-            "Breed": "",
-            "IDnumber": "",
-            "Remark": "",
-            "MarkerColor": ""]])
+                                      "DeviceID": user!.deviceId!,
+                                      "Gender": "",
+                                      "Grade": "",
+                                      "Height": "",
+                                      "Nickname": deviceRelat.text!,
+                                      "UpdateTime": "",
+                                      "Weight": "",
+                                      "Avatar": user!.deviceIma!,
+                                      "UserId": Defaultinfos.getIntValueForKey(key: UserID),
+                                      "Sim": "",
+                                      "Age": "",
+                                      "BloodType": "",
+                                      "CellPhone":devicePh.text!,
+                                      "CellPhone2": "",
+                                      "Address": "",
+                                      "Breed": "",
+                                      "IDnumber": "",
+                                      "Remark": "",
+                                      "MarkerColor": ""]])
         
         let httpMan = MyHttpSessionMar.shared
         httpMan.post(Prefix + "api/Person/SavePersonProfile", parameters: dic, progress: { (Progress) in
@@ -168,7 +168,24 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 let fmdbase = FMDbase.shared()
                 fmdbase.insertUserInfo(userInfo: self.user!)
                 ArchiveRoot(userInfo: self.user!)
-             print("归档数据 \(UnarchiveUser()) \n 数据库 \(FMDbase.shared().selectUser(userid: (self.user?.userId)!, deviceid: (self.user?.deviceId)!))")
+                print("归档数据 \(UnarchiveUser()) \n 数据库 \(FMDbase.shared().selectUser(userid: (self.user?.userId)!, deviceid: (self.user?.deviceId)!))")
+                let homeVC = HomeViewController()
+                homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                let homeNav = NavViewController(rootViewController: homeVC)
+                
+                let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                let messNav = NavViewController(rootViewController: messVC)
+                
+                let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                let meNav = NavViewController(rootViewController: meVC)
+                
+                let tabVC = UITabBarController()
+                tabVC.viewControllers = [homeNav,messNav,meNav]
+                
+                UIApplication.shared.keyWindow?.rootViewController = tabVC
+                
             }
             else{
                 MBProgressHUD.showError(dic["Message"] as! String)
@@ -184,9 +201,9 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         if ((info[UIImagePickerControllerMediaType] as! String) == kUTTypeImage as String) {
             image = info[UIImagePickerControllerEditedImage] as? UIImage
             let baseData = UIImageJPEGRepresentation(image!, 1)?.base64EncodedString()
-             print("头像")
+            print("头像")
             user?.deviceIma = baseData
-
+            
         }
         dismiss(animated: true) {
             guard (image != nil) else{
@@ -203,24 +220,24 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         else{
             devicePh.resignFirstResponder()
         }
-         return true
+        return true
     }
     
     public func photoSlectIndex(index: Int) {
         let arr = [UIImage(named: "icon_img_3")!,UIImage(named: "icon_img_1")!,UIImage(named: "icon_img_2")!]
-         devicePhoto.setImage(arr[index], for: .normal)
+        devicePhoto.setImage(arr[index], for: .normal)
         let baseData = UIImageJPEGRepresentation(arr[index], 1)?.base64EncodedString()
         user?.deviceIma = baseData
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

@@ -67,7 +67,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     }
     
     @IBAction func loginSelect(_ sender: UIButton) {
-            
+        
         Defaultinfos.removeValueForKey(key: AccountToken)
         if accFie.text == "" {
             MBProgressHUD.showError(Localizeable(key: "请输入手机号") as String!)
@@ -100,53 +100,101 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 
                 var user = UnarchiveUser()
                 if(user == nil) {
-                    user = UserInfo()
+                    user = getNewUser()
                 }
-                user?.userId = StrongGoString(object: userDic["UserId"] as AnyObject)
-                user?.userPh = StrongGoString(object: userDic["LoginName"] as AnyObject)
-                user?.userName = StrongGoString(object: userDic["Username"] as AnyObject)
-                print("string = \(StrongGoString(object: userDic["Avatar"] as AnyObject))")
-                //                print(URL(string: userDic["Avatar"] as! String)!)
+                user?.userId = StrongGoString(object: userDic["UserId"])
+                user?.userPh = StrongGoString(object: userDic["LoginName"])
+                user?.userName = StrongGoString(object: userDic["Username"])
+                print("string = \(StrongGoString(object: userDic["Avatar"]))")
+                // print(URL(string: userDic["Avatar"] as! String)!)
                 var url = StrongGoString(object: userDic["Avatar"] as AnyObject)
                 if url == ""{
                     url = "0"
                 }
                 downloadedFrom(url: URL(string: url)!) { (Image) in
                     user?.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
-                    print("image \(Image)  data \(UIImageJPEGRepresentation(Image, 1)?.base64EncodedString())")
-                    let fmbase = FMDbase.shared()
-                    logUser(user: user!)
-                    fmbase.insertUserInfo(userInfo: user!)
-                    ArchiveRoot(userInfo: user!)
+                    print("image \(Image)  data \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
                     
                     Defaultinfos.putKeyWithNsobject(key: Account, value: self.accFie.text!)
                     Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"]!)
-                    DispatchQueue.main.async() { () -> Void in
-                        MBProgressHUD.hide()
-                        MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
-                    }
                     
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                        let homeVC = HomeViewController()
-                        homeVC.tabBarItem.title = "首页"
-                        homeVC.tabBarItem.selectedImage = UIImage(named: "tab_home_pre")
-                        let homeNav = NavViewController(rootViewController: homeVC)
+                    let timeZone = NSTimeZone.system
+                    let interval = timeZone.secondsFromGMT()
+                    
+                    let requestDic = RequestKeyDic()
+                    requestDic.addEntries(from: ["UserId": (user?.userId)!,
+                                                 "GroupId": "",
+                                                 "MapType": "",
+                                                 "LastTime": Date().description,
+                                                 "TimeOffset": NSNumber(integerLiteral: interval/3600),
+                                                 "Token": resultDic["AccessToken"]!])
+                    print("requestDic \(requestDic) frb  \(interval)")
+                    httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
                         
-                        let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
-                        messVC.tabBarItem.title = "消息"
-                        messVC.tabBarItem.selectedImage = UIImage(named: "tab_messg_pre")
-                        let messNav = NavViewController(rootViewController: messVC)
-                        
-                        let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
-                        meVC.tabBarItem.title = "我的"
-//                        meVC.tabBarItem.selectedImage = UIImage(named: "tab_mine_pre")
-                        meVC.tabBarItem.selectedImage = #imageLiteral(resourceName: "tab_mine_pre")
-                        let meNav = NavViewController(rootViewController: meVC)
-                        
-                        let tabVC = MainTabViewController()
-                        tabVC.viewControllers = [homeNav,messNav,meNav]
-                        UIApplication.shared.keyWindow?.rootViewController = tabVC
-                    }
+                    }, success: { (URLSessionDataTask, result) in
+                        let resultDic = result as! Dictionary<String, Any>
+                        let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
+                        for i in 0...(items.count - 1){
+                            print("i== \(i)   itemcount = \(items.count)")
+                            let itemDic = items[i]
+                            var itemUser = getNewUser()
+                            if i == 0{
+                                itemUser = user!
+                            }
+                            itemUser.userId = user?.userId
+                            itemUser.deviceId = StrongGoString(object: itemDic["Id"])
+                            itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
+                            itemUser.deviceName = StrongGoString(object: itemDic["NickName"])
+                            //                            itemUser.relatoin = ""
+                            var url = StrongGoString(object: userDic["Avatar"])
+                            if url == ""{
+                                url = "0"
+                            }
+                            downloadedFrom(url: URL(string: url)!, callBack: { (Image) in
+                                var imaData: String? = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+                                if imaData == nil{
+                                    imaData = ""
+                                }
+                                itemUser.userIma = imaData
+                                print("返回设备列表数据  \(itemUser) data = \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
+                                let fmbase = FMDbase.shared()
+                                logUser(user: itemUser)
+                                fmbase.insertUserInfo(userInfo: itemUser)
+                                if i == 0{
+                                    ArchiveRoot(userInfo: itemUser)
+                                }
+                                if i == (items.count - 1){
+                                    DispatchQueue.main.async() { () -> Void in
+                                        MBProgressHUD.hide()
+                                        MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                                        let homeVC = HomeViewController()
+                                        homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                                        let homeNav = NavViewController(rootViewController: homeVC)
+                                        
+                                        let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                                        messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                                        let messNav = NavViewController(rootViewController: messVC)
+                                        
+                                        let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                                        meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                                        let meNav = NavViewController(rootViewController: meVC)
+                                        
+                                        let tabVC = UITabBarController()
+                                        tabVC.viewControllers = [homeNav,messNav,meNav]
+                                        
+                                        UIApplication.shared.keyWindow?.rootViewController = tabVC
+                                    }
+                                }
+                            })
+                        }
+                        print("返回 \(resultDic) items \(items)")
+                    }, failure: { (URLSessionDataTask, Error) in
+                        MBProgressHUD.hide()
+                        MBProgressHUD.showError(Error.localizedDescription)
+                    })
+                    
                 }
             }
             else{

@@ -103,7 +103,24 @@ class RelationViewController: UIViewController {
                 self.navigationController?.pushViewController(DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil), animated: true)
             }
             else if(dic["State"] as! Int == 1500){
-                
+//                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    let homeVC = HomeViewController()
+                    homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                    let homeNav = NavViewController(rootViewController: homeVC)
+                    
+                    let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                    messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                    let messNav = NavViewController(rootViewController: messVC)
+                    
+                    let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                    meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                    let meNav = NavViewController(rootViewController: meVC)
+                    
+                    let tabVC = UITabBarController()
+                    tabVC.viewControllers = [homeNav,messNav,meNav]
+                    
+                    UIApplication.shared.keyWindow?.rootViewController = tabVC
+//                }
             }
             else{
                 MBProgressHUD.hide()
