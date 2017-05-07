@@ -31,7 +31,7 @@ func userAccountPath() -> String {
 
 /*归档登录信息*/
 func ArchiveRoot(userInfo:UserInfo) {
-   let result = NSKeyedArchiver.archiveRootObject(userInfo, toFile: userAccountPath())
+    let result = NSKeyedArchiver.archiveRootObject(userInfo, toFile: userAccountPath())
     print(result)
 }
 
@@ -83,7 +83,7 @@ func RequestKeyDic() -> NSMutableDictionary {
     else{
         token = ""
     }
-
+    
     let nsDic : NSMutableDictionary = NSMutableDictionary(dictionary: ["Token" : token!,"Language":systLanage(),"AppId":"71"])
     return nsDic
 }
@@ -98,17 +98,42 @@ func CheckText(str: String) -> Bool {
 
 //传入数据强转string
 func StrongGoString(object: Any?) -> String{
+    print(type(of: object))
     var str:String = ""
     if let token = object as? String {
         str = token
 //        print("是string")
     }
+    if let token = object as? Double {
+        str = "\(token)"
+//        print("是Double")
+    }
     if let token = object as? Int {
         str = String(format: "%d", token)
 //        print("是int")
     }
+   
     return str
 }
+
+func drawImaSize(image: UIImage, size: CGSize) -> UIImage {
+    //此方法抗锯齿 UIGraphicsBeginImageContextWithOptions
+    UIGraphicsBeginImageContextWithOptions(size, false, 0.0)//获得用来处理图片的图形上下文。利用该上下文，你就可以在其上进行绘图，并生成图片 ,三个参数含义是设置大小、透明度 （NO为不透明）、缩放（0代表不缩放）
+    let imageRect = CGRect(origin: CGPoint(x: 0, y: 0), size: size)
+    image.draw(in: imageRect)
+    let newIma = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return newIma!
+}
+
+////合并两张图片
+//func mergeIma(ima: UIImage, ima1: UIImage) -> UIImage{
+////    let imgRef1 = ima.cgImage
+////    let w1 = imgRef1?.width
+////    let h1 = imgRef1?.height
+////    
+////    let imgRef2 = ima1.cgImage
+//   }
 
 //类方法扩展
 extension UIImage{
@@ -136,10 +161,21 @@ extension UIImage{
         let feature = features?.first as? CIQRCodeFeature
         return feature?.messageString
     }
+    
+    //合并两张图片
+    func mergeIma(ima: UIImage) -> UIImage {
+        let size = CGSize(width: self.size.width * 1.5, height: self.size.height * 1.5)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        ima.draw(in: CGRect(x: 2, y: 2, width: size.width - 4, height: size.width - 4))
+        let callBackIma = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return callBackIma!
+    }
 }
 
 func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspectFit, callBack:((UIImage) -> Void)?) {
-//    contentMode = mode
+    //    contentMode = mode
     var image:UIImage = UIImage()
     URLSession.shared.dataTask(with: url) { (data, response, error) in
         let httpurl = response as? HTTPURLResponse
@@ -150,17 +186,25 @@ func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspect
             }
         }
         callBack!(image)
-//        guard
-//            let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-//            let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-//            let data = data, error == nil,
-//            let image = UIImage(data: data)
-//            else { return }
-//        callBack!(image)
-
+        //        guard
+        //            let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+        //            let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+        //            let data = data, error == nil,
+        //            let image = UIImage(data: data)
+        //            else { return }
+        //        callBack!(image)
+        
         }.resume()
 }
 
+func attributedString(strArr: Array<String>, fontArr: Array<UIFont>) -> NSMutableAttributedString {
+    let attrStr = NSMutableAttributedString()
+    for i in 0...(strArr.count - 1) {
+        let dic:Dictionary = [NSForegroundColorAttributeName:UIColor.white,NSFontAttributeName:fontArr[i%2]]
+        attrStr.append(NSAttributedString(string: strArr[i], attributes: dic))
+    }
+    return attrStr
+}
 
 extension UIBarButtonItem{
     class func backItem(target: Any?,hidden: Bool,action: Selector) -> UIBarButtonItem{
@@ -191,5 +235,63 @@ extension UIImageView {
     func downloadedFrom(link: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
         guard let url = URL(string: link) else { return }
         downloadedFrom(url: url, contentMode: mode)
+    }
+}
+
+extension UIButton{
+    enum ButtonEdgeInsetsStyle {
+        case buttonddgeinsetsstyletop // image在上，label在下
+        case buttonddgeinsetsstyleleft // image在左，label在右
+        case buttonddgeinsetsstyletopbottom // image在下，label在上
+        case buttonddgeinsetsstyletopright // image在右，label在左
+    }
+    enum CompassPoint {
+        case north,south,ease,west
+    }
+    
+    func layoutButtonWithEdgeInsetsStyle(style: ButtonEdgeInsetsStyle,space: CGFloat) {
+        let imageWith = imageView?.frame.width
+        let imageHeight = imageView?.frame.height
+        var lableWidth: CGFloat? = 0.0
+        var lablHeight: CGFloat? = 0.0
+        
+        let version = UIDevice.current.systemVersion.components(separatedBy: ".") as Array
+        if Float(version.first!)! >= 8.0 {
+            // 由于iOS8中titleLabel的size为0，用下面的这种设置
+            lableWidth = titleLabel?.intrinsicContentSize.width
+            lablHeight = titleLabel?.intrinsicContentSize.height
+        }
+        else{
+            lableWidth = titleLabel?.frame.width
+            lablHeight = titleLabel?.frame.height
+        }
+        // 2. 声明全局的imageEdgeInsets和labelEdgeInsets
+        var imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+        var labelEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+        // 3. 根据style和space得到imageEdgeInsets和labelEdgeInsets的值
+        switch style {
+        case .buttonddgeinsetsstyletop:
+            //        {
+            imageEdgeInsets = UIEdgeInsetsMake(CGFloat(-lablHeight!) - space/2.0, 0.0, 0.0, -lableWidth!);
+            labelEdgeInsets = UIEdgeInsetsMake(0, -imageWith!, CGFloat(-imageHeight!) - space/2.0, 0);
+            //        }
+            break
+        case .buttonddgeinsetsstyleleft:
+            imageEdgeInsets = UIEdgeInsetsMake(0, -space/2.0, 0, space/2.0);
+            labelEdgeInsets = UIEdgeInsetsMake(0, space/2.0, 0, -space/2.0);
+            break
+        case .buttonddgeinsetsstyletopbottom:
+            imageEdgeInsets = UIEdgeInsetsMake(0, 0, CGFloat(-lablHeight!)-space/2.0, -lableWidth!);
+            labelEdgeInsets = UIEdgeInsetsMake(CGFloat(-imageHeight!)-space/2.0, -imageWith!, 0, 0);
+            break
+        case .buttonddgeinsetsstyletopright:
+            imageEdgeInsets = UIEdgeInsetsMake(0.0, CGFloat(lableWidth!)+space/2.0, 0.0, -CGFloat(lableWidth!) - space/2.0);
+            labelEdgeInsets = UIEdgeInsetsMake(0.0, -CGFloat(imageWith!)-space/2.0, 0.0, imageWith!+space/2.0);
+            break
+        default: break
+            
+        }
+        self.titleEdgeInsets = labelEdgeInsets
+        self.imageEdgeInsets = imageEdgeInsets
     }
 }

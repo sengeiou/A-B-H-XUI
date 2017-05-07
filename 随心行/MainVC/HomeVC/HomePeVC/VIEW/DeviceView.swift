@@ -14,7 +14,7 @@ class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
     var selectClosure: selectCell?
     var deviceArr: NSMutableArray?
     var selIndex: Int = 0
-    var tableview: UITableView?
+    var tableview: UITableView!
     
     
     func selectClosureWithCell(colsure: selectCell?) {
@@ -35,14 +35,16 @@ class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
      func createUI() {
         backgroundColor = UIColor.white
         tableview = UITableView(frame: bounds, style: .plain)
-        tableview?.delegate = self
-        tableview?.dataSource = self
-        addSubview(tableview!)
+        tableview.delegate = self
+        tableview.dataSource = self
+        addSubview(tableview)
         
     }
     
     func updateTabUI() {
-        tableview?.reloadData()
+        tableview.delegate = self
+        tableview.dataSource = self
+        tableview.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,7 +70,13 @@ class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
         cell?.layer.cornerRadius = 44.0/2
         let device = (deviceArr?[indexPath.row]) as! NSMutableDictionary
         let imadata = NSData(base64Encoded: device.object(forKey: "DEVICEIMA") as! String, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
-        cell?.imageView?.image = UIImage(data: imadata! as Data)
+        let iamge: UIImage? = UIImage(data: imadata! as Data)
+        if iamge == nil {
+            cell?.imageView?.image = drawImaSize(image: #imageLiteral(resourceName: "icon_img_3"), size: CGSize(width: 36, height: 36))
+        }
+        else{
+            cell?.imageView?.image = drawImaSize(image: iamge!, size: CGSize(width: 36, height: 36))
+        }
         cell?.textLabel?.text = device.object(forKey: "DEVICENAME") as? String
         if device.object(forKey: "DEVICESELECT") as? String == "1"{
             cell?.accessoryView = UIImageView(image: #imageLiteral(resourceName: "ic_Choice"))

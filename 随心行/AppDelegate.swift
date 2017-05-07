@@ -30,10 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        else{
 //            print("0")
 //        }
-//         print(Defaultinfos.getIntValueForKey(key: FirstLun),Defaultinfos.getValueForKey(key: Account)!,account1 as Any)
+         print(Defaultinfos.getIntValueForKey(key: FirstLun),Defaultinfos.getValueForKey(key: Account)!,account1 as Any)
         if account1 != nil{
             let homeVC = HomeViewController()
-            homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+            homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
             let homeNav = NavViewController(rootViewController: homeVC)
             
             let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         AMapServices.shared().apiKey = "6ac033c36632fb55fa0c057059298c37"
+        UIApplication.shared.statusBarStyle = .lightContent
         return true
     }
 

@@ -170,7 +170,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 ArchiveRoot(userInfo: self.user!)
                 print("归档数据 \(UnarchiveUser()) \n 数据库 \(FMDbase.shared().selectUser(userid: (self.user?.userId)!, deviceid: (self.user?.deviceId)!))")
                 let homeVC = HomeViewController()
-                homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
                 let homeNav = NavViewController(rootViewController: homeVC)
                 
                 let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)

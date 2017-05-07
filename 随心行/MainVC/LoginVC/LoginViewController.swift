@@ -98,13 +98,13 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 let userDic = (resultDic["Item"]) as! Dictionary<String, AnyObject>
                 print("登录返回 \(userDic)")
                 
-                var user = UnarchiveUser()
-                if(user == nil) {
-                    user = getNewUser()
-                }
-                user?.userId = StrongGoString(object: userDic["UserId"])
-                user?.userPh = StrongGoString(object: userDic["LoginName"])
-                user?.userName = StrongGoString(object: userDic["Username"])
+                let user = getNewUser()
+                //                if(user == nil) {
+                //                    user = getNewUser()
+                //                }
+                user.userId = StrongGoString(object: userDic["UserId"]  as! Int)
+                user.userPh = StrongGoString(object: userDic["LoginName"])
+                user.userName = StrongGoString(object: userDic["Username"])
                 print("string = \(StrongGoString(object: userDic["Avatar"]))")
                 // print(URL(string: userDic["Avatar"] as! String)!)
                 var url = StrongGoString(object: userDic["Avatar"] as AnyObject)
@@ -112,7 +112,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     url = "0"
                 }
                 downloadedFrom(url: URL(string: url)!) { (Image) in
-                    user?.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+                    user.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
                     print("image \(Image)  data \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
                     
                     Defaultinfos.putKeyWithNsobject(key: Account, value: self.accFie.text!)
@@ -122,7 +122,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     let interval = timeZone.secondsFromGMT()
                     
                     let requestDic = RequestKeyDic()
-                    requestDic.addEntries(from: ["UserId": (user?.userId)!,
+                    requestDic.addEntries(from: ["UserId": (user.userId)!,
                                                  "GroupId": "",
                                                  "MapType": "",
                                                  "LastTime": Date().description,
@@ -132,17 +132,44 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
                         
                     }, success: { (URLSessionDataTask, result) in
+                        
                         let resultDic = result as! Dictionary<String, Any>
+                        if resultDic["State"] as! Int == 100{
+                            DispatchQueue.main.async() { () -> Void in
+                                MBProgressHUD.hide()
+                                MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                                let homeVC = HomeViewController()
+                                homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                                let homeNav = NavViewController(rootViewController: homeVC)
+                                
+                                let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                                messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                                let messNav = NavViewController(rootViewController: messVC)
+                                
+                                let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                                meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                                let meNav = NavViewController(rootViewController: meVC)
+                                
+                                let tabVC = UITabBarController()
+                                tabVC.viewControllers = [homeNav,messNav,meNav]
+                                
+                                UIApplication.shared.keyWindow?.rootViewController = tabVC
+                            }
+                            return
+                        }
+                        
                         let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
                         for i in 0...(items.count - 1){
                             print("i== \(i)   itemcount = \(items.count)")
                             let itemDic = items[i]
                             var itemUser = getNewUser()
                             if i == 0{
-                                itemUser = user!
+                                itemUser = user
                             }
-                            itemUser.userId = user?.userId
-                            itemUser.deviceId = StrongGoString(object: itemDic["Id"])
+                            itemUser.userId = user.userId
+                            itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
                             itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
                             itemUser.deviceName = StrongGoString(object: itemDic["NickName"])
                             //                            itemUser.relatoin = ""
@@ -170,7 +197,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                                         let homeVC = HomeViewController()
-                                        homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                                        homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
                                         let homeNav = NavViewController(rootViewController: homeVC)
                                         
                                         let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)

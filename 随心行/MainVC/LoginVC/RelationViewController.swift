@@ -105,7 +105,7 @@ class RelationViewController: UIViewController {
             else if(dic["State"] as! Int == 1500){
 //                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                     let homeVC = HomeViewController()
-                    homeVC.tabBarItem = UITabBarItem(title: "首页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                    homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
                     let homeNav = NavViewController(rootViewController: homeVC)
                     
                     let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
