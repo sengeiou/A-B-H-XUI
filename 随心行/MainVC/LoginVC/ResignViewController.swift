@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import AFNetworking
+//import AFNetworking
 
 class ResignViewController: UIViewController, UITextFieldDelegate {
     fileprivate var second: Int = 60

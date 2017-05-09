@@ -40,6 +40,10 @@
 		EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A61E98DABB00D92A32 /* MBProgressHUD+MJ.m */; };
 		EEAA30AB1E98DABB00D92A32 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EEAA30A71E98DABB00D92A32 /* MBProgressHUD.bundle */; };
 		EEAA30AC1E98DABB00D92A32 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A91E98DABB00D92A32 /* MBProgressHUD.m */; };
+		EEADA01B1EC19DF3003867DC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEADA01A1EC19DF3003867DC /* AVFoundation.framework */; };
+		EEADA0201EC1A470003867DC /* MoreMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEADA01F1EC1A470003867DC /* MoreMenuView.m */; };
+		EEADA0231EC1CAA8003867DC /* GPSNaviViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEADA0221EC1CAA8003867DC /* GPSNaviViewController.m */; };
+		EEADA0261EC1CABE003867DC /* SpeechSynthesizer.m in Sources */ = {isa = PBXBuildFile; fileRef = EEADA0251EC1CABE003867DC /* SpeechSynthesizer.m */; };
 		EEC3D55B1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3D5591EAF5B67009E9C09 /* SelectPhotoCollectionViewController.swift */; };
 		EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEC3D55A1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib */; };
 		EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC3D55D1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift */; };
@@ -93,6 +97,13 @@
 		EEAA30A71E98DABB00D92A32 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		EEAA30A81E98DABB00D92A32 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		EEAA30A91E98DABB00D92A32 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		EEADA01A1EC19DF3003867DC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		EEADA01E1EC1A470003867DC /* MoreMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreMenuView.h; sourceTree = "<group>"; };
+		EEADA01F1EC1A470003867DC /* MoreMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreMenuView.m; sourceTree = "<group>"; };
+		EEADA0211EC1CAA8003867DC /* GPSNaviViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPSNaviViewController.h; sourceTree = "<group>"; };
+		EEADA0221EC1CAA8003867DC /* GPSNaviViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPSNaviViewController.m; sourceTree = "<group>"; };
+		EEADA0241EC1CABE003867DC /* SpeechSynthesizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechSynthesizer.h; sourceTree = "<group>"; };
+		EEADA0251EC1CABE003867DC /* SpeechSynthesizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechSynthesizer.m; sourceTree = "<group>"; };
 		EEC3D5591EAF5B67009E9C09 /* SelectPhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		EEC3D55A1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectPhotoCollectionViewController.xib; sourceTree = "<group>"; };
 		EEC3D55D1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -109,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEADA01B1EC19DF3003867DC /* AVFoundation.framework in Frameworks */,
 				EE10A6EF1E9CD6DB0036B1E0 /* libsqlite3.0.tbd in Frameworks */,
 				F510CAACD04BE977C9B70BD0 /* Pods____.framework in Frameworks */,
 			);
@@ -129,6 +141,7 @@
 		72D4383772E4771526AEDD42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EEADA01A1EC19DF3003867DC /* AVFoundation.framework */,
 				EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */,
 				4C7D6C9227326DC4F0CD900F /* Pods____.framework */,
 			);
@@ -149,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				EE2206CB1EB85F4600885C15 /* HomeViewController.swift */,
+				EEADA0211EC1CAA8003867DC /* GPSNaviViewController.h */,
+				EEADA0221EC1CAA8003867DC /* GPSNaviViewController.m */,
 				EE2206DE1EB88D9D00885C15 /* VIEW */,
 				EEA67B1C1EBECF94000AAE88 /* MODE */,
 			);
@@ -178,6 +193,8 @@
 			children = (
 				EE2206DF1EB88DC000885C15 /* DeviceView.swift */,
 				EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */,
+				EEADA01E1EC1A470003867DC /* MoreMenuView.h */,
+				EEADA01F1EC1A470003867DC /* MoreMenuView.m */,
 			);
 			path = VIEW;
 			sourceTree = "<group>";
@@ -283,6 +300,8 @@
 			isa = PBXGroup;
 			children = (
 				EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */,
+				EEADA0241EC1CABE003867DC /* SpeechSynthesizer.h */,
+				EEADA0251EC1CABE003867DC /* SpeechSynthesizer.m */,
 			);
 			path = MODE;
 			sourceTree = "<group>";
@@ -354,6 +373,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = VHVLE5FL92;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -453,13 +477,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEC3D55B1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.swift in Sources */,
+				EEADA0231EC1CAA8003867DC /* GPSNaviViewController.m in Sources */,
 				EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */,
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
 				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
+				EEADA0201EC1A470003867DC /* MoreMenuView.m in Sources */,
 				EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */,
 				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
+				EEADA0261EC1CABE003867DC /* SpeechSynthesizer.m in Sources */,
 				EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */,
 				EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */,
 				EE2206D01EB85F7400885C15 /* MessTableViewController.swift in Sources */,
@@ -611,6 +638,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/随心行",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
@@ -634,6 +662,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/随心行",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";

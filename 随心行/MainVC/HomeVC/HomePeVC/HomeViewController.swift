@@ -186,7 +186,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         mapView = MAMapView(frame: view.bounds)
         mapView.showsCompass = false
         mapView.delegate = self
-        mapView.isShowsUserLocation = true
+        mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
         view.addSubview(mapView)
         
@@ -314,6 +314,14 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         case 1002:
             requestDeviceData(showProgress: true)
             break
+        case 1003:
+            let gpsVC = GPSNaviViewController()
+//            gpsVC.startPoint = AMapNaviPoint.location(withLatitude: CGFloat(mapView.userLocation.location.coordinate.latitude), longitude: CGFloat(mapView.userLocation.location.coordinate.longitude))
+//            gpsVC.endPoint = AMapNaviPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
+            gpsVC.hidesBottomBarWhenPushed = true
+//            print("strart \(gpsVC.startPoint) end \(gpsVC.endPoint)  \n old \(mapView.userLocation.location.coordinate)")
+        navigationController?.pushViewController(gpsVC, animated: true)
+            break
         default:
             break
             
@@ -323,7 +331,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     func mapView(_ mapView: MAMapView!, didSingleTappedAt coordinate: CLLocationCoordinate2D) {
         toolShow = !toolShow
         DispatchQueue.main.async() { () -> Void in
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage.ImageWithColor(color: ColorFromRGB(rgbValue: 0x389aff), size: CGSize(width: MainScreen.width, height: 64)), for: UIBarMetrics(rawValue: 0)!)
+            self.navigationController?.navigationBar.setBackgroundImage(UIImage.ImageWithColor(color: ColorFromRGB(rgbValue: 0x389aff), size: CGSize(width: MainScreen.width, height: 64)), for: UIBarMetrics(rawValue: 0)!)
         }
         UIView.animate(withDuration: 0.3, animations: {
             if !self.toolShow {
@@ -377,9 +385,23 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if iamge == nil {
             iamge = #imageLiteral(resourceName: "icon_img_3")
         }
+        let navBut = UIButton(type: .custom)
+        navBut.frame = CGRect(x: 0, y: 0, width: 44, height: 60)
+        navBut.setBackgroundImage(UIImage(named: "naviBackgroundNormal"), for: .normal)
+        navBut.setBackgroundImage(UIImage(named: "naviBackgroundHighlighted"), for: .highlighted)
+        navBut.setImage(UIImage(named: "navi"), for: .normal)
+        navBut.titleLabel?.font = UIFont.systemFont(ofSize: 9)
+        navBut.setTitle(Localizeable(key: "导航") as String, for: .normal)
+        navBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletop, space: 4)
+        navBut.addTarget(self, action: #selector(navBut(sender:)), for: .touchUpInside)
+        annotationView?.leftCalloutAccessoryView = navBut
         annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!)
         annotationView?.canShowCallout = true
         return annotationView
+    }
+    
+    func navBut(sender: UIButton) {
+        print("touchnav")
     }
     
     func aMapSearchRequest(_ request: Any!, didFailWithError error: Error!) {
@@ -401,6 +423,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
+//        let responses = response.regeocode.pois as Array
+//        print(response.regeocode.pois)
+//        for i in 0...(responses.count - 1) {
+//            let obj = responses[i]
+//            print("name  \(obj.name) \n \(obj.address)")
+//        }
         devicePoint = MAPointAnnotation()
         devicePoint?.coordinate = deviceCoor!
         devicePoint?.title = Localizeable(key: "当前位置") as String!
