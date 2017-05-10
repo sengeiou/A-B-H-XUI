@@ -13,9 +13,6 @@
 
 @interface GPSNaviViewController ()<AMapNaviDriveManagerDelegate, AMapNaviDriveViewDelegate, MoreMenuViewDelegate>
 
-@property (nonatomic, strong) AMapNaviPoint *startPoint;
-@property (nonatomic, strong) AMapNaviPoint *endPoint;
-
 @property (nonatomic, strong) MoreMenuView *moreMenu;
 
 @end
@@ -91,8 +88,8 @@
 //    self.startPoint = [AMapNaviPoint locationWithLatitude:39.993135 longitude:116.474175];
 //    self.endPoint   = [AMapNaviPoint locationWithLatitude:39.908791 longitude:116.321257];
     
-    self.startPoint = [AMapNaviPoint locationWithLatitude:22.568440 longitude:113.866098];
-    self.endPoint   = [AMapNaviPoint locationWithLatitude:22.571257 longitude:113.866441];
+//    self.startPoint = [AMapNaviPoint locationWithLatitude:22.568440 longitude:113.866098];
+//    self.endPoint   = [AMapNaviPoint locationWithLatitude:22.571257 longitude:113.866441];
 }
 
 - (void)initDriveManager

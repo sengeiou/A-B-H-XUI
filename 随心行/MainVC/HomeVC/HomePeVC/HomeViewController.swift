@@ -13,6 +13,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     var indexView: UIImageView!
     var indexShow: Bool = false
     var toolShow: Bool = true
+    var isNavi: Bool = false
     var deviSelView: DeviceView?
     var deviceArr: NSMutableArray = []
     var user : UserInfo!
@@ -33,7 +34,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,6 +111,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         DispatchQueue.main.async() { () -> Void in
                             self.initializeMethod()
                             self.addAnnotation()
+                            if self.isNavi{
+                                let but = self.locaView.viewWithTag(1003) as! UIButton
+                                self.tapMapFunction(sender: but)
+                            }
                         }
                     }
                 })
@@ -158,7 +162,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 deviceArr.add(dic)
             }
         }
-        print(deviceArr.count * 3)
         if deviceArr.count > 0 {
             //            if deviSelView != nil{
             deviSelView?.removeFromSuperview()
@@ -218,6 +221,31 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         view.addSubview(toolView)
         toolView.tapClosureWithBut { (Int) in
             print("点击 \(Int)")
+            switch Int{
+            case 101:
+                let urlStr = "tel://" + self.user.devicePh!
+                if let url = URL(string: urlStr){
+                    if #available(iOS 10, *){
+                        UIApplication.shared.open(url, options: [:], completionHandler: { (Bool) in
+                            
+                        })
+                    }else{
+                         UIApplication.shared.openURL(url)
+                    }
+                }
+                break
+            case 102:
+                break
+            case 103:
+                break
+            case 104:
+                break
+            case 105:
+                break
+            case 106:
+                break
+            default: break
+            }
         }
         
         print(toolView.frame)
@@ -267,12 +295,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         view.addSubview(building)
         
         buildTit = UILabel(frame: CGRect.init(x: 16, y: 6, width: building.frame.width, height: building.frame.height/2 - 6))
-        //        buildTit.backgroundColor = UIColor.blue
         buildTit.font = UIFont.systemFont(ofSize: 20)
         building.addSubview(buildTit)
         
         buildSub = UILabel(frame: CGRect.init(x: 16, y: building.frame.height/2, width: building.frame.width, height: building.frame.height/2 - 8))
-        //        buildSub.backgroundColor = UIColor.green
         buildSub.font = UIFont.systemFont(ofSize: 13)
         buildSub.textColor = UIColor.gray
         building.addSubview(buildSub)
@@ -315,12 +341,18 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             requestDeviceData(showProgress: true)
             break
         case 1003:
+            if deviceCoor == nil {
+                isNavi = true
+                requestDeviceData(showProgress: true)
+                return
+            }
+            isNavi = false
             let gpsVC = GPSNaviViewController()
-//            gpsVC.startPoint = AMapNaviPoint.location(withLatitude: CGFloat(mapView.userLocation.location.coordinate.latitude), longitude: CGFloat(mapView.userLocation.location.coordinate.longitude))
-//            gpsVC.endPoint = AMapNaviPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
+            gpsVC.startPoint = AMapNaviPoint.location(withLatitude: CGFloat(mapView.userLocation.location.coordinate.latitude), longitude: CGFloat(mapView.userLocation.location.coordinate.longitude))
+            gpsVC.endPoint = AMapNaviPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
             gpsVC.hidesBottomBarWhenPushed = true
-//            print("strart \(gpsVC.startPoint) end \(gpsVC.endPoint)  \n old \(mapView.userLocation.location.coordinate)")
-        navigationController?.pushViewController(gpsVC, animated: true)
+            //            print("strart \(gpsVC.startPoint) end \(gpsVC.endPoint)  \n old \(mapView.userLocation.location.coordinate)")
+            navigationController?.pushViewController(gpsVC, animated: true)
             break
         default:
             break
@@ -335,6 +367,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         }
         UIView.animate(withDuration: 0.3, animations: {
             if !self.toolShow {
+                if self.indexShow{
+                self.indexShow = false
+                self.indexView.transform = CGAffineTransform.identity
+                self.deviSelView?.isHidden = !self.indexShow
+                }
                 self.toolView.transform = CGAffineTransform(translationX: 0, y: self.toolView.frame.height)
                 self.zoomView.transform = CGAffineTransform(translationX: 0, y: self.toolView.frame.height/1.7)
                 self.navigationController?.navigationBar.transform = CGAffineTransform(translationX: 0, y: -(self.navigationController?.navigationBar.bounds.height)!)
@@ -401,7 +438,17 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     }
     
     func navBut(sender: UIButton) {
-        print("touchnav")
+        if deviceCoor == nil {
+            isNavi = true
+            requestDeviceData(showProgress: true)
+            return
+        }
+        isNavi = false
+        let gpsVC = GPSNaviViewController()
+        gpsVC.startPoint = AMapNaviPoint.location(withLatitude: CGFloat(mapView.userLocation.location.coordinate.latitude), longitude: CGFloat(mapView.userLocation.location.coordinate.longitude))
+        gpsVC.endPoint = AMapNaviPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
+        gpsVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(gpsVC, animated: true)
     }
     
     func aMapSearchRequest(_ request: Any!, didFailWithError error: Error!) {
@@ -423,12 +470,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
-//        let responses = response.regeocode.pois as Array
-//        print(response.regeocode.pois)
-//        for i in 0...(responses.count - 1) {
-//            let obj = responses[i]
-//            print("name  \(obj.name) \n \(obj.address)")
-//        }
+        //        let responses = response.regeocode.pois as Array
+        //        print(response.regeocode.pois)
+        //        for i in 0...(responses.count - 1) {
+        //            let obj = responses[i]
+        //            print("name  \(obj.name) \n \(obj.address)")
+        //        }
         devicePoint = MAPointAnnotation()
         devicePoint?.coordinate = deviceCoor!
         devicePoint?.title = Localizeable(key: "当前位置") as String!

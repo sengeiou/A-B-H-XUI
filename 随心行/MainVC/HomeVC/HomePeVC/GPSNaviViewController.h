@@ -15,4 +15,8 @@
 
 @property (nonatomic, strong) AMapNaviDriveView *driveView;
 
+@property (nonatomic, strong) AMapNaviPoint *startPoint;
+
+@property (nonatomic, strong) AMapNaviPoint *endPoint;
+
 @end

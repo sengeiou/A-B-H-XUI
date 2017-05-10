@@ -21,6 +21,21 @@
 		EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BA71E9764C40065827E /* LoginViewController.xib */; };
 		EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BAA1E979FE20065827E /* ResignViewController.swift */; };
 		EE3E3BAD1E979FE20065827E /* ResignViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BAB1E979FE20065827E /* ResignViewController.xib */; };
+		EE4717131EC2C21E00AB4CA4 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE47170F1EC2C21E00AB4CA4 /* AMapFoundationKit.framework */; };
+		EE4717141EC2C21E00AB4CA4 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717101EC2C21E00AB4CA4 /* AMapNaviKit.framework */; };
+		EE4717151EC2C21E00AB4CA4 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717111EC2C21E00AB4CA4 /* AMapSearchKit.framework */; };
+		EE4717161EC2C21E00AB4CA4 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717121EC2C21E00AB4CA4 /* MAMapKit.framework */; };
+		EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE4717171EC2C26500AB4CA4 /* AMapNavi.bundle */; };
+		EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE4717191EC2C27100AB4CA4 /* AMap.bundle */; };
+		EE47171C1EC2C28E00AB4CA4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE47171B1EC2C28E00AB4CA4 /* Foundation.framework */; };
+		EE47171E1EC2C29400AB4CA4 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE47171D1EC2C29400AB4CA4 /* CoreTelephony.framework */; };
+		EE4717201EC2C29A00AB4CA4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE47171F1EC2C29A00AB4CA4 /* SystemConfiguration.framework */; };
+		EE4717221EC2C29F00AB4CA4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717211EC2C29F00AB4CA4 /* libz.tbd */; };
+		EE4717241EC2C2A600AB4CA4 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717231EC2C2A600AB4CA4 /* libc++.tbd */; };
+		EE4717261EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717251EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd */; };
+		EE4717281EC2C2B700AB4CA4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717271EC2C2B700AB4CA4 /* Security.framework */; };
+		EE47172A1EC2C2BD00AB4CA4 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */; };
+		EE47172C1EC2E6C200AB4CA4 /* HisTrajectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE47172B1EC2E6C100AB4CA4 /* HisTrajectoryViewController.swift */; };
 		EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */; };
 		EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */; };
 		EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */; };
@@ -73,6 +88,21 @@
 		EE3E3BA71E9764C40065827E /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		EE3E3BAA1E979FE20065827E /* ResignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignViewController.swift; sourceTree = "<group>"; };
 		EE3E3BAB1E979FE20065827E /* ResignViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResignViewController.xib; sourceTree = "<group>"; };
+		EE47170F1EC2C21E00AB4CA4 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		EE4717101EC2C21E00AB4CA4 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
+		EE4717111EC2C21E00AB4CA4 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
+		EE4717121EC2C21E00AB4CA4 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		EE4717171EC2C26500AB4CA4 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMapNavi.bundle; path = AMapNaviKit.framework/AMapNavi.bundle; sourceTree = "<group>"; };
+		EE4717191EC2C27100AB4CA4 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMap.bundle; path = MAMapKit.framework/AMap.bundle; sourceTree = "<group>"; };
+		EE47171B1EC2C28E00AB4CA4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EE47171D1EC2C29400AB4CA4 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EE47171F1EC2C29A00AB4CA4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EE4717211EC2C29F00AB4CA4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		EE4717231EC2C2A600AB4CA4 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		EE4717251EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		EE4717271EC2C2B700AB4CA4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		EE47172B1EC2E6C100AB4CA4 /* HisTrajectoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HisTrajectoryViewController.swift; sourceTree = "<group>"; };
 		EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceToolView.swift; sourceTree = "<group>"; };
 		EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationViewController.swift; sourceTree = "<group>"; };
 		EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelationViewController.xib; sourceTree = "<group>"; };
@@ -120,7 +150,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE47172A1EC2C2BD00AB4CA4 /* GLKit.framework in Frameworks */,
+				EE4717281EC2C2B700AB4CA4 /* Security.framework in Frameworks */,
+				EE4717261EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd in Frameworks */,
+				EE4717241EC2C2A600AB4CA4 /* libc++.tbd in Frameworks */,
+				EE4717221EC2C29F00AB4CA4 /* libz.tbd in Frameworks */,
+				EE4717201EC2C29A00AB4CA4 /* SystemConfiguration.framework in Frameworks */,
+				EE47171E1EC2C29400AB4CA4 /* CoreTelephony.framework in Frameworks */,
+				EE47171C1EC2C28E00AB4CA4 /* Foundation.framework in Frameworks */,
+				EE4717141EC2C21E00AB4CA4 /* AMapNaviKit.framework in Frameworks */,
 				EEADA01B1EC19DF3003867DC /* AVFoundation.framework in Frameworks */,
+				EE4717161EC2C21E00AB4CA4 /* MAMapKit.framework in Frameworks */,
+				EE4717151EC2C21E00AB4CA4 /* AMapSearchKit.framework in Frameworks */,
+				EE4717131EC2C21E00AB4CA4 /* AMapFoundationKit.framework in Frameworks */,
 				EE10A6EF1E9CD6DB0036B1E0 /* libsqlite3.0.tbd in Frameworks */,
 				F510CAACD04BE977C9B70BD0 /* Pods____.framework in Frameworks */,
 			);
@@ -141,6 +183,18 @@
 		72D4383772E4771526AEDD42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */,
+				EE4717271EC2C2B700AB4CA4 /* Security.framework */,
+				EE4717251EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd */,
+				EE4717231EC2C2A600AB4CA4 /* libc++.tbd */,
+				EE4717211EC2C29F00AB4CA4 /* libz.tbd */,
+				EE47171F1EC2C29A00AB4CA4 /* SystemConfiguration.framework */,
+				EE47171D1EC2C29400AB4CA4 /* CoreTelephony.framework */,
+				EE47171B1EC2C28E00AB4CA4 /* Foundation.framework */,
+				EE47170F1EC2C21E00AB4CA4 /* AMapFoundationKit.framework */,
+				EE4717101EC2C21E00AB4CA4 /* AMapNaviKit.framework */,
+				EE4717111EC2C21E00AB4CA4 /* AMapSearchKit.framework */,
+				EE4717121EC2C21E00AB4CA4 /* MAMapKit.framework */,
 				EEADA01A1EC19DF3003867DC /* AVFoundation.framework */,
 				EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */,
 				4C7D6C9227326DC4F0CD900F /* Pods____.framework */,
@@ -164,6 +218,7 @@
 				EE2206CB1EB85F4600885C15 /* HomeViewController.swift */,
 				EEADA0211EC1CAA8003867DC /* GPSNaviViewController.h */,
 				EEADA0221EC1CAA8003867DC /* GPSNaviViewController.m */,
+				EE47172B1EC2E6C100AB4CA4 /* HisTrajectoryViewController.swift */,
 				EE2206DE1EB88D9D00885C15 /* VIEW */,
 				EEA67B1C1EBECF94000AAE88 /* MODE */,
 			);
@@ -239,6 +294,8 @@
 		EE7C35E31E95DBFC000481E2 = {
 			isa = PBXGroup;
 			children = (
+				EE4717191EC2C27100AB4CA4 /* AMap.bundle */,
+				EE4717171EC2C26500AB4CA4 /* AMapNavi.bundle */,
 				EE7C35EE1E95DBFC000481E2 /* 随心行 */,
 				EE7C35ED1E95DBFC000481E2 /* Products */,
 				188FC6A85B7217340435CAF8 /* Pods */,
@@ -404,6 +461,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */,
+				EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */,
 				EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */,
 				EE2206D61EB85F9200885C15 /* MeTableViewController.xib in Resources */,
 				EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */,
@@ -484,6 +543,7 @@
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
 				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
 				EEADA0201EC1A470003867DC /* MoreMenuView.m in Sources */,
+				EE47172C1EC2E6C200AB4CA4 /* HisTrajectoryViewController.swift in Sources */,
 				EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */,
 				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
 				EEADA0261EC1CABE003867DC /* SpeechSynthesizer.m in Sources */,
