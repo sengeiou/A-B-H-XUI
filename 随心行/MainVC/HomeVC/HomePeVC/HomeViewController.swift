@@ -235,6 +235,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 }
                 break
             case 102:
+                self.navigationController?.pushViewController(HisTrajectoryViewController(), animated: true)
                 break
             case 103:
                 break

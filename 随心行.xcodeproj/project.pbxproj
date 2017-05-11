@@ -36,6 +36,13 @@
 		EE4717281EC2C2B700AB4CA4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717271EC2C2B700AB4CA4 /* Security.framework */; };
 		EE47172A1EC2C2BD00AB4CA4 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */; };
 		EE47172C1EC2E6C200AB4CA4 /* HisTrajectoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE47172B1EC2E6C100AB4CA4 /* HisTrajectoryViewController.swift */; };
+		EE47173C1EC3018B00AB4CA4 /* FSCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = EE47172F1EC3018B00AB4CA4 /* FSCalendar.m */; };
+		EE47173D1EC3018B00AB4CA4 /* FSCalendarHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717311EC3018B00AB4CA4 /* FSCalendarHeader.m */; };
+		EE47173E1EC3018B00AB4CA4 /* FSCalendarPage.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717331EC3018B00AB4CA4 /* FSCalendarPage.m */; };
+		EE47173F1EC3018B00AB4CA4 /* FSCalendarUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717351EC3018B00AB4CA4 /* FSCalendarUnit.m */; };
+		EE4717401EC3018B00AB4CA4 /* NSDate+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717371EC3018B00AB4CA4 /* NSDate+FSExtension.m */; };
+		EE4717411EC3018B00AB4CA4 /* UIScrollView+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717391EC3018B00AB4CA4 /* UIScrollView+FSExtension.m */; };
+		EE4717421EC3018B00AB4CA4 /* UIView+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE47173B1EC3018B00AB4CA4 /* UIView+FSExtension.m */; };
 		EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */; };
 		EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */; };
 		EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */; };
@@ -103,6 +110,20 @@
 		EE4717271EC2C2B700AB4CA4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		EE47172B1EC2E6C100AB4CA4 /* HisTrajectoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HisTrajectoryViewController.swift; sourceTree = "<group>"; };
+		EE47172E1EC3018B00AB4CA4 /* FSCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendar.h; sourceTree = "<group>"; };
+		EE47172F1EC3018B00AB4CA4 /* FSCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendar.m; sourceTree = "<group>"; };
+		EE4717301EC3018B00AB4CA4 /* FSCalendarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarHeader.h; sourceTree = "<group>"; };
+		EE4717311EC3018B00AB4CA4 /* FSCalendarHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarHeader.m; sourceTree = "<group>"; };
+		EE4717321EC3018B00AB4CA4 /* FSCalendarPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarPage.h; sourceTree = "<group>"; };
+		EE4717331EC3018B00AB4CA4 /* FSCalendarPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarPage.m; sourceTree = "<group>"; };
+		EE4717341EC3018B00AB4CA4 /* FSCalendarUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarUnit.h; sourceTree = "<group>"; };
+		EE4717351EC3018B00AB4CA4 /* FSCalendarUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarUnit.m; sourceTree = "<group>"; };
+		EE4717361EC3018B00AB4CA4 /* NSDate+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+FSExtension.h"; sourceTree = "<group>"; };
+		EE4717371EC3018B00AB4CA4 /* NSDate+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+FSExtension.m"; sourceTree = "<group>"; };
+		EE4717381EC3018B00AB4CA4 /* UIScrollView+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+FSExtension.h"; sourceTree = "<group>"; };
+		EE4717391EC3018B00AB4CA4 /* UIScrollView+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+FSExtension.m"; sourceTree = "<group>"; };
+		EE47173A1EC3018B00AB4CA4 /* UIView+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSExtension.h"; sourceTree = "<group>"; };
+		EE47173B1EC3018B00AB4CA4 /* UIView+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSExtension.m"; sourceTree = "<group>"; };
 		EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceToolView.swift; sourceTree = "<group>"; };
 		EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationViewController.swift; sourceTree = "<group>"; };
 		EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelationViewController.xib; sourceTree = "<group>"; };
@@ -250,6 +271,7 @@
 				EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */,
 				EEADA01E1EC1A470003867DC /* MoreMenuView.h */,
 				EEADA01F1EC1A470003867DC /* MoreMenuView.m */,
+				EE47172D1EC3012C00AB4CA4 /* FSCalendar */,
 			);
 			path = VIEW;
 			sourceTree = "<group>";
@@ -289,6 +311,27 @@
 				EE3E3BA41E9744220065827E /* NavViewController.swift */,
 			);
 			path = NavVC;
+			sourceTree = "<group>";
+		};
+		EE47172D1EC3012C00AB4CA4 /* FSCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				EE47172E1EC3018B00AB4CA4 /* FSCalendar.h */,
+				EE47172F1EC3018B00AB4CA4 /* FSCalendar.m */,
+				EE4717301EC3018B00AB4CA4 /* FSCalendarHeader.h */,
+				EE4717311EC3018B00AB4CA4 /* FSCalendarHeader.m */,
+				EE4717321EC3018B00AB4CA4 /* FSCalendarPage.h */,
+				EE4717331EC3018B00AB4CA4 /* FSCalendarPage.m */,
+				EE4717341EC3018B00AB4CA4 /* FSCalendarUnit.h */,
+				EE4717351EC3018B00AB4CA4 /* FSCalendarUnit.m */,
+				EE4717361EC3018B00AB4CA4 /* NSDate+FSExtension.h */,
+				EE4717371EC3018B00AB4CA4 /* NSDate+FSExtension.m */,
+				EE4717381EC3018B00AB4CA4 /* UIScrollView+FSExtension.h */,
+				EE4717391EC3018B00AB4CA4 /* UIScrollView+FSExtension.m */,
+				EE47173A1EC3018B00AB4CA4 /* UIView+FSExtension.h */,
+				EE47173B1EC3018B00AB4CA4 /* UIView+FSExtension.m */,
+			);
+			path = FSCalendar;
 			sourceTree = "<group>";
 		};
 		EE7C35E31E95DBFC000481E2 = {
@@ -539,10 +582,14 @@
 				EEADA0231EC1CAA8003867DC /* GPSNaviViewController.m in Sources */,
 				EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */,
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
+				EE4717401EC3018B00AB4CA4 /* NSDate+FSExtension.m in Sources */,
+				EE47173F1EC3018B00AB4CA4 /* FSCalendarUnit.m in Sources */,
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
 				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
 				EEADA0201EC1A470003867DC /* MoreMenuView.m in Sources */,
+				EE47173C1EC3018B00AB4CA4 /* FSCalendar.m in Sources */,
+				EE47173D1EC3018B00AB4CA4 /* FSCalendarHeader.m in Sources */,
 				EE47172C1EC2E6C200AB4CA4 /* HisTrajectoryViewController.swift in Sources */,
 				EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */,
 				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
@@ -555,15 +602,18 @@
 				EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */,
 				EE7CAD1E1EA5E40C00A40760 /* ScanCodeViewController.swift in Sources */,
 				EE2206E01EB88DC000885C15 /* DeviceView.swift in Sources */,
+				EE4717421EC3018B00AB4CA4 /* UIView+FSExtension.m in Sources */,
 				EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */,
 				EE7C35F21E95DBFC000481E2 /* ViewController.swift in Sources */,
 				EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */,
 				EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */,
+				EE47173E1EC3018B00AB4CA4 /* FSCalendarPage.m in Sources */,
 				EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */,
 				EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
 				EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */,
+				EE4717411EC3018B00AB4CA4 /* UIScrollView+FSExtension.m in Sources */,
 				EE7C35F01E95DBFC000481E2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,4 +19,5 @@
 #import "MoreMenuView.h"
 #import "GPSNaviViewController.h"
 #import "SpeechSynthesizer.h"
+#import "FSCalendar.h"
 #endif /* officialDemoSwift_Bridging_Header_h */
