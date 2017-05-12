@@ -29,6 +29,7 @@
 @property (nonatomic, readonly, getter = isPlaceholder) BOOL placeholder;
 @property (nonatomic, readonly, getter = isToday) BOOL today;
 @property (nonatomic, readonly, getter = isWeekend) BOOL weekend;
+@property (nonatomic, readonly, getter = isMonth) BOOL Month;
 
 @property (nonatomic, readonly) FSCalendarUnitState absoluteState;
 
@@ -41,6 +42,7 @@
 - (BOOL)unitIsPlaceholder:(FSCalendarUnit *)unit;
 - (BOOL)unitIsToday:(FSCalendarUnit *)unit;
 - (BOOL)unitIsSelected:(FSCalendarUnit *)unit;
+- (BOOL)unitIsMonth:(FSCalendarUnit *)unit;
 
 - (NSString *)subtitleForUnit:(FSCalendarUnit *)unit;
 - (BOOL)hasEventForUnit:(FSCalendarUnit *)unit;

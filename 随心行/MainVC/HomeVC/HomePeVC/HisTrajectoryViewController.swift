@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate {
+class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate,FSCalendarDelegate {
     var mapView: MAMapView!
     var dateBut,leftBut,rightBut: UIButton!
     var date: Date!
@@ -83,8 +83,15 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         dateBut.addTarget(self, action: #selector(tapDateBut(sender:)), for: .touchUpInside)
         dateBut.center = CGPoint(x: dateBut.center.x, y: dateView.frame.height/2.0)
         
-        caledar = FSCalendar(frame: CGRect(x: 0, y: dateView.frame.height, width: MainScreen.width, height: 200))
+        caledar = FSCalendar(frame: CGRect(x: 0, y: dateView.frame.height + 1, width: MainScreen.width, height: 200))
         caledar.backgroundColor = UIColor.white
+        caledar.autoAdjustTitleSize = false;
+        caledar.setTodayColor(UIColor.clear)
+        caledar.setTitleTodayColor(UIColor.black)
+        caledar.setWeekdayTextColor(UIColor.black)
+        caledar.selectedDate = date
+        caledar.isHidden = true
+        caledar.delegate = self
         view.addSubview(caledar)
 
     }
@@ -109,17 +116,29 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
             self.date = Date(timeInterval: (24*60*60) * -1, since: self.date)
             self.dateBut.setTitle(checkDate(date: self.date), for: .normal)
             dateBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletopright, space: 6)
+            caledar.changeDate(withSelectedDate: date, currentDate: caledar.currentDate)
             break
         case 1002:
             self.date = Date(timeInterval: (24*60*60) * 1, since: self.date)
             self.dateBut.setTitle(checkDate(date: self.date), for: .normal)
             dateBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletopright, space: 6)
+            caledar.changeDate(withSelectedDate: date, currentDate: caledar.currentDate)
             break
         case 1003:
+            sender.isSelected = !sender.isSelected
+            sender.setImage(#imageLiteral(resourceName: "icon_change_sel"), for: .selected)
+            dateBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletopright, space: 6)
+            caledar.isHidden = !sender.isSelected
             break
         default:
             break
         }
+    }
+    
+    func calendar(_ calendar: FSCalendar!, didSelect date: Date!) {
+        self.date = date;
+        self.dateBut.setTitle(checkDate(date: self.date), for: .normal)
+        dateBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletopright, space: 6)
     }
     /*
      // MARK: - Navigation

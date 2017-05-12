@@ -32,7 +32,8 @@ typedef NS_OPTIONS(NSInteger, FSCalendarUnitState) {
     FSCalendarUnitStatePlaceholder  = 1 << 1,
     FSCalendarUnitStateDisabled     = 1 << 2,
     FSCalendarUnitStateToday        = 1 << 3,
-    FSCalendarUnitStateWeekend      = 1 << 4
+    FSCalendarUnitStateWeekend      = 1 << 4,
+    FSCalendarUnitStateMonth        = 1 << 5
 };
 
 @protocol FSCalendarDelegate <NSObject>
@@ -62,9 +63,12 @@ typedef NS_OPTIONS(NSInteger, FSCalendarUnitState) {
 @property (copy, nonatomic) NSDate *selectedDate;
 @property (copy, nonatomic) NSDate *currentMonth;
 
+
 @property (assign, nonatomic) FSCalendarFlow flow;
 
 @property (assign, nonatomic) BOOL autoAdjustTitleSize;
+
+@property (assign, nonatomic) NSInteger currentPage;
 
 @property (assign, nonatomic) CGFloat minDissolvedAlpha UI_APPEARANCE_SELECTOR;
 @property (assign, nonatomic) FSCalendarUnitStyle unitStyle UI_APPEARANCE_SELECTOR;
@@ -97,6 +101,11 @@ typedef NS_OPTIONS(NSInteger, FSCalendarUnitState) {
 
 - (void)reloadData;
 
+- (void)initialize;
+
+- (void)setscrollviewOffset:(NSInteger)tage;
+
+- (void)changeDateWithSelectedDate:(NSDate *)date currentDate:(NSDate *)currentDate;
 @end
 
 

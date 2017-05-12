@@ -220,6 +220,10 @@
     return self.date.fs_weekday == 1 || self.date.fs_weekday == 7;
 }
 
+- (BOOL)isMonth{
+    return [_dataSource unitIsMonth:self];
+}
+
 - (void)showAnimation
 {
     if (_animation == FSCalendarUnitAnimationNone) {
@@ -256,12 +260,16 @@
     if (self.isToday) {
         return FSCalendarUnitStateToday;
     }
+    if (self.isMonth) {
+        return FSCalendarUnitStateMonth;
+    }
     if (self.isPlaceholder) {
         return FSCalendarUnitStatePlaceholder;
     }
     if (self.isWeekend) {
         return FSCalendarUnitStateWeekend;
     }
+    
     return FSCalendarUnitStateNormal;
 }
 

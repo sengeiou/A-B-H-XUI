@@ -32,13 +32,14 @@ const char * flowKey;
 @property (strong, nonatomic) NSMutableDictionary *titleColors;
 @property (strong, nonatomic) NSMutableDictionary *subtitleColors;
 
-@property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat baseOffset;
 
 @property (readonly, nonatomic) CGSize flowSize;
 @property (readonly, nonatomic) CGPoint flowOffset;
 @property (readonly, nonatomic) CGFloat flowSide;
 @property (readonly, nonatomic) CGFloat flowScrollOffset;
+
+@property (assign, nonatomic) BOOL isRightPush;
 
 - (BOOL)shouldSelectDate:(NSDate *)date;
 - (void)didSelectDate:(NSDate *)date;
@@ -79,7 +80,8 @@ const char * flowKey;
     _weekdayFont = [UIFont systemFontOfSize:16];
     _headerTitleFont = [UIFont systemFontOfSize:16];
     
-    NSArray *weekSymbols = [[NSCalendar currentCalendar] shortStandaloneWeekdaySymbols];
+    //    NSArray *weekSymbols = [[NSCalendar currentCalendar] shortStandaloneWeekdaySymbols];
+    NSArray *weekSymbols = [[NSCalendar currentCalendar] veryShortStandaloneWeekdaySymbols];
     _weekdays = [NSMutableArray arrayWithCapacity:weekSymbols.count];
     for (int i = 0; i < weekSymbols.count; i++) {
         UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -111,8 +113,9 @@ const char * flowKey;
     _page1 = [[FSCalendarPage alloc] initWithFrame:CGRectZero];
     _page1.tag = 1;
     [_scrollView addSubview:_page1];
-    
+    //
     _currentDate = [NSDate date];
+    //    _currentDate = [NSDate dateWithTimeInterval:(24*60*60)* -10 sinceDate:[NSDate date]];
     _currentMonth = [_currentDate copy];
     
     [_page0.subviews setValue:self forKeyPath:@"dataSource"];
@@ -126,15 +129,17 @@ const char * flowKey;
     _unitColors[@(FSCalendarUnitStateSelected)] = kBlue;
     _unitColors[@(FSCalendarUnitStateDisabled)] = [UIColor clearColor];
     _unitColors[@(FSCalendarUnitStatePlaceholder)] = [UIColor clearColor];
+    _unitColors[@(FSCalendarUnitStateMonth)] = [UIColor clearColor];
     _unitColors[@(FSCalendarUnitStateToday)] = kPink;
     
-    _titleColors = [NSMutableDictionary dictionaryWithCapacity:4];
+    _titleColors = [NSMutableDictionary dictionaryWithCapacity:6];
     _titleColors[@(FSCalendarUnitStateNormal)] = [UIColor darkTextColor];
     _titleColors[@(FSCalendarUnitStateWeekend)] = [UIColor darkTextColor];
     _titleColors[@(FSCalendarUnitStateSelected)] = [UIColor whiteColor];
     _titleColors[@(FSCalendarUnitStateDisabled)] = [UIColor grayColor];
     _titleColors[@(FSCalendarUnitStatePlaceholder)] = [UIColor lightGrayColor];
     _titleColors[@(FSCalendarUnitStateToday)] = [UIColor whiteColor];
+    _titleColors[@(FSCalendarUnitStateMonth)] = [UIColor clearColor];
     
     _subtitleColors = [NSMutableDictionary dictionaryWithCapacity:4];
     _subtitleColors[@(FSCalendarUnitStateNormal)] = [UIColor darkGrayColor];
@@ -143,9 +148,12 @@ const char * flowKey;
     _subtitleColors[@(FSCalendarUnitStateDisabled)] = [UIColor lightGrayColor];
     _subtitleColors[@(FSCalendarUnitStatePlaceholder)] = [UIColor lightGrayColor];
     _subtitleColors[@(FSCalendarUnitStateToday)] = [UIColor whiteColor];
+    _subtitleColors[@(FSCalendarUnitStateMonth)] = [UIColor clearColor];
     
     _unitStyle = FSCalendarUnitStyleCircle;
     _autoAdjustTitleSize = YES;
+    
+    //    [_scrollView setContentOffset:CGPointMake(-50, 0) animated:YES];
 }
 
 - (void)layoutSubviews
@@ -171,7 +179,7 @@ const char * flowKey;
         _scrollView.contentSize = self.flowSize;
         _scrollView.tag = 0;
     }
-    [self adjustTitleIfNecessary];   
+    [self adjustTitleIfNecessary];
 }
 
 - (void)dealloc
@@ -179,10 +187,41 @@ const char * flowKey;
     _scrollView.delegate = nil;
 }
 
+- (void)setscrollviewOffset:(NSInteger)tage{
+    if (self.flow == FSCalendarFlowHorizontal) {
+        [_scrollView setContentOffset:CGPointMake(self.flowOffset.x * tage, 0) animated:YES];
+    }
+    else{
+        [_scrollView setContentOffset:CGPointMake(0, self.flowOffset.y * tage) animated:YES];
+    }
+    
+}
+
 #pragma mark - UIScrollView Delegate
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    //可使禁止左右拖拽后滑动不至于界面显示错乱（停止时scrollView.contentOffset.x<_wScrollView）
+}
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if (self.flow == FSCalendarFlowHorizontal && self.currentPage == 0) {
+        if (scrollView.contentOffset.x > scrollView.frame.size.width) {//为初始显示位置
+            scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
+            return;
+        }
+        if (!_isRightPush && scrollView.contentOffset.x > 0) {
+            scrollView.contentOffset = CGPointMake(0, 0);
+            return;
+        }
+    }
+    else if (self.flow == FSCalendarFlowVertical && self.currentPage == 0){
+        if (scrollView.contentOffset.y > scrollView.frame.size.height) {//为初始显示位置
+            scrollView.contentOffset = CGPointMake(0, scrollView.frame.size.height);
+            return;
+        }
+    }
+    
     CGFloat offset = self.flowScrollOffset;
     if (offset > self.flowSide) {
         _scrollView.bounds = CGRectOffset(_scrollView.bounds, -self.flowOffset.x, -self.flowOffset.y);
@@ -193,6 +232,7 @@ const char * flowKey;
         [self updatePointer];
         [self updatePage:_page1 forIndex:self.currentPage + 1];
     } else if (offset < 0) {
+        _isRightPush = YES;
         _scrollView.bounds = CGRectOffset(_scrollView.bounds, self.flowOffset.x, self.flowOffset.y);
         _page0.frame = CGRectOffset(_page0.frame, self.flowOffset.x, self.flowOffset.y);
         _page1.frame = CGRectOffset(_page0.frame, -self.flowOffset.x, -self.flowOffset.y);
@@ -212,6 +252,7 @@ const char * flowKey;
 
 - (void)setCurrentPage:(NSInteger)currentPage
 {
+    //    NSLog(@"setCurrentPage = %ld",(long)currentPage);
     if (_currentPage != currentPage) {
         _currentPage = currentPage;
         self.currentMonth = [_currentDate fs_dateByAddingMonths:currentPage];
@@ -246,7 +287,7 @@ const char * flowKey;
 
 - (void)setWeekdayTextColor:(UIColor *)weekdayTextColor
 {
-   [_weekdays setValue:weekdayTextColor forKeyPath:@"textColor"];
+    [_weekdays setValue:weekdayTextColor forKeyPath:@"textColor"];
 }
 
 - (void)setHeader:(FSCalendarHeader *)header
@@ -343,6 +384,7 @@ const char * flowKey;
 
 - (void)setSubtitleDefaultColor:(UIColor *)color
 {
+    //    [UIColor grayColor]
     if (color) {
         _subtitleColors[@(FSCalendarUnitStateNormal)] = color;
     } else {
@@ -580,6 +622,9 @@ const char * flowKey;
     if (_delegate && [_delegate respondsToSelector:@selector(calendar:shouldSelectDate:)]) {
         return [_delegate calendar:self shouldSelectDate:date];
     }
+    if (date.fs_day > self.currentDate.fs_day) {
+        return NO;
+    }
     return YES;
 }
 
@@ -646,8 +691,15 @@ const char * flowKey;
 - (BOOL)unitIsPlaceholder:(FSCalendarUnit *)unit
 {
     FSCalendarPage *page = (FSCalendarPage *)unit.superview;
-    BOOL isPlaceholder = page.date.fs_year != unit.date.fs_year;
-    isPlaceholder |= page.date.fs_month != unit.date.fs_month;
+    //    NSLog(@"**********page.year  %ld ,page.date.fs_month %ld  page.date.fs_day %ld",(long)page.date.fs_year,(long)page.date.fs_month,page.date.fs_day);
+    //    NSLog(@"**********unit.year  %ld ,unit.date.fs_month %ld  unit.date.fs_day %ld",(long)unit.date.fs_year,(long)unit.date.fs_month,unit.date.fs_day);
+    BOOL isPlaceholder = NO;
+    if (page.date.fs_month == [NSDate date].fs_month && page.date.fs_year == [NSDate date].fs_year && unit.date.fs_day > [NSDate date].fs_day) {
+        isPlaceholder = YES;
+    }   else
+        if (page.date.fs_year != unit.date.fs_year || page.date.fs_month != unit.date.fs_month) {
+            isPlaceholder = YES;
+        }
     return isPlaceholder;
 }
 
@@ -660,6 +712,20 @@ const char * flowKey;
     selected &= unit.date.fs_month == self.selectedDate.fs_month;
     selected &= unit.date.fs_day == self.selectedDate.fs_day;
     return selected;
+}
+
+- (BOOL)unitIsMonth:(FSCalendarUnit *)unit{
+    //    if (![self unitIsPlaceholder:unit]) {
+    //        return NO;
+    //    }
+    FSCalendarPage *page = (FSCalendarPage *)unit.superview;
+    //    BOOL toMonth = unit.date.fs_year == page.date.fs_year;
+    BOOL toMonth = unit.date.fs_month != page.date.fs_month;
+    //    NSLog(@"+++++page.year  %ld ,page.date.fs_month %ld  page.date.fs_day %ld",(long)page.date.fs_year,(long)page.date.fs_month,page.date.fs_day);
+    //    NSLog(@"+++++unit.year  %ld ,unit.date.fs_month %ld  unit.date.fs_day %ld",(long)unit.date.fs_year,(long)unit.date.fs_month,unit.date.fs_day);
+    //    NSLog(@"*****  %d",toMonth);
+    return toMonth;
+    
 }
 
 - (UIColor *)unitColorForUnit:(FSCalendarUnit *)unit
@@ -705,6 +771,41 @@ const char * flowKey;
             [_page1.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
         });
     }
+}
+
+- (void)changeDateWithSelectedDate:(NSDate *)date currentDate:(NSDate *)currentDate{
+    NSInteger gap = 0;
+           NSLog(@"wggrhh==%@  *** %@ )))  %ld  +++ %ld  —————— %ld",self.selectedDate,date,(long)gap,_currentMonth.fs_month,date.fs_month);
+    if (_currentMonth.fs_month == date.fs_month) {
+        if (self.selectedDate.fs_year != date.fs_year) {
+            gap = self.selectedDate.fs_year - date.fs_year;
+        }
+        else{
+            gap = self.selectedDate.fs_month - date.fs_month;
+        }
+    }
+    else{
+        gap = _currentMonth.fs_month - date.fs_month;
+    }
+        //    NSInteger index = date.fs_day;
+        CGPoint destOffset;
+    NSLog(@"fewhehh=== %ld",gap);
+        if (gap >= 1) {
+            destOffset = CGPointMake(_scrollView.contentOffset.x-([self flowOffset].x * gap), _scrollView.contentOffset.y-self.flowOffset.y);
+            [_scrollView setContentOffset:destOffset animated:YES];
+        }
+        else if (gap <= -1){
+            destOffset = CGPointMake(_scrollView.contentOffset.x+([self flowOffset].x * -gap), _scrollView.contentOffset.y+self.flowOffset.y);
+            [_scrollView setContentOffset:destOffset animated:YES];
+        }
+//    }
+    
+    self.selectedDate = date;
+    [self didSelectDate:date];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_page0.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
+        [_page1.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
+    });
 }
 
 @end
