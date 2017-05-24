@@ -51,92 +51,132 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         let timeZone = NSTimeZone.system
         let interval = timeZone.secondsFromGMT()
         let httpMar = MyHttpSessionMar.shared
-        let requestDic = RequestKeyDic()
-        requestDic.addEntries(from: ["UserId": (user?.userId)!,
-                                     "GroupId": "",
-                                     "MapType": "",
-                                     "LastTime": Date().description,
-                                     "TimeOffset": NSNumber(integerLiteral: interval/3600),
-                                     "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
-        print("requestDic \(requestDic) frb  \(interval)")
-        httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
+        
+        let requestDic0 = RequestKeyDic()
+        requestDic0.addEntries(from: ["DeviceId": StrongGoString(object: (user?.deviceId)!)])
+        print(requestDic0)
+        httpMar.post(Prefix + "api/AuthShare/ShareList", parameters: requestDic0, progress: { (Progress) in
             
         }, success: { (URLSessionDataTask, result) in
             let resultDic = result as! Dictionary<String, Any>
+            print("resultDic \(resultDic)")
             let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
-            //            let fontDevice: Bool = false
-            for i in 0...(items.count - 1){
-                print("i== \(i)   itemcount = \(items.count)")
-                let itemDic = items[i]
-                var itemUser = getNewUser()
-                if self.user.deviceId != nil{
-                    if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
-                        itemUser = self.user
-                        self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
-                        print(self.deviceCoor!)
+            var userImaUrl = ""
+            if resultDic["State"] as! Int == 0{
+                for i in 0...(items.count - 1){
+                    if self.user.userId != nil{
+                        let itemDic = items[i]
+                        if Int(self.user.userId!) == itemDic["UserId"] as? Int{
+                            self.user.userId = StrongGoString(object: itemDic["UserId"]  as! Int)
+                            self.user.userPh = StrongGoString(object: itemDic["LoginName"])
+                            self.user.userName = StrongGoString(object: itemDic["Username"])
+                            self.user.relatoin = StrongGoString(object: itemDic["RelationName"])
+                            userImaUrl = StrongGoString(object: itemDic["Avatar"])
+                        }
                     }
                 }
-                
-                itemUser.userId = self.user.userId
-                itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
-                itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
-                itemUser.deviceName = StrongGoString(object: itemDic["NickName"])
-                var url = StrongGoString(object: itemDic["Avatar"])
-                if url == ""{
-                    url = "0"
-                }
-                downloadedFrom(url: URL(string: url)!, callBack: { (Image) in
-                    var imaData: String? = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
-                    if imaData == nil{
-                        imaData = ""
-                    }
-                    itemUser.userIma = imaData
-                    print("返回设备列表数据  \(itemUser) data = \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
-                    let fmbase = FMDbase.shared()
-                    logUser(user: itemUser)
-                    fmbase.insertUserInfo(userInfo: itemUser)
-                    if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
-                        ArchiveRoot(userInfo: itemUser)
-                    }
-                    if i == (items.count - 1){
-                        
-                        if showProgress{
-                            DispatchQueue.main.async() { () -> Void in
-                                MBProgressHUD.hide()
-                                if self.deviceCoor != nil{
-                                    self.mapView.setCenter(self.deviceCoor!, animated: true)
+            }
+            if userImaUrl == ""{
+                userImaUrl = "0"
+            }
+            downloadedFrom(url: URL(string: userImaUrl)!, callBack: { (Image)  in
+                self.user.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+                let requestDic = RequestKeyDic()
+                requestDic.addEntries(from: ["UserId": StrongGoString(object: (self.user?.userId)!),
+                                             "GroupId": "",
+                                             "MapType": "",
+                                             "LastTime": Date().description,
+                                             "TimeOffset": NSNumber(integerLiteral: interval/3600),
+                                             "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
+                print("requestDic \(requestDic) frb  \(interval)")
+                httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
+                    
+                }, success: { (URLSessionDataTask, result) in
+                    let resultDic = result as! Dictionary<String, Any>
+                    let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
+                    if (items.count > 0) {
+                        for i in 0...(items.count - 1){
+                            let itemDic = items[i]
+                            var itemUser = getNewUser()
+                            if self.user.deviceId != nil{
+                                if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
+                                    itemUser = self.user
+                                    self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
                                 }
                             }
-                        }
-                        DispatchQueue.main.async() { () -> Void in
-                            self.initializeMethod()
-                            self.addAnnotation()
-                            if self.isNavi{
-                                let but = self.locaView.viewWithTag(1003) as! UIButton
-                                self.tapMapFunction(sender: but)
+                            
+                            itemUser.userId = self.user.userId
+                            itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
+                            itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
+                            itemUser.deviceName = StrongGoString(object: itemDic["NickName"])
+                            itemUser.relatoin = StrongGoString(object: itemDic["RelationName"])
+                            var url = StrongGoString(object: itemDic["Avatar"])
+                            if url == ""{
+                                url = "0"
                             }
+                            downloadedFrom(url: URL(string: url)!, callBack: { (Image) in
+                                var imaData: String? = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+                                if imaData == nil{
+                                    imaData = ""
+                                }
+                                itemUser.deviceIma = imaData
+                                let fmbase = FMDbase.shared()
+                                logUser(user: itemUser)
+                                fmbase.insertUserInfo(userInfo: itemUser)
+                                if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
+                                    ArchiveRoot(userInfo: itemUser)
+                                }
+                                if i == (items.count - 1){
+                                    
+                                    if showProgress{
+                                        DispatchQueue.main.async() { () -> Void in
+                                            MBProgressHUD.hide()
+                                            if self.deviceCoor != nil{
+                                                self.mapView.setCenter(self.deviceCoor!, animated: true)
+                                            }
+                                        }
+                                    }
+                                    DispatchQueue.main.async() { () -> Void in
+                                        self.initializeMethod()
+                                        self.addAnnotation()
+                                        if self.isNavi{
+                                            let but = self.locaView.viewWithTag(1003) as! UIButton
+                                            self.tapMapFunction(sender: but)
+                                        }
+                                    }
+                                }
+                            })
                         }
                     }
+                    
+                    print("返回 \(resultDic) items \(items)")
+                }, failure: { (URLSessionDataTask, Error) in
+                    if showProgress{
+                        MBProgressHUD.hide()
+                        MBProgressHUD.showError(Error.localizedDescription)
+                    }
                 })
-            }
-            print("返回 \(resultDic) items \(items)")
-        }, failure: { (URLSessionDataTask, Error) in
+                
+            })
+            
+        }) { (URLSessionDataTask, Error) in
             if showProgress{
                 MBProgressHUD.hide()
                 MBProgressHUD.showError(Error.localizedDescription)
             }
-        })
-        
+        }
     }
     
     func initializeMethod() {
+        self.user = UnarchiveUser()
         let devices = FMDbase.shared().selectUsers(userid: user.userId!)!
         deviceArr.removeAllObjects()
         for  i in 0...(devices.count - 1) {
             let userItem: UserInfo = devices[i] as! UserInfo
-            let dic: NSMutableDictionary = NSMutableDictionary(dictionary:["DEVICEIMA": userItem.deviceIma!, "DEVICENAME": userItem.deviceName!,"DEVICESELECT":"0"])
+            let dic: NSMutableDictionary = NSMutableDictionary(dictionary:["DEVIUCEID":userItem.deviceId!,"DEVICEPHONE":userItem.devicePh!,"DEVICEIMA": userItem.deviceIma!, "DEVICENAME": userItem.deviceName!, "RELATION":userItem.relatoin!,"DEVICESELECT":"0"])
             if userItem.deviceId == user.deviceId {
                 dic.addEntries(from: ["DEVICESELECT":"1"])
+                print("imagedata = \(userItem.deviceIma)")
                 let imadata = NSData(base64Encoded: userItem.deviceIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
                 let iamge: UIImage? = UIImage(data: imadata! as Data)
                 if iamge == nil {
@@ -147,12 +187,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 }
                 
                 var titleLab: String? = userItem.deviceName
-                if (titleLab != nil && title != ""){
-                    titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)])
+                if (titleLab != nil){
+                    titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                 }
                 else{
                     titleLab = "无设备"
-                    titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)])
+                    titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                 }
             }
             deviceArr.add(dic)
@@ -168,10 +208,45 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             deviSelView = DeviceView(frame: CGRect(x: 10, y: 4, width: MainScreen.width - 20, height: CGFloat(deviceArr.count) * 44.0))
             deviSelView?.deviceArr = deviceArr
             deviSelView?.isHidden = !indexShow
-            deviSelView?.selectClosureWithCell { (IndexPath) in
+            deviSelView?.selectClosureWithCell { (IndexPath,Dictionary) in
                 self.indexShow = !self.indexShow
                 self.indexView.transform = CGAffineTransform.identity
                 self.deviSelView?.isHidden = !self.indexShow
+                
+                self.user.deviceId = StrongGoString(object: Dictionary?["DEVIUCEID"])
+                self.user.devicePh = StrongGoString(object: Dictionary?["DEVICEPHONE"])
+                self.user.deviceName = StrongGoString(object: Dictionary?["DEVICENAME"])
+                self.user.deviceIma = StrongGoString(object: Dictionary?["DEVICEIMA"])
+                self.user.relatoin = StrongGoString(object: Dictionary?["RELATION"])
+                ArchiveRoot(userInfo: self.user)
+                for j in 0...(self.deviceArr.count - 1){
+                    let dic = self.deviceArr[j] as! NSMutableDictionary
+                    if dic["DEVICESELECT"] as! String == "1"{
+                        dic.addEntries(from: ["DEVICESELECT":"0"])
+                    }
+                    if dic["DEVIUCEID"] as? String == self.user.deviceId{
+                        dic.addEntries(from: ["DEVICESELECT":"1"])
+                    }
+                }
+                self.deviSelView?.deviceArr = self.deviceArr
+                self.deviSelView?.tableview.reloadData()
+                let imadata = NSData(base64Encoded: self.user.deviceIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
+                let iamge: UIImage? = UIImage(data: imadata! as Data)
+                if iamge == nil {
+                    self.deviceView.image = #imageLiteral(resourceName: "icon_img_3")
+                }
+                else{
+                    self.deviceView.image = iamge
+                }
+                var titleLab: String? = self.user.deviceName
+                if (titleLab != nil){
+                    self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                }
+                else{
+                    titleLab = "无设备"
+                    self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                }
+
             }
             view.addSubview(deviSelView!)
             //            }
@@ -200,6 +275,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         deviceView = UIImageView(frame: CGRect(x: 0, y: 0, width: leftBar.frame.height, height: leftBar.frame.height))
         deviceView.image = #imageLiteral(resourceName: "icon_tianjia")
         deviceView.isUserInteractionEnabled = true
+        deviceView.layer.masksToBounds = true
+        deviceView.layer.cornerRadius = leftBar.frame.height/2
         indexView = UIImageView(frame: CGRect(x: deviceView.frame.maxX + 4, y: 0, width: 10, height: 6))
         indexView.image = UIImage(named: "icon_change_1")
         indexView.center = CGPoint(x: indexView.center.x, y: leftBar.frame.height/2)
@@ -212,7 +289,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         navigationItem.leftBarButtonItem = barBar
         
         titLab = UILabel(frame: CGRect(x: 0, y: 0, width: 154, height: 44))
-        titLab.attributedText = attributedString(strArr: ["无设备",Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)])
+        titLab.attributedText = attributedString(strArr: ["无设备",Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
         titLab.textAlignment = .center
         titLab.lineBreakMode = .byTruncatingMiddle
         navigationItem.titleView = titLab
@@ -230,18 +307,47 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             
                         })
                     }else{
-                         UIApplication.shared.openURL(url)
+                        UIApplication.shared.openURL(url)
                     }
                 }
                 break
             case 102:
-                self.navigationController?.pushViewController(HisTrajectoryViewController(), animated: true)
+                if (self.deviceCoor == nil){
+                    MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+                    return
+                }
+                let hisVC = HisTrajectoryViewController()
+                hisVC.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(hisVC, animated: true)
                 break
             case 103:
+            MBProgressHUD.showMessage(Localizeable(key: "正在查询...") as String)
+                let http = MyHttpSessionMar.shared
+                var phoneOper = ""
+                http.get("https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + self.user.devicePh!, parameters: nil, progress: { (Progress) in
+                    
+                }, success: { (URLSessionDataTask, result) in
+                    if let rdsdic = result as? NSDictionary, let subDic = rdsdic["result"] as? NSDictionary, let operators = subDic["operators"] as? String{
+                        phoneOper = operators
+                    }
+                    let inta = self.phoneOperator(operStr: phoneOper)
+                    MBProgressHUD.hide()
+                }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.hide()
+                    MBProgressHUD.showError(Error.localizedDescription)
+                   print("error \(Error) ")
+                })
                 break
             case 104:
+                let addressVC = AddressBookTableViewController(nibName: "AddressBookTableViewController", bundle: nil)
+                addressVC.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(addressVC, animated: true)
                 break
             case 105:
+                let securityVC = SecurityTableViewController(nibName: "SecurityTableViewController", bundle: nil)
+                securityVC.hidesBottomBarWhenPushed = true
+                securityVC.deviceLocation = self.deviceCoor
+                self.navigationController?.pushViewController(securityVC, animated: true)
                 break
             case 106:
                 break
@@ -332,6 +438,20 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         }
     }
     
+    func phoneOperator(operStr: String) -> String {
+        var operatorNum = ""
+        if operStr.contains("移动") {
+            operatorNum = "10086"
+        }
+        if operStr.contains("联通") {
+            operatorNum = "10010"
+        }
+        if operStr.contains("电信") {
+            operatorNum = "10001"
+        }
+        return operatorNum
+    }
+    
     func tapMapFunction(sender: UIButton) {
         switch sender.tag {
         case 1001:
@@ -369,9 +489,9 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         UIView.animate(withDuration: 0.3, animations: {
             if !self.toolShow {
                 if self.indexShow{
-                self.indexShow = false
-                self.indexView.transform = CGAffineTransform.identity
-                self.deviSelView?.isHidden = !self.indexShow
+                    self.indexShow = false
+                    self.indexView.transform = CGAffineTransform.identity
+                    self.deviSelView?.isHidden = !self.indexShow
                 }
                 self.toolView.transform = CGAffineTransform(translationX: 0, y: self.toolView.frame.height)
                 self.zoomView.transform = CGAffineTransform(translationX: 0, y: self.toolView.frame.height/1.7)
@@ -407,7 +527,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         regeo.location = AMapGeoPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
         regeo.requireExtension = true
         search.aMapReGoecodeSearch(regeo)
-        
     }
     
     func mapView(_ mapView: MAMapView!, viewFor annotation: MAAnnotation!) -> MAAnnotationView! {
@@ -433,7 +552,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         navBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletop, space: 4)
         navBut.addTarget(self, action: #selector(navBut(sender:)), for: .touchUpInside)
         annotationView?.leftCalloutAccessoryView = navBut
-        annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!)
+        annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawCornerIma(Sise: nil))
+//        annotationView?.image = iamge!.drawCornerIma()
         annotationView?.canShowCallout = true
         return annotationView
     }
@@ -471,18 +591,15 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
-        //        let responses = response.regeocode.pois as Array
-        //        print(response.regeocode.pois)
-        //        for i in 0...(responses.count - 1) {
-        //            let obj = responses[i]
-        //            print("name  \(obj.name) \n \(obj.address)")
-        //        }
         devicePoint = MAPointAnnotation()
         devicePoint?.coordinate = deviceCoor!
         devicePoint?.title = Localizeable(key: "当前位置") as String!
         devicePoint?.subtitle = String.init(format: "%@%@%@%@",response.regeocode.addressComponent.province,response.regeocode.addressComponent.city,response.regeocode.addressComponent.district,response.regeocode.addressComponent.township)
         mapView.addAnnotation(devicePoint)
         buildTit.text = response.regeocode.addressComponent.building
+        if buildTit.text == "" {
+            buildTit.text = Localizeable(key: "暂无信息") as String
+        }
         buildSub.text = Localizeable(key: "手表定位") as String
     }
 }

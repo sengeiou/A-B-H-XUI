@@ -10,7 +10,7 @@ import UIKit
 
 class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
 
-    typealias selectCell = (IndexPath?) -> Void
+    typealias selectCell = (IndexPath?,NSDictionary?) -> Void
     var selectClosure: selectCell?
     var deviceArr: NSMutableArray?
     var selIndex: Int = 0
@@ -66,8 +66,7 @@ class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
             cell?.layer.rasterizationScale = UIScreen.main.scale;
         }
         cell?.selectionStyle = .none
-        cell?.layer.masksToBounds = true
-        cell?.layer.cornerRadius = 44.0/2
+
         let device = (deviceArr?[indexPath.row]) as! NSMutableDictionary
         let imadata = NSData(base64Encoded: device.object(forKey: "DEVICEIMA") as! String, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
         let iamge: UIImage? = UIImage(data: imadata! as Data)
@@ -84,11 +83,14 @@ class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
         else{
             cell?.accessoryView = nil
         }
+        cell?.imageView?.layer.masksToBounds = true
+        cell?.imageView?.layer.cornerRadius = 44.0/2
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectClosure?(indexPath)
+        
+        selectClosure?(indexPath,deviceArr?[indexPath.row] as? NSDictionary)
 //        removeFromSuperview()
     }
     /*

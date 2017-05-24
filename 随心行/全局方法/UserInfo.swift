@@ -31,8 +31,7 @@ class UserInfo: NSObject,NSCoding {
         self.devicePh = aDecoder.decodeObject(forKey: "devicePh") as?String
         self.deviceIma = aDecoder.decodeObject(forKey: "deviceIma") as?String
         self.deviceName = aDecoder.decodeObject(forKey: "deviceName") as?String
-        self.relatoin = aDecoder.decodeObject(forKey: "relatoin") as?String
-
+        self.relatoin = aDecoder.decodeObject(forKey: "relat oin") as?String
         super.init() //属性赋值要在 super之前,这是 swift 基本语法(可选型应该不用在 super 之前);方法在 super 之后
     }
     

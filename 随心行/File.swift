@@ -69,9 +69,9 @@ func ColorFromRGB(rgbValue: Int) -> UIColor{
 }
 
 func systLanage()->String{
-    var defaults = Bundle.main.preferredLocalizations.first! as NSString
-    defaults = defaults.substring(to: 2) as NSString
-    return defaults as String
+    let defaus:Array<NSString> = UserDefaults.standard.object(forKey: "AppleLanguages") as! Array
+    let defaults = defaus.first?.substring(to: 2)
+    return defaults!
 }
 
 /*整理请求参数中不变参数*/
@@ -167,7 +167,22 @@ extension UIImage{
         let size = CGSize(width: self.size.width * 1.5, height: self.size.height * 1.5)
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+//        UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: size.width - 4, height: size.width - 4), cornerRadius: (size.width - 4)/2).addClip()
         ima.draw(in: CGRect(x: 2, y: 2, width: size.width - 4, height: size.width - 4))
+        let callBackIma = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return callBackIma!
+    }
+    
+    //绘制圆角图片
+    func drawCornerIma(Sise: CGSize?) -> UIImage {
+        var imaSise:CGSize? = Sise
+        if imaSise == nil {
+            imaSise = self.size
+        }
+        UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0)
+        UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.size.width , height: self.size.width), cornerRadius: (self.size.width)/2).addClip()
+        self.draw(in: CGRect(x: 0, y: 0, width: (imaSise?.width)! , height: (imaSise?.width)!))
         let callBackIma = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return callBackIma!
@@ -197,10 +212,10 @@ func downloadedFrom(url: URL, contentMode mode: UIViewContentMode = .scaleAspect
         }.resume()
 }
 
-func attributedString(strArr: Array<String>, fontArr: Array<UIFont>) -> NSMutableAttributedString {
+func attributedString(strArr: Array<String>, fontArr: Array<UIFont>, colorArr: Array<UIColor>) -> NSMutableAttributedString {
     let attrStr = NSMutableAttributedString()
     for i in 0...(strArr.count - 1) {
-        let dic:Dictionary = [NSForegroundColorAttributeName:UIColor.white,NSFontAttributeName:fontArr[i%2]]
+        let dic:Dictionary = [NSForegroundColorAttributeName:colorArr[i%2],NSFontAttributeName:fontArr[i%2]]
         attrStr.append(NSAttributedString(string: strArr[i], attributes: dic))
     }
     return attrStr
@@ -212,6 +227,14 @@ extension UIBarButtonItem{
         backbut.frame = CGRect(x: 0, y: 0, width: 24, height: 41)
         backbut.isHidden = hidden
         backbut.setImage(UIImage(named: "icon_return"), for: UIControlState.normal)
+        backbut.addTarget(target, action: action, for: UIControlEvents.touchUpInside)
+        return UIBarButtonItem(customView: backbut)
+    }
+    
+   class func buttonWithItem(target: Any?,butIma: UIImage,frame: CGRect, action: Selector) -> UIBarButtonItem {
+        let backbut = UIButton(type: UIButtonType(rawValue: 0)!)
+        backbut.frame = frame
+        backbut.setImage(butIma, for: UIControlState.normal)
         backbut.addTarget(target, action: action, for: UIControlEvents.touchUpInside)
         return UIBarButtonItem(customView: backbut)
     }

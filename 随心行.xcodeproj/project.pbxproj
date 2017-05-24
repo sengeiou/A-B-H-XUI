@@ -74,6 +74,18 @@
 		EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE3A0661EAEE7BB00E75FC2 /* DeviceInfoViewController.swift */; };
 		EEE3A0691EAEE7BB00E75FC2 /* DeviceInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEE3A0671EAEE7BB00E75FC2 /* DeviceInfoViewController.xib */; };
 		EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE3A06B1EAEEEC600E75FC2 /* PhotoView.swift */; };
+		EEEF54BE1ED4166B006905A3 /* SecurityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF54BC1ED4166B006905A3 /* SecurityTableViewController.swift */; };
+		EEEF54BF1ED4166B006905A3 /* SecurityTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEF54BD1ED4166B006905A3 /* SecurityTableViewController.xib */; };
+		EEEF54C21ED41C6B006905A3 /* SecurityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF54C01ED41C6B006905A3 /* SecurityTableViewCell.swift */; };
+		EEEF54C31ED41C6B006905A3 /* SecurityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEF54C11ED41C6B006905A3 /* SecurityTableViewCell.xib */; };
+		EEEF54C61ED42C55006905A3 /* SecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEEF54C41ED42C55006905A3 /* SecurityViewController.swift */; };
+		EEEF54C71ED42C55006905A3 /* SecurityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEEF54C51ED42C55006905A3 /* SecurityViewController.xib */; };
+		EEF9DC571EC7EA6C0097AC77 /* AddressBookTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF9DC551EC7EA6C0097AC77 /* AddressBookTableViewController.swift */; };
+		EEF9DC581EC7EA6C0097AC77 /* AddressBookTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEF9DC561EC7EA6C0097AC77 /* AddressBookTableViewController.xib */; };
+		EEF9DC5B1EC82BDC0097AC77 /* AddFamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF9DC591EC82BDC0097AC77 /* AddFamilyViewController.swift */; };
+		EEF9DC5C1EC82BDC0097AC77 /* AddFamilyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEF9DC5A1EC82BDC0097AC77 /* AddFamilyViewController.xib */; };
+		EEF9DC5F1EC845540097AC77 /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF9DC5D1EC845540097AC77 /* FamilyViewController.swift */; };
+		EEF9DC601EC845540097AC77 /* FamilyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EEF9DC5E1EC845540097AC77 /* FamilyViewController.xib */; };
 		F510CAACD04BE977C9B70BD0 /* Pods____.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C7D6C9227326DC4F0CD900F /* Pods____.framework */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +175,18 @@
 		EEE3A0661EAEE7BB00E75FC2 /* DeviceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfoViewController.swift; sourceTree = "<group>"; };
 		EEE3A0671EAEE7BB00E75FC2 /* DeviceInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeviceInfoViewController.xib; sourceTree = "<group>"; };
 		EEE3A06B1EAEEEC600E75FC2 /* PhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		EEEF54BC1ED4166B006905A3 /* SecurityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityTableViewController.swift; sourceTree = "<group>"; };
+		EEEF54BD1ED4166B006905A3 /* SecurityTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityTableViewController.xib; sourceTree = "<group>"; };
+		EEEF54C01ED41C6B006905A3 /* SecurityTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityTableViewCell.swift; sourceTree = "<group>"; };
+		EEEF54C11ED41C6B006905A3 /* SecurityTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityTableViewCell.xib; sourceTree = "<group>"; };
+		EEEF54C41ED42C55006905A3 /* SecurityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityViewController.swift; sourceTree = "<group>"; };
+		EEEF54C51ED42C55006905A3 /* SecurityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecurityViewController.xib; sourceTree = "<group>"; };
+		EEF9DC551EC7EA6C0097AC77 /* AddressBookTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookTableViewController.swift; sourceTree = "<group>"; };
+		EEF9DC561EC7EA6C0097AC77 /* AddressBookTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookTableViewController.xib; sourceTree = "<group>"; };
+		EEF9DC591EC82BDC0097AC77 /* AddFamilyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFamilyViewController.swift; sourceTree = "<group>"; };
+		EEF9DC5A1EC82BDC0097AC77 /* AddFamilyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddFamilyViewController.xib; sourceTree = "<group>"; };
+		EEF9DC5D1EC845540097AC77 /* FamilyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FamilyViewController.swift; sourceTree = "<group>"; };
+		EEF9DC5E1EC845540097AC77 /* FamilyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FamilyViewController.xib; sourceTree = "<group>"; };
 		F86256DB931E77C2A58C82C1 /* Pods-随心行.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-随心行.debug.xcconfig"; path = "Pods/Target Support Files/Pods-随心行/Pods-随心行.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,6 +264,16 @@
 				EEADA0211EC1CAA8003867DC /* GPSNaviViewController.h */,
 				EEADA0221EC1CAA8003867DC /* GPSNaviViewController.m */,
 				EE47172B1EC2E6C100AB4CA4 /* HisTrajectoryViewController.swift */,
+				EEF9DC551EC7EA6C0097AC77 /* AddressBookTableViewController.swift */,
+				EEF9DC561EC7EA6C0097AC77 /* AddressBookTableViewController.xib */,
+				EEF9DC591EC82BDC0097AC77 /* AddFamilyViewController.swift */,
+				EEF9DC5A1EC82BDC0097AC77 /* AddFamilyViewController.xib */,
+				EEF9DC5D1EC845540097AC77 /* FamilyViewController.swift */,
+				EEF9DC5E1EC845540097AC77 /* FamilyViewController.xib */,
+				EEEF54BC1ED4166B006905A3 /* SecurityTableViewController.swift */,
+				EEEF54BD1ED4166B006905A3 /* SecurityTableViewController.xib */,
+				EEEF54C41ED42C55006905A3 /* SecurityViewController.swift */,
+				EEEF54C51ED42C55006905A3 /* SecurityViewController.xib */,
 				EE2206DE1EB88D9D00885C15 /* VIEW */,
 				EEA67B1C1EBECF94000AAE88 /* MODE */,
 			);
@@ -271,6 +305,8 @@
 				EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */,
 				EEADA01E1EC1A470003867DC /* MoreMenuView.h */,
 				EEADA01F1EC1A470003867DC /* MoreMenuView.m */,
+				EEEF54C01ED41C6B006905A3 /* SecurityTableViewCell.swift */,
+				EEEF54C11ED41C6B006905A3 /* SecurityTableViewCell.xib */,
 				EE47172D1EC3012C00AB4CA4 /* FSCalendar */,
 			);
 			path = VIEW;
@@ -504,6 +540,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEF9DC5C1EC82BDC0097AC77 /* AddFamilyViewController.xib in Resources */,
 				EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */,
 				EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */,
 				EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */,
@@ -511,13 +548,18 @@
 				EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */,
 				EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */,
 				EE7C35FA1E95DBFC000481E2 /* LaunchScreen.storyboard in Resources */,
+				EEEF54C71ED42C55006905A3 /* SecurityViewController.xib in Resources */,
 				EEE3A0691EAEE7BB00E75FC2 /* DeviceInfoViewController.xib in Resources */,
+				EEF9DC601EC845540097AC77 /* FamilyViewController.xib in Resources */,
+				EEEF54C31ED41C6B006905A3 /* SecurityTableViewCell.xib in Resources */,
 				EE3E3BAD1E979FE20065827E /* ResignViewController.xib in Resources */,
+				EEEF54BF1ED4166B006905A3 /* SecurityTableViewController.xib in Resources */,
 				EE7C360A1E9621A8000481E2 /* Localizable.strings in Resources */,
 				EE7C35F71E95DBFC000481E2 /* Assets.xcassets in Resources */,
 				EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */,
 				EEC3D5601EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib in Resources */,
 				EE2206D11EB85F7400885C15 /* MessTableViewController.xib in Resources */,
+				EEF9DC581EC7EA6C0097AC77 /* AddressBookTableViewController.xib in Resources */,
 				EE7C35F51E95DBFC000481E2 /* Main.storyboard in Resources */,
 				EEAA30AB1E98DABB00D92A32 /* MBProgressHUD.bundle in Resources */,
 			);
@@ -584,7 +626,9 @@
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
 				EE4717401EC3018B00AB4CA4 /* NSDate+FSExtension.m in Sources */,
 				EE47173F1EC3018B00AB4CA4 /* FSCalendarUnit.m in Sources */,
+				EEEF54BE1ED4166B006905A3 /* SecurityTableViewController.swift in Sources */,
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
+				EEEF54C61ED42C55006905A3 /* SecurityViewController.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
 				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
 				EEADA0201EC1A470003867DC /* MoreMenuView.m in Sources */,
@@ -592,9 +636,11 @@
 				EE47173D1EC3018B00AB4CA4 /* FSCalendarHeader.m in Sources */,
 				EE47172C1EC2E6C200AB4CA4 /* HisTrajectoryViewController.swift in Sources */,
 				EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */,
+				EEF9DC5F1EC845540097AC77 /* FamilyViewController.swift in Sources */,
 				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
 				EEADA0261EC1CABE003867DC /* SpeechSynthesizer.m in Sources */,
 				EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */,
+				EEF9DC571EC7EA6C0097AC77 /* AddressBookTableViewController.swift in Sources */,
 				EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */,
 				EE2206D01EB85F7400885C15 /* MessTableViewController.swift in Sources */,
 				EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */,
@@ -605,12 +651,14 @@
 				EE4717421EC3018B00AB4CA4 /* UIView+FSExtension.m in Sources */,
 				EE10A6EB1E9CD5C40036B1E0 /* FMDbase.swift in Sources */,
 				EE7C35F21E95DBFC000481E2 /* ViewController.swift in Sources */,
+				EEF9DC5B1EC82BDC0097AC77 /* AddFamilyViewController.swift in Sources */,
 				EE10A6ED1E9CD5FE0036B1E0 /* UserInfo.swift in Sources */,
 				EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */,
 				EE47173E1EC3018B00AB4CA4 /* FSCalendarPage.m in Sources */,
 				EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */,
 				EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
+				EEEF54C21ED41C6B006905A3 /* SecurityTableViewCell.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
 				EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */,
 				EE4717411EC3018B00AB4CA4 /* UIScrollView+FSExtension.m in Sources */,

@@ -161,6 +161,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         }
                         
                         let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
+                        if (items.count > 0){
                         for i in 0...(items.count - 1){
                             print("i== \(i)   itemcount = \(items.count)")
                             let itemDic = items[i]
@@ -182,7 +183,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                 if imaData == nil{
                                     imaData = ""
                                 }
-                                itemUser.userIma = imaData
+                                itemUser.deviceIma = imaData
                                 print("返回设备列表数据  \(itemUser) data = \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
                                 let fmbase = FMDbase.shared()
                                 logUser(user: itemUser)
@@ -215,6 +216,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                     }
                                 }
                             })
+                        }
                         }
                         print("返回 \(resultDic) items \(items)")
                     }, failure: { (URLSessionDataTask, Error) in

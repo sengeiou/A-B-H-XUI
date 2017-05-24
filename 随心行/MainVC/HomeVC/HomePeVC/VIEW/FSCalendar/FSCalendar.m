@@ -81,7 +81,8 @@ const char * flowKey;
     _headerTitleFont = [UIFont systemFontOfSize:16];
     
     //    NSArray *weekSymbols = [[NSCalendar currentCalendar] shortStandaloneWeekdaySymbols];
-    NSArray *weekSymbols = [[NSCalendar currentCalendar] veryShortStandaloneWeekdaySymbols];
+//    NSArray *weekSymbols = [[NSCalendar currentCalendar] veryShortStandaloneWeekdaySymbols];
+    NSArray *weekSymbols = @[@"日",@"一",@"二",@"三",@"四",@"五",@"六"];
     _weekdays = [NSMutableArray arrayWithCapacity:weekSymbols.count];
     for (int i = 0; i < weekSymbols.count; i++) {
         UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -123,7 +124,6 @@ const char * flowKey;
     [_page1.subviews setValue:self forKeyPath:@"dataSource"];
     [_page1.subviews setValue:self forKeyPath:@"delegate"];
     
-    
     _unitColors = [NSMutableDictionary dictionaryWithCapacity:4];
     _unitColors[@(FSCalendarUnitStateNormal)] = [UIColor clearColor];
     _unitColors[@(FSCalendarUnitStateSelected)] = kBlue;
@@ -149,11 +149,9 @@ const char * flowKey;
     _subtitleColors[@(FSCalendarUnitStatePlaceholder)] = [UIColor lightGrayColor];
     _subtitleColors[@(FSCalendarUnitStateToday)] = [UIColor whiteColor];
     _subtitleColors[@(FSCalendarUnitStateMonth)] = [UIColor clearColor];
-    
     _unitStyle = FSCalendarUnitStyleCircle;
     _autoAdjustTitleSize = YES;
     
-    //    [_scrollView setContentOffset:CGPointMake(-50, 0) animated:YES];
 }
 
 - (void)layoutSubviews
@@ -242,24 +240,31 @@ const char * flowKey;
         [self updatePage:_page0 forIndex:self.currentPage - 1];
     }
     self.currentPage = (roundf(offset/self.flowSide)*self.flowSide+self.baseOffset)/self.flowSide;
+    if (_oldCurrentPage - _currentPage >= 1) {
+        _turnRight = NO;
+        _oldCurrentPage = _currentPage;
+    }
+    else if (_oldCurrentPage - _currentPage <= -1){
+        _turnRight = YES;
+        _oldCurrentPage = _currentPage;
+    }
     if (_header) {
         _header.scrollOffset = (self.baseOffset+offset)/self.flowSide;
     }
-    
 }
 
 #pragma mark - Setter & Getter
 
 - (void)setCurrentPage:(NSInteger)currentPage
 {
-    //    NSLog(@"setCurrentPage = %ld",(long)currentPage);
     if (_currentPage != currentPage) {
         _currentPage = currentPage;
         self.currentMonth = [_currentDate fs_dateByAddingMonths:currentPage];
-        if (_delegate && [_delegate respondsToSelector:@selector(calendarCurrentMonthDidChange:)]) {
-            [_delegate calendarCurrentMonthDidChange:self];
-        }
     }
+    if (_delegate && [_delegate respondsToSelector:@selector(calendarCurrentMonthDidChange:)] && (self.scrollView.contentOffset.x == 0 || self.scrollView.contentOffset.x == 320)) {
+        [_delegate calendarCurrentMonthDidChange:self];
+    }
+
 }
 
 - (void)setFlow:(FSCalendarFlow)flow
@@ -499,8 +504,14 @@ const char * flowKey;
 
 - (void)reloadData
 {
-    [self updatePage:_page0 forIndex:_currentPage];
-    [self updatePage:_page1 forIndex:_currentPage + 1];
+    if (_turnRight) {
+        [self updatePage:_page0 forIndex:_currentPage - 1];
+        [self updatePage:_page1 forIndex:_currentPage ];
+    }
+    else{
+        [self updatePage:_page0 forIndex:_currentPage];
+        [self updatePage:_page1 forIndex:_currentPage + 1];
+    }
 }
 
 #pragma mark - Private
@@ -691,8 +702,6 @@ const char * flowKey;
 - (BOOL)unitIsPlaceholder:(FSCalendarUnit *)unit
 {
     FSCalendarPage *page = (FSCalendarPage *)unit.superview;
-    //    NSLog(@"**********page.year  %ld ,page.date.fs_month %ld  page.date.fs_day %ld",(long)page.date.fs_year,(long)page.date.fs_month,page.date.fs_day);
-    //    NSLog(@"**********unit.year  %ld ,unit.date.fs_month %ld  unit.date.fs_day %ld",(long)unit.date.fs_year,(long)unit.date.fs_month,unit.date.fs_day);
     BOOL isPlaceholder = NO;
     if (page.date.fs_month == [NSDate date].fs_month && page.date.fs_year == [NSDate date].fs_year && unit.date.fs_day > [NSDate date].fs_day) {
         isPlaceholder = YES;
@@ -715,15 +724,8 @@ const char * flowKey;
 }
 
 - (BOOL)unitIsMonth:(FSCalendarUnit *)unit{
-    //    if (![self unitIsPlaceholder:unit]) {
-    //        return NO;
-    //    }
     FSCalendarPage *page = (FSCalendarPage *)unit.superview;
-    //    BOOL toMonth = unit.date.fs_year == page.date.fs_year;
     BOOL toMonth = unit.date.fs_month != page.date.fs_month;
-    //    NSLog(@"+++++page.year  %ld ,page.date.fs_month %ld  page.date.fs_day %ld",(long)page.date.fs_year,(long)page.date.fs_month,page.date.fs_day);
-    //    NSLog(@"+++++unit.year  %ld ,unit.date.fs_month %ld  unit.date.fs_day %ld",(long)unit.date.fs_year,(long)unit.date.fs_month,unit.date.fs_day);
-    //    NSLog(@"*****  %d",toMonth);
     return toMonth;
     
 }
