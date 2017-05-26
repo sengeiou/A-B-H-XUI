@@ -118,7 +118,6 @@ class RelationViewController: UIViewController {
                     
                     let tabVC = UITabBarController()
                     tabVC.viewControllers = [homeNav,messNav,meNav]
-                    
                     UIApplication.shared.keyWindow?.rootViewController = tabVC
 //                }
             }

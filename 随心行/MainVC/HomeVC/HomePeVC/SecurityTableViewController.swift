@@ -9,7 +9,7 @@
 import UIKit
 
 class SecurityTableViewController: UITableViewController {
-    var securitys: NSArray = []
+    var securitys: NSMutableArray = []
     var deviceLocation: CLLocationCoordinate2D?
     lazy var userInfo: UserInfo = {
         let userInfo = UnarchiveUser()
@@ -17,14 +17,17 @@ class SecurityTableViewController: UITableViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeMethod()
         createUI()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        initializeMethod()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     func createUI() {
         tableView.tableFooterView = UIView()
         title = Localizeable(key: "安全区域") as String
@@ -48,7 +51,7 @@ class SecurityTableViewController: UITableViewController {
             print(result!)
             let items:NSArray = (result as! NSDictionary)["Items"] as! NSArray
             if items.count > 0{
-                self.securitys = items
+                self.securitys = NSMutableArray(array: items)
             }
             self.tableView.reloadData()
         }) { (URLSessionDataTask, Error) in
@@ -56,23 +59,69 @@ class SecurityTableViewController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        tableView.setEditing(false, animated: true)
+        if editingStyle == .delete{
+            MBProgressHUD.showMessage(Localizeable(key: "正在删除...") as String)
+            print("securitys \(securitys)  removeobject \(securitys[indexPath.row])")
+            let securitDic = securitys[indexPath.row] as! NSDictionary
+            let httpMgr = MyHttpSessionMar.shared
+            let requestDic = RequestKeyDic()
+            requestDic.addEntries(from: ["FenceId": securitDic["FenceId"]!,
+                                         "DeviceId": userInfo.deviceId!])
+            httpMgr.post(Prefix + "api/Geofence/DeleteGeofence", parameters: requestDic, progress: { (Progress) in
+                
+            }, success: { (URLSessionDataTask, result) in
+                let resultDic = result as! Dictionary<String, Any>
+                if resultDic["State"] as! Int == 0{
+                    MBProgressHUD.hide()
+                    self.securitys.removeObject(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+                else{
+                    MBProgressHUD.showError(requestDic["Message"] as! String)
+                }
+            }, failure: { (URLSessionDataTask, Error) in
+                MBProgressHUD.hide()
+                MBProgressHUD.showError(Error.localizedDescription)
+            })
+            
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "删除"
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return securitys.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "SECURITYCELL") as? SecurityTableViewCell
         if cell == nil {
-           cell = Bundle.main.loadNibNamed("SecurityTableViewCell", owner: self, options: nil)?.last as? SecurityTableViewCell
+            cell = Bundle.main.loadNibNamed("SecurityTableViewCell", owner: self, options: nil)?.last as? SecurityTableViewCell
         }
         cell?.titLab.text = (securitys[indexPath.row] as! NSDictionary).object(forKey: "FenceName") as? String
         cell?.subLab.text = (securitys[indexPath.row] as! NSDictionary).object(forKey: "Description") as? String
@@ -80,54 +129,57 @@ class SecurityTableViewController: UITableViewController {
         cell?.selectionStyle = .none
         return cell!
     }
-
+    
+    
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let securityVC = SecurityViewController(nibName: "SecurityViewController", bundle: nil)
+        securityVC.changeDic = securitys[indexPath.row] as? NSDictionary
         self.navigationController?.pushViewController(securityVC, animated: true)
     }
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
 }

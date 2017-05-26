@@ -35,8 +35,8 @@ class AddFamilyViewController: UIViewController {
         MBProgressHUD.showMessage(Localizeable(key: "正在邀请...") as String!)
         let user = UnarchiveUser()
        let requestDic = RequestKeyDic()
-        requestDic.addEntries(from: [  "Phone": "phoneFile.text",
-                                       "RelationName": "relationFile.text",
+        requestDic.addEntries(from: [  "Phone": phoneFile.text!,
+                                       "RelationName": relationFile.text!,
                                        "DeviceId": StrongGoString(object: user?.deviceId),
                                        "UserId": (user?.userId)!,])
         MyHttpSessionMar.shared.post(Prefix + "api/User/InviteUser", parameters: requestDic, progress: { (Progress) in

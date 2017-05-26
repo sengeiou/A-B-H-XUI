@@ -246,7 +246,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     titleLab = "无设备"
                     self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                 }
-
+                
             }
             view.addSubview(deviSelView!)
             //            }
@@ -321,7 +321,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 self.navigationController?.pushViewController(hisVC, animated: true)
                 break
             case 103:
-            MBProgressHUD.showMessage(Localizeable(key: "正在查询...") as String)
+                MBProgressHUD.showMessage(Localizeable(key: "正在查询...") as String)
                 let http = MyHttpSessionMar.shared
                 var phoneOper = ""
                 http.get("https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + self.user.devicePh!, parameters: nil, progress: { (Progress) in
@@ -331,11 +331,32 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         phoneOper = operators
                     }
                     let inta = self.phoneOperator(operStr: phoneOper)
-                    MBProgressHUD.hide()
+                    let resDic = RequestKeyDic()
+                    resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
+                                             "DeviceModel": 1223,
+                                             "CmdCode": 2804,
+                                             "Params": self.user.devicePh! + inta,
+                                             "UserId": self.user.userId!])
+                    http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
+                        
+                    }, success: { (URLSessionDataTask, result) in
+                        MBProgressHUD.hide()
+                        let resultDic = result as! Dictionary<String, Any>
+                        print(resultDic)
+                        if resultDic["State"] as! Int == 0{
+                            
+                        }
+                        else{
+                            MBProgressHUD.showError(resultDic["Message"] as! String)
+                        }
+                    }, failure: { (URLSessionDataTask, Error) in
+                        MBProgressHUD.showError(Error.localizedDescription)
+                    })
+                    
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
                     MBProgressHUD.showError(Error.localizedDescription)
-                   print("error \(Error) ")
+                    print("error \(Error) ")
                 })
                 break
             case 104:
@@ -397,15 +418,16 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         navigationBut.addTarget(self, action: #selector(tapMapFunction(sender:)), for: .touchUpInside)
         locaView.addSubview(navigationBut)
         
-        building = UIView(frame: CGRect(x: 0, y: view.bounds.height - 64 - (tabBarController?.tabBar.frame.height)!, width: MainScreen.width, height: 80))
+        building = UIView(frame: CGRect(x: 0, y: view.bounds.height - 64 - (tabBarController?.tabBar.frame.height)!, width: MainScreen.width, height: 90))
         building.backgroundColor = UIColor.white
         view.addSubview(building)
         
-        buildTit = UILabel(frame: CGRect.init(x: 16, y: 6, width: building.frame.width, height: building.frame.height/2 - 6))
-        buildTit.font = UIFont.systemFont(ofSize: 20)
+        buildTit = UILabel(frame: CGRect.init(x: 16, y: 0, width: building.frame.width - 16, height: building.frame.height/2 + 8))
+        buildTit.font = UIFont.systemFont(ofSize: 18)
+        buildTit.numberOfLines = 2
         building.addSubview(buildTit)
         
-        buildSub = UILabel(frame: CGRect.init(x: 16, y: building.frame.height/2, width: building.frame.width, height: building.frame.height/2 - 8))
+        buildSub = UILabel(frame: CGRect.init(x: 16, y: buildTit.frame.maxY, width: building.frame.width - 16, height: building.frame.height/2 - 8))
         buildSub.font = UIFont.systemFont(ofSize: 13)
         buildSub.textColor = UIColor.gray
         building.addSubview(buildSub)
@@ -441,13 +463,13 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     func phoneOperator(operStr: String) -> String {
         var operatorNum = ""
         if operStr.contains("移动") {
-            operatorNum = "10086"
+            operatorNum = ",10086,1"
         }
         if operStr.contains("联通") {
-            operatorNum = "10010"
+            operatorNum = ",10010,102"
         }
         if operStr.contains("电信") {
-            operatorNum = "10001"
+            operatorNum = ",10001,102"
         }
         return operatorNum
     }
@@ -523,6 +545,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     }
     
     func addAnnotation() {
+        print("fiogijo -- \(deviceCoor)")
         let regeo = AMapReGeocodeSearchRequest()
         regeo.location = AMapGeoPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
         regeo.requireExtension = true
@@ -553,7 +576,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         navBut.addTarget(self, action: #selector(navBut(sender:)), for: .touchUpInside)
         annotationView?.leftCalloutAccessoryView = navBut
         annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawCornerIma(Sise: nil))
-//        annotationView?.image = iamge!.drawCornerIma()
+        //        annotationView?.image = iamge!.drawCornerIma()
         annotationView?.canShowCallout = true
         return annotationView
     }
@@ -596,7 +619,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         devicePoint?.title = Localizeable(key: "当前位置") as String!
         devicePoint?.subtitle = String.init(format: "%@%@%@%@",response.regeocode.addressComponent.province,response.regeocode.addressComponent.city,response.regeocode.addressComponent.district,response.regeocode.addressComponent.township)
         mapView.addAnnotation(devicePoint)
-        buildTit.text = response.regeocode.addressComponent.building
+        //        buildTit.text = String.init(format: "%@%@%@%@%@%@",response.regeocode.addressComponent.province,response.regeocode.addressComponent.city,response.regeocode.addressComponent.district,response.regeocode.addressComponent.township,response.regeocode.addressComponent.neighborhood,response.regeocode.addressComponent.building)
+        buildTit.text = response.regeocode.formattedAddress
         if buildTit.text == "" {
             buildTit.text = Localizeable(key: "暂无信息") as String
         }

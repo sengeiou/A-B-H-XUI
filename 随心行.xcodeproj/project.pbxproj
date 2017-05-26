@@ -57,6 +57,7 @@
 		EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7CAD191EA5C5CB00A40760 /* BandDeviceViewController.swift */; };
 		EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */; };
 		EE7CAD1E1EA5E40C00A40760 /* ScanCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */; };
+		EE86580B1ED6A5D7006A950B /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE86580A1ED6A5D6006A950B /* SecurityView.swift */; };
 		EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */; };
 		EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */; };
 		EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A61E98DABB00D92A32 /* MBProgressHUD+MJ.m */; };
@@ -153,6 +154,7 @@
 		EE7CAD191EA5C5CB00A40760 /* BandDeviceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandDeviceViewController.swift; sourceTree = "<group>"; };
 		EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BandDeviceViewController.xib; sourceTree = "<group>"; };
 		EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
+		EE86580A1ED6A5D6006A950B /* SecurityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
 		EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawMap.swift; sourceTree = "<group>"; };
 		EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHttpSessionMar.swift; sourceTree = "<group>"; };
 		EEAA30A51E98DABB00D92A32 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				EEADA01F1EC1A470003867DC /* MoreMenuView.m */,
 				EEEF54C01ED41C6B006905A3 /* SecurityTableViewCell.swift */,
 				EEEF54C11ED41C6B006905A3 /* SecurityTableViewCell.xib */,
+				EE86580A1ED6A5D6006A950B /* SecurityView.swift */,
 				EE47172D1EC3012C00AB4CA4 /* FSCalendar */,
 			);
 			path = VIEW;
@@ -620,6 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE86580B1ED6A5D7006A950B /* SecurityView.swift in Sources */,
 				EEC3D55B1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.swift in Sources */,
 				EEADA0231EC1CAA8003867DC /* GPSNaviViewController.m in Sources */,
 				EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */,
@@ -736,7 +740,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -779,7 +783,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -801,6 +805,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "随心行/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.xuixin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -816,7 +821,7 @@
 			baseConfigurationReference = 87D42D50C237D5F863861812 /* Pods-随心行.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VHVLE5FL92;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -825,9 +830,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "随心行/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.xuixin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "59433a92-8d52-438f-8188-9853d2426713";
+				PROVISIONING_PROFILE_SPECIFIER = All_development_text;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/officialDemoSwift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
