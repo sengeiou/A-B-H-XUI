@@ -25,6 +25,13 @@ class MyHttpSessionMar: AFHTTPSessionManager {
         self.requestSerializer.setValue("application/json", forHTTPHeaderField: "content-type")
     }
     
+   class func shared1() -> MyHttpSessionMar{
+        let httpMar = MyHttpSessionMar()
+    
+      return httpMar
+    }
+  
+    
 //        static let shared = MyHttpSessionMar()
 //        private override init() {}
 //
