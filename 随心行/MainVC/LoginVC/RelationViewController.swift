@@ -82,8 +82,10 @@ class RelationViewController: UIViewController {
         let user = UnarchiveUser()!
         let parameterDic = RequestKeyDic()
         MBProgressHUD.showMessage(Localizeable(key: "请求中...") as String)
+        
         print(String(format: "%d", Defaultinfos.getIntValueForKey(key: UserID)),Defaultinfos.getValueForKey(key: Account)!,relationName())
-        parameterDic.addEntries(from: ["DeviceId":user.deviceId!,"UserId": String(format: "%d", Defaultinfos.getIntValueForKey(key: UserID)),"RelationPhone":Defaultinfos.getValueForKey(key: Account)!,"RelationName":relationName(),"Info":nickNameFile.text!])
+        parameterDic.addEntries(from: ["DeviceId":user.deviceId!,"UserId": user.userId!,"RelationPhone":Defaultinfos.getValueForKey(key: Account)!,"RelationName":relationName(),"Info":nickNameFile.text!,"DeviceType":6])
+        print("parameterDic \(parameterDic)")
         let httpMar = MyHttpSessionMar.shared
         httpMar.post(Prefix + "api/Device/AddDeviceAndUserGroup", parameters: parameterDic, progress: { (Progress) in
             
@@ -102,7 +104,7 @@ class RelationViewController: UIViewController {
                 ArchiveRoot(userInfo: user)
                 self.navigationController?.pushViewController(DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil), animated: true)
             }
-            else if(dic["State"] as! Int == 1500){
+            else if(dic["State"] as! Int == 1500 || dic["State"] as! Int == 1501){
 //                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                     let homeVC = HomeViewController()
                     homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)

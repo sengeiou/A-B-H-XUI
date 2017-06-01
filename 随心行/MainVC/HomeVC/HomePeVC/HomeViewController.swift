@@ -27,6 +27,9 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     var devicePoint: MAPointAnnotation?
     var search: AMapSearchAPI!
     var buildTit,buildSub: UILabel!
+    var deviceMode: Int!
+    var lastCommunTime: String!
+    var positionType: Int!
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
@@ -54,7 +57,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         
         let requestDic0 = RequestKeyDic()
         requestDic0.addEntries(from: ["DeviceId": StrongGoString(object: (user?.deviceId)!)])
-        print(requestDic0)
         httpMar.post(Prefix + "api/AuthShare/ShareList", parameters: requestDic0, progress: { (Progress) in
             
         }, success: { (URLSessionDataTask, result) in
@@ -88,7 +90,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                              "LastTime": Date().description,
                                              "TimeOffset": NSNumber(integerLiteral: interval/3600),
                                              "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
-                print("requestDic \(requestDic) frb  \(interval)")
+//                print("requestDic \(requestDic) frb  \(interval)")
                 httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in
@@ -101,10 +103,13 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             if self.user.deviceId != nil{
                                 if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
                                     itemUser = self.user
+                                    self.deviceMode = itemDic["Model"] as! Int
                                     self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
+                                    self.lastCommunTime = itemDic["LastCommunication"] as! String
+                                    self.positionType = itemDic["PositionType"] as! Int
                                 }
                             }
-                            
+                            print(itemDic)
                             itemUser.userId = self.user.userId
                             itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
                             itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
@@ -149,7 +154,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         }
                     }
                     
-                    print("返回 \(resultDic) items \(items)")
+//                    print("返回 \(resultDic) items \(items)")
                 }, failure: { (URLSessionDataTask, Error) in
                     if showProgress{
                         MBProgressHUD.hide()
@@ -176,7 +181,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             let dic: NSMutableDictionary = NSMutableDictionary(dictionary:["DEVIUCEID":userItem.deviceId!,"DEVICEPHONE":userItem.devicePh!,"DEVICEIMA": userItem.deviceIma!, "DEVICENAME": userItem.deviceName!, "RELATION":userItem.relatoin!,"DEVICESELECT":"0"])
             if userItem.deviceId == user.deviceId {
                 dic.addEntries(from: ["DEVICESELECT":"1"])
-                print("imagedata = \(userItem.deviceIma)")
+//                print("imagedata = \(userItem.deviceIma)")
                 let imadata = NSData(base64Encoded: userItem.deviceIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
                 let iamge: UIImage? = UIImage(data: imadata! as Data)
                 if iamge == nil {
@@ -185,10 +190,22 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 else{
                     deviceView.image = iamge
                 }
-                
+                //self.lastCommunTime
                 var titleLab: String? = userItem.deviceName
                 if (titleLab != nil){
-                    titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                    let formatter1 = DateFormatter()
+                    formatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                    let zone = TimeZone(secondsFromGMT: 0)
+                    formatter1.timeZone = zone
+                    let date = formatter1.date(from: self.lastCommunTime)
+                     titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                    print(-((date?.timeIntervalSinceNow)!))
+                     print(Int((-(date?.timeIntervalSinceNow)!))/60)
+                    if Int((-(date?.timeIntervalSinceNow)!))/60 > 6 {
+                         titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                    }
+                   
+                   
                 }
                 else{
                     titleLab = "无设备"
@@ -209,6 +226,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             deviSelView?.deviceArr = deviceArr
             deviSelView?.isHidden = !indexShow
             deviSelView?.selectClosureWithCell { (IndexPath,Dictionary) in
+                if IndexPath?.row == self.deviceArr.count - 1 {
+                    let banVC = BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil)
+                    banVC.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(banVC, animated: true)
+                    return
+                }
                 self.indexShow = !self.indexShow
                 self.indexView.transform = CGAffineTransform.identity
                 self.deviSelView?.isHidden = !self.indexShow
@@ -297,7 +320,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         toolView = DeviceToolView(frame: CGRect(x: 0, y: view.bounds.height - 64 - (tabBarController?.tabBar.frame.height)! - 180, width: MainScreen.width, height: 180))
         view.addSubview(toolView)
         toolView.tapClosureWithBut { (Int) in
-            print("点击 \(Int)")
+//            print("点击 \(Int)")
             switch Int{
             case 101:
                 let urlStr = "tel://" + self.user.devicePh!
@@ -322,6 +345,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 break
             case 103:
                 MBProgressHUD.showMessage(Localizeable(key: "正在查询...") as String)
+               
                 let http = MyHttpSessionMar.shared
                 var phoneOper = ""
                 http.get("https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + self.user.devicePh!, parameters: nil, progress: { (Progress) in
@@ -333,7 +357,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     let inta = self.phoneOperator(operStr: phoneOper)
                     let resDic = RequestKeyDic()
                     resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
-                                             "DeviceModel": 1223,
+                                             "DeviceModel": self.deviceMode,
                                              "CmdCode": 2804,
                                              "Params": self.user.devicePh! + inta,
                                              "UserId": self.user.userId!])
@@ -356,7 +380,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
                     MBProgressHUD.showError(Error.localizedDescription)
-                    print("error \(Error) ")
+//                    print("error \(Error) ")
                 })
                 break
             case 104:
@@ -371,12 +395,14 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 self.navigationController?.pushViewController(securityVC, animated: true)
                 break
             case 106:
+                let securityVC = DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil)
+                securityVC.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(securityVC, animated: true)
                 break
             default: break
             }
         }
         
-        print(toolView.frame)
         zoomView = UIView(frame: CGRect(x: MainScreen.width - 52, y: toolView.frame.minY - 94, width: 52, height: 74))
         view.addSubview(zoomView)
         
@@ -385,14 +411,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         subtractZoom.setBackgroundImage(#imageLiteral(resourceName: "icon_jianshao"), for: .normal)
         subtractZoom.addTarget(self, action: #selector(changeMapZoom(sender:)), for: .touchUpInside)
         zoomView.addSubview(subtractZoom)
-        print(subtractZoom.frame)
         
         addZoom = UIButton(type: .custom)
         addZoom.frame = CGRect(x: 0, y: subtractZoom.frame.minY - 38, width: 36, height: 36)
         addZoom.setBackgroundImage(#imageLiteral(resourceName: "icon_fangda"), for: .normal)
         addZoom.addTarget(self, action: #selector(changeMapZoom(sender:)), for: .touchUpInside)
         zoomView.addSubview(addZoom)
-        print(addZoom.frame)
         
         locaView = UIView(frame: CGRect(x: MainScreen.width - 52, y: 10, width: 52, height: 36 * 3 + 32))
         view.addSubview(locaView)
@@ -448,6 +472,9 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         }
         else{
             print("无设备")
+            let banVC = BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil)
+            banVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(banVC, animated: true)
         }
     }
     
@@ -477,7 +504,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     func tapMapFunction(sender: UIButton) {
         switch sender.tag {
         case 1001:
-            print(mapView.userLocation.location)
             mapView.setCenter(mapView.userLocation.location.coordinate, animated: true)
             break
         case 1002:
@@ -494,7 +520,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             gpsVC.startPoint = AMapNaviPoint.location(withLatitude: CGFloat(mapView.userLocation.location.coordinate.latitude), longitude: CGFloat(mapView.userLocation.location.coordinate.longitude))
             gpsVC.endPoint = AMapNaviPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
             gpsVC.hidesBottomBarWhenPushed = true
-            //            print("strart \(gpsVC.startPoint) end \(gpsVC.endPoint)  \n old \(mapView.userLocation.location.coordinate)")
             navigationController?.pushViewController(gpsVC, animated: true)
             break
         default:
@@ -541,11 +566,13 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 })
             }
         })
-        print(coordinate)
     }
     
     func addAnnotation() {
-        print("fiogijo -- \(deviceCoor)")
+        guard deviceCoor != nil else {
+            return
+        }
+        
         let regeo = AMapReGeocodeSearchRequest()
         regeo.location = AMapGeoPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
         regeo.requireExtension = true
@@ -575,8 +602,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         navBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletop, space: 4)
         navBut.addTarget(self, action: #selector(navBut(sender:)), for: .touchUpInside)
         annotationView?.leftCalloutAccessoryView = navBut
-        annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawCornerIma(Sise: nil))
-        //        annotationView?.image = iamge!.drawCornerIma()
+        annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawSquareIma(Sise: nil).drawCornerIma(Sise: nil))
         annotationView?.canShowCallout = true
         return annotationView
     }
@@ -596,7 +622,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     }
     
     func aMapSearchRequest(_ request: Any!, didFailWithError error: Error!) {
-        print("error: %@ \(error)")
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }

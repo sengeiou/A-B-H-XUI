@@ -220,6 +220,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                 let httpMar = MyHttpSessionMar.shared
                 let parameterDic = RequestKeyDic()
                 parameterDic.addEntries(from: ["SerialNumber":resultObj.stringValue,"UserId": String.init(format: "%d", Defaultinfos.getIntValueForKey(key: UserID))])
+                print(parameterDic)
                 httpMar.post(Prefix + "api/Device/CheckDevice", parameters: parameterDic, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in
@@ -230,14 +231,14 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                     user.userId = String(format: "%d", Defaultinfos.getIntValueForKey(key: UserID))
                     user.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
                     let fmdb = FMDbase.shared()
-                    fmdb.insertUserInfo(userInfo: user)
-                    
+                   
                     //记录已选中设备信息
                     let userInfo = UnarchiveUser()
                     userInfo?.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
                     ArchiveRoot(userInfo: userInfo!)
                     
                     if dic["State"] as! Int == 0{
+                         fmdb.insertUserInfo(userInfo: user)
                         relationVC.isGuardian = true
                         self.navigationController?.pushViewController(relationVC, animated: true)
                     }
@@ -246,7 +247,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                         self.navigationController?.pushViewController(relationVC, animated: true)
                     }
                     else{
-                        MBProgressHUD.showError(dic["Message"] as! String)
+                        MBProgressHUD.showError(StrongGoString(object: dic["Message"]))
                     }
                     self.activityIndicatorView?.stopAnimating()
                 }, failure: { (URLSessionDataTask, Error) in

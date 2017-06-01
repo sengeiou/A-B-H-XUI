@@ -155,6 +155,7 @@
 		EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BandDeviceViewController.xib; sourceTree = "<group>"; };
 		EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
 		EE86580A1ED6A5D6006A950B /* SecurityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
+		EEA487EC1EDE5F5E00AC6AB0 /* 随心行.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "随心行.entitlements"; sourceTree = "<group>"; };
 		EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawMap.swift; sourceTree = "<group>"; };
 		EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHttpSessionMar.swift; sourceTree = "<group>"; };
 		EEAA30A51E98DABB00D92A32 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
@@ -396,6 +397,7 @@
 		EE7C35EE1E95DBFC000481E2 /* 随心行 */ = {
 			isa = PBXGroup;
 			children = (
+				EEA487EC1EDE5F5E00AC6AB0 /* 随心行.entitlements */,
 				EE7C35EF1E95DBFC000481E2 /* AppDelegate.swift */,
 				EE7C35F11E95DBFC000481E2 /* ViewController.swift */,
 				EE3E3BA11E97432E0065827E /* MainVC */,
@@ -514,6 +516,9 @@
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -796,6 +801,7 @@
 			baseConfigurationReference = F86256DB931E77C2A58C82C1 /* Pods-随心行.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "随心行/随心行.entitlements";
 				DEVELOPMENT_TEAM = VHVLE5FL92;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -809,8 +815,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.xuixin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8b9ac270-475e-4fd3-b3a2-4e818f70e77b";
-				PROVISIONING_PROFILE_SPECIFIER = liang_dis_xuixin_text;
+				PROVISIONING_PROFILE = "f17e5ecf-f436-40ba-9a30-438a0cd19c8b";
+				PROVISIONING_PROFILE_SPECIFIER = liang_deve_xuixin_text;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/officialDemoSwift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -821,6 +827,7 @@
 			baseConfigurationReference = 87D42D50C237D5F863861812 /* Pods-随心行.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "随心行/随心行.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = VHVLE5FL92;
 				FRAMEWORK_SEARCH_PATHS = (

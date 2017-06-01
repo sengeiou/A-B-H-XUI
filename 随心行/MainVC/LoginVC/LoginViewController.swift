@@ -15,6 +15,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet weak var resignBut: UIButton!
     @IBOutlet weak var loginBut: UIButton!
     @IBOutlet weak var headTop: NSLayoutConstraint!
+      let callBackSEL = Selector("tagsAliasCallBack:tags:alias:")
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeMehod()
@@ -42,6 +43,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         super.viewDidDisappear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage.ImageWithColor(color: ColorFromRGB(rgbValue: 0x389aff), size: CGSize(width: MainScreen.width, height: 64)), for: UIBarMetrics(rawValue: 0)!)
         navigationController?.navigationBar.isTranslucent = false
+        accFie.resignFirstResponder()
+        passFie.resignFirstResponder()
     }
     
     func createUI() {
@@ -135,6 +138,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         
                         let resultDic = result as! Dictionary<String, Any>
                         if resultDic["State"] as! Int == 100{
+                            ArchiveRoot(userInfo: user)
+                            Defaultinfos.putKeyWithInt(key: UserID, value: Int(user.userId!)!)
+                             JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
                             DispatchQueue.main.async() { () -> Void in
                                 MBProgressHUD.hide()
                                 MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
@@ -192,6 +198,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                     ArchiveRoot(userInfo: itemUser)
                                 }
                                 if i == (items.count - 1){
+                                    JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
                                     DispatchQueue.main.async() { () -> Void in
                                         MBProgressHUD.hide()
                                         MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
@@ -234,6 +241,12 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         }) { (URLSessionDataTask, Error) in
             MBProgressHUD.hide()
             MBProgressHUD.showError(Error.localizedDescription)
+        }
+    }
+    
+    @objc func tagsAliasCallback(resCode:CInt, tags:NSSet, alias:NSString) {
+        if resCode != 0 {
+            JPUSHService.setTags(nil, aliasInbackground: "U" + (UnarchiveUser()?.userId)!)
         }
     }
     

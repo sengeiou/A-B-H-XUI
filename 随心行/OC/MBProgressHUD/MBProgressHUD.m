@@ -543,8 +543,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		totalSize.height += kPadding;
 	}
 	
-	totalSize.width +=  2 * margin;
-	totalSize.height += 2 * margin;
+    if ([label.text isEqualToString:@""]) {
+        totalSize.width +=  2 * margin;
+        totalSize.height += 1 * margin;
+    }
+    else{
+        totalSize.width +=  2 * margin;
+        totalSize.height += 2 * margin;
+    }
 	
 	// Position elements
 	CGFloat yPos = roundf(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
@@ -633,7 +639,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     //size.height
     
 	CGRect boxRect = CGRectMake(roundf((allRect.size.width - size.width) / 2) + self.xOffset,
-								roundf((allRect.size.height - size.height) / 2) + self.yOffset, size.width, 120);
+								roundf((allRect.size.height - size.height) / 2) + self.yOffset, size.width, size.height);
 	float radius = 10.0f;
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, CGRectGetMinX(boxRect) + radius, CGRectGetMinY(boxRect));

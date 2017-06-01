@@ -84,7 +84,7 @@ class DeviceView: UIView,UITableViewDelegate,UITableViewDataSource {
             cell?.accessoryView = nil
         }
         cell?.imageView?.layer.masksToBounds = true
-        cell?.imageView?.layer.cornerRadius = 44.0/2
+        cell?.imageView?.layer.cornerRadius = (cell?.imageView?.image?.size.height)!/2
         return cell!
     }
     

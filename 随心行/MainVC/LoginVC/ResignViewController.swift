@@ -86,7 +86,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
         let httpMar = MyHttpSessionMar.shared
         let parameterDic = RequestKeyDic()
         parameterDic.addEntries(from: ["LoginName":accTexfild.text!])
-        print(parameterDic)
+        
         if changePass {
             let parameters:Dictionary<String,String> = ["Phone":self.accTexfild.text!,"VildateSence":"1","Token":"","Language":systLanage(),"AppId":"71"]
             print( parameters)
@@ -112,6 +112,8 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
             }
         return
         }
+        parameterDic.addEntries(from: ["Token" : ""])
+        print(parameterDic)
         httpMar.post(Prefix + "api/User/CheckUser", parameters: parameterDic, progress: { (Progress) in
             
         }, success: { (URLSessionDataTask, result) in
@@ -245,6 +247,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 user.userPass = self.passFild.text
                 user.userPh = self.accTexfild.text
                 ArchiveRoot(userInfo: user)
+                JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
                 Defaultinfos.putKeyWithNsobject(key: Account, value: self.accTexfild.text!)
                 Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"] as! String)
                 print((resultDic["User"]! as! Dictionary<String, Any>)["UserId"]!)
@@ -276,5 +279,11 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
             view.endEditing(true)
         }
         return true
+    }
+    
+    @objc func tagsAliasCallback(resCode:CInt, tags:NSSet, alias:NSString) {
+        if resCode != 0 {
+            JPUSHService.setTags(nil, aliasInbackground: "U" + (UnarchiveUser()?.userId)!)
+        }
     }
 }

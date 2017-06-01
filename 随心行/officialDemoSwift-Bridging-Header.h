@@ -21,4 +21,5 @@
 #import "SpeechSynthesizer.h"
 #import "FSCalendar.h"
 #import "NSDate+FSExtension.h"
+#import "JPUSHService.h"
 #endif /* officialDemoSwift_Bridging_Header_h */

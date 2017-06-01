@@ -144,7 +144,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                                       "Weight": "",
                                       "Avatar": user!.deviceIma!,
                                       "UserId": Defaultinfos.getIntValueForKey(key: UserID),
-                                      "Sim": "",
+                                      "Sim": devicePh.text!,
                                       "Age": "",
                                       "BloodType": "",
                                       "CellPhone":devicePh.text!,
@@ -201,7 +201,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         if ((info[UIImagePickerControllerMediaType] as! String) == kUTTypeImage as String) {
             image = info[UIImagePickerControllerEditedImage] as? UIImage
             let baseData = UIImageJPEGRepresentation(image!, 1)?.base64EncodedString()
-            print("头像")
+            print("头像 \(image?.size)  (((  \(info)")
             user?.deviceIma = baseData
             
         }

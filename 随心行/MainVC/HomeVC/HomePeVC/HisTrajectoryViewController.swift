@@ -416,10 +416,10 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
                     iamge = #imageLiteral(resourceName: "icon_img_3")
                 }
                 if annotation as? MAAnimatedAnnotation == annotations[1] {
-                    imge = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawCornerIma(Sise: nil))
+                    imge = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawSquareIma(Sise: nil).drawCornerIma(Sise: nil))
                 }
                 if annotation as? MAAnimatedAnnotation == annotations[2] {
-                    imge = #imageLiteral(resourceName: "ic_dingwei_zd").mergeIma(ima: iamge!.drawCornerIma(Sise: nil))
+                    imge = #imageLiteral(resourceName: "ic_dingwei_zd").mergeIma(ima: iamge!.drawSquareIma(Sise: nil).drawCornerIma(Sise: nil))
                 }
             }
             annotationView?.image =  imge

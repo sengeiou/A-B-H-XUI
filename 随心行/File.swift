@@ -47,6 +47,7 @@ func getNewUser() -> UserInfo {
     user.deviceId = ""
     user.devicePh = ""
     user.deviceIma = ""
+    user.deviceName = ""
     user.relatoin = ""
     user.userName = ""
     user.userPass = ""
@@ -168,7 +169,7 @@ extension UIImage{
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         self.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 //        UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: size.width - 4, height: size.width - 4), cornerRadius: (size.width - 4)/2).addClip()
-        ima.draw(in: CGRect(x: 2, y: 2, width: size.width - 4, height: size.width - 4))
+        ima.draw(in: CGRect(x: 3, y: 3, width: size.width - 6, height: size.width - 6))
         let callBackIma = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return callBackIma!
@@ -181,8 +182,26 @@ extension UIImage{
             imaSise = self.size
         }
         UIGraphicsBeginImageContextWithOptions(self.size, false, 0.0)
-        UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.size.width , height: self.size.width), cornerRadius: (self.size.width)/2).addClip()
-        self.draw(in: CGRect(x: 0, y: 0, width: (imaSise?.width)! , height: (imaSise?.width)!))
+        UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: self.size.height , height: self.size.height), cornerRadius: (self.size.height)/2).addClip()
+        self.draw(in: CGRect(x: 0, y: 0, width: (imaSise?.height)! , height: (imaSise?.height)!))
+        let callBackIma = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return callBackIma!
+    }
+    
+    //绘制圆角图片
+    func drawSquareIma(Sise: CGSize?) -> UIImage {
+        var imaSise:CGSize? = Sise
+        if imaSise == nil {
+            imaSise = self.size
+        }
+        var sizeWeigh: CGFloat = (imaSise?.width)!
+        if sizeWeigh < (imaSise?.height)! {
+            sizeWeigh = (imaSise?.height)!
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: sizeWeigh, height: sizeWeigh), false, 0.0)
+        self.draw(in: CGRect(x: 0, y: 0, width: sizeWeigh , height: sizeWeigh))
         let callBackIma = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return callBackIma!
