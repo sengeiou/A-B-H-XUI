@@ -248,6 +248,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                     }
                     else{
                         MBProgressHUD.showError(StrongGoString(object: dic["Message"]))
+                        self.navigationController?.popViewController(animated: true)
                     }
                     self.activityIndicatorView?.stopAnimating()
                 }, failure: { (URLSessionDataTask, Error) in

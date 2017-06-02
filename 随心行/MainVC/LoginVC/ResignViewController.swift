@@ -61,6 +61,8 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
     }
     
     func createUI() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeActivity(not:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         title = Localizeable(key: "创建账号") as String
         if changePass {
             title = Localizeable(key: "忘记密码") as String
@@ -208,12 +210,12 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 
             }, success: { (URLSessionDataTask, result) in
                 print("loginResult \(result)")
+                 MBProgressHUD.hide()
                 let resultDic = result as! Dictionary<String, Any>
                 if resultDic["State"] as! Int != 0{
                     MBProgressHUD.showError(resultDic["Message"] as! String)
                 }
                 else{
-                    MBProgressHUD.hide()
                     MBProgressHUD.showSuccess(Localizeable(key: "修改成功") as String!)
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                         //code
@@ -282,8 +284,16 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func tagsAliasCallback(resCode:CInt, tags:NSSet, alias:NSString) {
+         print("tagsAliasCallback \(resCode)")
         if resCode != 0 {
             JPUSHService.setTags(nil, aliasInbackground: "U" + (UnarchiveUser()?.userId)!)
         }
+    }
+    
+    func becomeActivity(not:Notification){
+        accTexfild.resignFirstResponder()
+        passFild.resignFirstResponder()
+        againFild.resignFirstResponder()
+        codeFild.resignFirstResponder()
     }
 }

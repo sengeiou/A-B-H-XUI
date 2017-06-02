@@ -19,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Defaultinfos.removeValueForKey(key: Account)
 //        Defaultinfos.putKeyWithNsobject(key: Account, value: "333")
@@ -100,9 +99,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
         AMapServices.shared().apiKey = "6ac033c36632fb55fa0c057059298c37"
         UIApplication.shared.statusBarStyle = .lightContent
         UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(networkDidRegister(_:)), name: NSNotification.Name.jpfNetworkDidRegister, object: nil)
         return true
     }
 
+    func networkDidRegister(_ notification:Notification) {
+        print("已注册")
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -170,13 +175,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
             JPUSHService.handleRemoteNotification(userInfo)
              print("返回通知信息: \(userInfo)")
             print("iOS10 前台收到远程通知 \(self.logDic(dic: userInfo as NSDictionary))")
-            let view = UILabel(frame: CGRect(x: 0, y: 0, width: 320, height: 420))
-            view.backgroundColor = UIColor.blue
-            view.text = userInfo.description
-            view.numberOfLines = 0
-            view.alpha = 0.7
-            self.window?.addSubview(view)
+            guard let type = userInfo["DataType"] as? String, Int(type) == 3 , let apsDic = userInfo["aps"] as? NSDictionary,let alert = apsDic["alert"] as? String,let status = userInfo["Status"] as? String , Int(status) == 1  else {
+                return
+            }
+            let aler = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
+            let refuseAct = UIAlertAction(title: Localizeable(key: "拒绝") as String, style: .default, handler: { (UIAlertAction) in
+                let requDic = RequestKeyDic()
+                requDic.addEntries(from: ["RequestId": userInfo["RequestID"]!,
+                                          "TypeId": 2])
+                MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/Process", parameters: requDic, progress: { (Progress) in
+                    
+                }, success: { (URLSessionDataTask, result) in
+                     let resultDic = result as! Dictionary<String, Any>
+                    if resultDic["State"] as! Int == 0{
+                        
+                    }
+                    else{
+                        MBProgressHUD.showError(resultDic["Message"] as! String)
+                    }
 
+                }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.showError(Error.localizedDescription)
+                })
+            })
+            let consentAct = UIAlertAction(title: Localizeable(key: "同意") as String, style: .default, handler: { (UIAlertAction) in
+                let requDic = RequestKeyDic()
+                requDic.addEntries(from: ["RequestId": userInfo["RequestID"]!,
+                                          "TypeId": 1])
+                MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/Process", parameters: requDic, progress: { (Progress) in
+                    
+                }, success: { (URLSessionDataTask, result) in
+                    let resultDic = result as! Dictionary<String, Any>
+                    if resultDic["State"] as! Int == 0{
+                        
+                    }
+                    else{
+                        MBProgressHUD.showError(resultDic["Message"] as! String)
+                    }
+                    
+                }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.showError(Error.localizedDescription)
+                })
+            })
+            aler.addAction(refuseAct)
+            aler.addAction(consentAct)
+            self.window?.rootViewController?.present(aler, animated: true, completion: { 
+                
+            })
         }
         else{
             print(String.init(format: "iOS10 本地通知:{\nbody:%@，\ntitle:%@,\nsubtitle:%@,\nbadge：%@，\nsound：%@，\nuserInfo：%@\n}", body,title,subtitle,badge!,sound!,userInfo))

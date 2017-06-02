@@ -55,6 +55,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     func initializeMehod() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(not:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHidden(not:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeActivity(not:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     @IBAction func findPassSelect(){
@@ -140,7 +141,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         if resultDic["State"] as! Int == 100{
                             ArchiveRoot(userInfo: user)
                             Defaultinfos.putKeyWithInt(key: UserID, value: Int(user.userId!)!)
-                             JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
+                            JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
                             DispatchQueue.main.async() { () -> Void in
                                 MBProgressHUD.hide()
                                 MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
@@ -245,6 +246,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     }
     
     @objc func tagsAliasCallback(resCode:CInt, tags:NSSet, alias:NSString) {
+        print("tagsAliasCallback \(resCode)")
         if resCode != 0 {
             JPUSHService.setTags(nil, aliasInbackground: "U" + (UnarchiveUser()?.userId)!)
         }
@@ -265,6 +267,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         UIView.animate(withDuration: TimeInterval(duration)) {
             self.view.transform = CGAffineTransform.identity
         }
+    }
+    
+    func becomeActivity(not:Notification){
+        accFie.resignFirstResponder()
+        passFie.resignFirstResponder()
     }
 }
 
