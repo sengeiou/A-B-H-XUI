@@ -230,15 +230,16 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                     let user = getNewUser()
                     user.userId = String(format: "%d", Defaultinfos.getIntValueForKey(key: UserID))
                     user.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
-                    let fmdb = FMDbase.shared()
-                   
+//                    let fmdb = FMDbase.shared()
+                   relationVC.user = user
                     //记录已选中设备信息
-                    let userInfo = UnarchiveUser()
-                    userInfo?.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
-                    ArchiveRoot(userInfo: userInfo!)
                     
                     if dic["State"] as! Int == 0{
-                         fmdb.insertUserInfo(userInfo: user)
+//                        let userInfo = UnarchiveUser()
+//                        userInfo?.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
+//                        ArchiveRoot(userInfo: userInfo!)
+//                         fmdb.insertUserInfo(userInfo: user)
+                        
                         relationVC.isGuardian = true
                         self.navigationController?.pushViewController(relationVC, animated: true)
                     }

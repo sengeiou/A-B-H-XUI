@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GPSViewController" customModule="随心行" customModuleProvider="target">
+            <connections>
+                <outlet property="normalBut" destination="k2Z-Rm-fxg" id="VYD-kb-f4B"/>
+                <outlet property="saveBut" destination="fL0-0f-RJz" id="F9E-Tp-ybo"/>
+                <outlet property="trackingBut" destination="sJd-W1-SGZ" id="8ve-Do-ZCb"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2Z-Rm-fxg">
+                    <rect key="frame" x="0.0" y="0.0" width="124" height="100"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="正常模式" image="btn_choose">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="btn_choose_pre"/>
+                    <connections>
+                        <action selector="gpsTypeSelect:" destination="-1" eventType="touchUpInside" id="osZ-vg-SCh"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fL0-0f-RJz">
+                    <rect key="frame" x="126" y="0.0" width="123" height="100"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="zTA-QA-gSN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <inset key="titleEdgeInsets" minX="-12" minY="-30" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="48" minY="40" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="省电模式" image="btn_choose">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="btn_choose_pre"/>
+                    <connections>
+                        <action selector="gpsTypeSelect:" destination="-1" eventType="touchUpInside" id="gxX-nM-G1k"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sJd-W1-SGZ">
+                    <rect key="frame" x="251" y="0.0" width="124" height="100"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <inset key="titleEdgeInsets" minX="-12" minY="-30" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="48" minY="40" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="跟踪模式" image="btn_choose">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="btn_choose_pre"/>
+                    <connections>
+                        <action selector="gpsTypeSelect:" destination="-1" eventType="touchUpInside" id="k54-Kb-eRA"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jc4-nI-lQY">
+                    <rect key="frame" x="0.0" y="110" width="375" height="80"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="正常模式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oeM-1R-iCO">
+                            <rect key="frame" x="20" y="0.0" width="339" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="zP1-7F-FYI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GPS定位：白天（30分钟/次）晚上（60分钟/次）" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bGb-wA-8EM">
+                            <rect key="frame" x="20" y="35" width="339" height="39"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="bGb-wA-8EM" secondAttribute="trailing" constant="16" id="0pq-k4-MgI"/>
+                        <constraint firstItem="oeM-1R-iCO" firstAttribute="top" secondItem="Jc4-nI-lQY" secondAttribute="top" id="3ea-Mk-kru"/>
+                        <constraint firstAttribute="trailing" secondItem="oeM-1R-iCO" secondAttribute="trailing" constant="16" id="K06-qt-UST"/>
+                        <constraint firstAttribute="bottom" secondItem="bGb-wA-8EM" secondAttribute="bottom" constant="6" id="LxB-nA-efn"/>
+                        <constraint firstAttribute="height" constant="80" id="U9D-b5-Nco"/>
+                        <constraint firstItem="bGb-wA-8EM" firstAttribute="leading" secondItem="Jc4-nI-lQY" secondAttribute="leading" constant="20" id="cTq-1W-kyt"/>
+                        <constraint firstItem="bGb-wA-8EM" firstAttribute="top" secondItem="oeM-1R-iCO" secondAttribute="bottom" id="wIH-fy-UNo"/>
+                        <constraint firstItem="oeM-1R-iCO" firstAttribute="leading" secondItem="Jc4-nI-lQY" secondAttribute="leading" constant="20" id="waG-hL-VJZ"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0C-Gg-Prg">
+                    <rect key="frame" x="0.0" y="191" width="375" height="80"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="省电模式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEI-S8-1Lx">
+                            <rect key="frame" x="20" y="0.0" width="339" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="Ebv-k6-XKt"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GPS定位：白天（60分钟/次）晚上（120分钟/次）" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MJg-Zd-gGU">
+                            <rect key="frame" x="20" y="35" width="339" height="39"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="IFk-nT-hG4"/>
+                        <constraint firstItem="MJg-Zd-gGU" firstAttribute="top" secondItem="bEI-S8-1Lx" secondAttribute="bottom" id="TDI-P1-zxK"/>
+                        <constraint firstAttribute="trailing" secondItem="bEI-S8-1Lx" secondAttribute="trailing" constant="16" id="UZi-8b-zcs"/>
+                        <constraint firstAttribute="trailing" secondItem="MJg-Zd-gGU" secondAttribute="trailing" constant="16" id="VWF-3s-daO"/>
+                        <constraint firstAttribute="bottom" secondItem="MJg-Zd-gGU" secondAttribute="bottom" constant="6" id="apW-8o-5Zb"/>
+                        <constraint firstItem="bEI-S8-1Lx" firstAttribute="leading" secondItem="S0C-Gg-Prg" secondAttribute="leading" constant="20" id="lXg-h5-t1t"/>
+                        <constraint firstItem="bEI-S8-1Lx" firstAttribute="top" secondItem="S0C-Gg-Prg" secondAttribute="top" id="mUU-9k-Vhv"/>
+                        <constraint firstItem="MJg-Zd-gGU" firstAttribute="leading" secondItem="S0C-Gg-Prg" secondAttribute="leading" constant="20" id="ouJ-IN-aje"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NHh-eT-ucs">
+                    <rect key="frame" x="0.0" y="272" width="375" height="80"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="跟踪模式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u7L-Z9-OuU">
+                            <rect key="frame" x="20" y="0.0" width="339" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="WSK-8F-a1f"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GPS定位：白天（10分钟/次）晚上（30分钟/次）" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eYU-Yb-AaE">
+                            <rect key="frame" x="20" y="35" width="339" height="39"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="eYU-Yb-AaE" secondAttribute="trailing" constant="16" id="KJZ-Fy-1KK"/>
+                        <constraint firstItem="u7L-Z9-OuU" firstAttribute="top" secondItem="NHh-eT-ucs" secondAttribute="top" id="KSq-Rr-ru5"/>
+                        <constraint firstItem="u7L-Z9-OuU" firstAttribute="leading" secondItem="NHh-eT-ucs" secondAttribute="leading" constant="20" id="Kc2-df-GKj"/>
+                        <constraint firstAttribute="trailing" secondItem="u7L-Z9-OuU" secondAttribute="trailing" constant="16" id="MS5-Ic-7jg"/>
+                        <constraint firstAttribute="height" constant="80" id="OKv-KV-KKQ"/>
+                        <constraint firstItem="eYU-Yb-AaE" firstAttribute="top" secondItem="u7L-Z9-OuU" secondAttribute="bottom" id="ara-CK-zsk"/>
+                        <constraint firstAttribute="bottom" secondItem="eYU-Yb-AaE" secondAttribute="bottom" constant="6" id="hpd-h1-bbL"/>
+                        <constraint firstItem="eYU-Yb-AaE" firstAttribute="leading" secondItem="NHh-eT-ucs" secondAttribute="leading" constant="20" id="pMY-ND-Hou"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.92537945508956909" green="0.92556017637252808" blue="0.92537814378738403" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Jc4-nI-lQY" firstAttribute="top" secondItem="sJd-W1-SGZ" secondAttribute="bottom" constant="10" id="AKg-bY-XkZ"/>
+                <constraint firstItem="k2Z-Rm-fxg" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="1/3" constant="-1" id="B8h-gY-hAe"/>
+                <constraint firstItem="Jc4-nI-lQY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BtE-Xt-esm"/>
+                <constraint firstItem="NHh-eT-ucs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DdV-7r-HnW"/>
+                <constraint firstAttribute="trailing" secondItem="S0C-Gg-Prg" secondAttribute="trailing" id="Hn8-yH-vtH"/>
+                <constraint firstItem="fL0-0f-RJz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Kda-8V-z3R"/>
+                <constraint firstItem="fL0-0f-RJz" firstAttribute="bottom" secondItem="k2Z-Rm-fxg" secondAttribute="bottom" id="Kdx-wL-Dfr"/>
+                <constraint firstItem="k2Z-Rm-fxg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NXb-gK-HvJ"/>
+                <constraint firstAttribute="trailing" secondItem="NHh-eT-ucs" secondAttribute="trailing" id="QZA-yM-94E"/>
+                <constraint firstItem="S0C-Gg-Prg" firstAttribute="top" secondItem="Jc4-nI-lQY" secondAttribute="bottom" constant="1" id="UWK-Np-RD1"/>
+                <constraint firstItem="fL0-0f-RJz" firstAttribute="top" secondItem="k2Z-Rm-fxg" secondAttribute="top" id="VaZ-dw-Aaa"/>
+                <constraint firstItem="sJd-W1-SGZ" firstAttribute="bottom" secondItem="k2Z-Rm-fxg" secondAttribute="bottom" id="atW-Fk-IQy"/>
+                <constraint firstItem="sJd-W1-SGZ" firstAttribute="top" secondItem="k2Z-Rm-fxg" secondAttribute="top" id="gzm-gi-2QW"/>
+                <constraint firstItem="S0C-Gg-Prg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hip-f7-YDm"/>
+                <constraint firstAttribute="trailing" secondItem="sJd-W1-SGZ" secondAttribute="trailing" id="lLT-1w-X46"/>
+                <constraint firstItem="fL0-0f-RJz" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rFa-Te-pkw"/>
+                <constraint firstItem="fL0-0f-RJz" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="1/3" constant="-2" id="rlu-zB-X4o"/>
+                <constraint firstItem="NHh-eT-ucs" firstAttribute="top" secondItem="S0C-Gg-Prg" secondAttribute="bottom" constant="1" id="tKk-vT-49I"/>
+                <constraint firstItem="sJd-W1-SGZ" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="1/3" constant="-1" id="tmt-fQ-jDT"/>
+                <constraint firstAttribute="trailing" secondItem="Jc4-nI-lQY" secondAttribute="trailing" id="yWr-JS-EoQ"/>
+            </constraints>
+            <point key="canvasLocation" x="-18" y="30"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_choose" width="15" height="15"/>
+        <image name="btn_choose_pre" width="15" height="15"/>
+    </resources>
+</document>

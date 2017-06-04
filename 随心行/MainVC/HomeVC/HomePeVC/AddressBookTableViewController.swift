@@ -11,6 +11,8 @@ import UIKit
 class AddressBookTableViewController: UITableViewController,familyDelegate {
     var userInfo: UserInfo!
     var deviceInfo: NSMutableArray!
+    var headCell: Int = 1
+    var IsAdmin: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Localizeable(key: "手表通讯录") as String
@@ -40,10 +42,12 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
                 MBProgressHUD.hide()
                 self.tableView.reloadData()
             }
-            //            for i in 0...(items.count - 1){
-            //                let itemDic = items[i]
-            //
-            //            }
+            for i in 0...(items.count - 1){
+                let itemDic = items[i]
+                if (self.userInfo.userId == StrongGoString(object: itemDic["UserId"]) && Int((itemDic["IsAdmin"] as? NSNumber)!) == 1){
+                    self.headCell = 2
+                }
+            }
             
             print("resultDic \(self.deviceInfo)")
         }) { (URLSessionDataTask, Error) in
@@ -62,7 +66,7 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if section == 0 {
-            return 2
+            return headCell
         }
         return deviceInfo.count
     }
@@ -132,19 +136,20 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
             if Int((itemDic["IsAdmin"] as? NSNumber)!) == 1{
                 cell?.accessoryType = .disclosureIndicator
                 if userInfo.userPh == StrongGoString(object: itemDic.object(forKey: "RelationPhone")) {
-                     cell?.textLabel?.attributedText = attributedString(strArr: [String.init(format: "我(%@)", StrongGoString(object: itemDic.object(forKey: "RelationName"))),Localizeable(key: " (管理员)") as String], fontArr: [UIFont .systemFont(ofSize: 20),UIFont .systemFont(ofSize: 16)], colorArr: [UIColor.black,ColorFromRGB(rgbValue: 0x59AAFD)])
+                    IsAdmin = true
+                    cell?.textLabel?.attributedText = attributedString(strArr: [String.init(format: "我(%@)", StrongGoString(object: itemDic.object(forKey: "RelationName"))),Localizeable(key: " (管理员)") as String], fontArr: [UIFont .systemFont(ofSize: 20),UIFont .systemFont(ofSize: 16)], colorArr: [UIColor.black,ColorFromRGB(rgbValue: 0x59AAFD)])
                 }
                 else{
-                     cell?.textLabel?.attributedText = attributedString(strArr: [String.init(format: "%@", StrongGoString(object: itemDic.object(forKey: "RelationName"))),Localizeable(key: " (管理员)") as String], fontArr: [UIFont .systemFont(ofSize: 20),UIFont .systemFont(ofSize: 16)], colorArr: [UIColor.black,ColorFromRGB(rgbValue: 0x59AAFD)])
+                    cell?.textLabel?.attributedText = attributedString(strArr: [String.init(format: "%@", StrongGoString(object: itemDic.object(forKey: "RelationName"))),Localizeable(key: " (管理员)") as String], fontArr: [UIFont .systemFont(ofSize: 20),UIFont .systemFont(ofSize: 16)], colorArr: [UIColor.black,ColorFromRGB(rgbValue: 0x59AAFD)])
                 }
             }
             else{
                 cell?.accessoryType = .disclosureIndicator
                 if userInfo.userPh == StrongGoString(object: itemDic.object(forKey: "RelationPhone")) {
-                    cell?.textLabel?.attributedText = attributedString(strArr: [String.init(format: "我(%@)", StrongGoString(object: itemDic.object(forKey: "RelationName")))], fontArr: [UIFont .systemFont(ofSize: 20)], colorArr: [UIColor.white])
+                    cell?.textLabel?.attributedText = attributedString(strArr: [String.init(format: "我(%@)", StrongGoString(object: itemDic.object(forKey: "RelationName")))], fontArr: [UIFont .systemFont(ofSize: 20)], colorArr: [UIColor.black])
                 }
                 else{
-                cell?.textLabel?.attributedText = attributedString(strArr: [StrongGoString(object: itemDic.object(forKey: "RelationName"))], fontArr: [UIFont .systemFont(ofSize: 20)], colorArr: [UIColor.white])
+                    cell?.textLabel?.attributedText = attributedString(strArr: [StrongGoString(object: itemDic.object(forKey: "RelationName"))], fontArr: [UIFont .systemFont(ofSize: 20)], colorArr: [UIColor.black])
                 }
             }
         }
@@ -161,12 +166,13 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
             let familyVC = FamilyViewController(nibName: "FamilyViewController", bundle: nil)
             familyVC.relationDic = deviceInfo[indexPath.row] as! NSDictionary
             familyVC.delegate = self
+            familyVC.IsAdmin = IsAdmin
             navigationController?.pushViewController(familyVC, animated: true)
         }
     }
     
     func permissionManagers() {
-        
+        initializeMethod()
     }
     
     func  delegateRelation(relationDic: NSDictionary){

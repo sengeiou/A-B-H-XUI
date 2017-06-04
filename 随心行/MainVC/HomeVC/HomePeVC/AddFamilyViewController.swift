@@ -17,6 +17,10 @@ class AddFamilyViewController: UIViewController {
      title = Localizeable(key: "完善家人信息") as String
         // Do any additional setup after loading the view.
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

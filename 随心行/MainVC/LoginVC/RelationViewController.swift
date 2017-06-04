@@ -16,6 +16,7 @@ class RelationViewController: UIViewController {
     @IBOutlet weak var requestBut: UIButton!
     var isGuardian: Bool = false
     var relationIndex: Int = 0
+    var user: UserInfo!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +80,7 @@ class RelationViewController: UIViewController {
             otherFile.becomeFirstResponder()
             return;
         }
-        let user = UnarchiveUser()!
+//        user = UnarchiveUser()!
         let parameterDic = RequestKeyDic()
         MBProgressHUD.showMessage(Localizeable(key: "请求中...") as String)
         
@@ -95,13 +96,14 @@ class RelationViewController: UIViewController {
             MBProgressHUD.hide()
             if dic["State"] as! Int == 0{
                 let fmdbase = FMDbase.shared()
-                let newuser = fmdbase.selectUser(userid: user.userId!, deviceid: user.deviceId!)
-                newuser?.relatoin = self.relationName()
-                fmdbase.insertUserInfo(userInfo: newuser!)
+//                let newuser = fmdbase.selectUser(userid: self.user.userId!, deviceid: self.user.deviceId!)
+                self.user.relatoin = self.relationName()
                 
-                user.userName = self.nickNameFile.text!
-                user.relatoin = self.relationName()
-                ArchiveRoot(userInfo: user)
+                self.user.userName = self.nickNameFile.text!
+                self.user.relatoin = self.relationName()
+                print("666666 \(self.user.userPh)")
+                ArchiveRoot(userInfo: self.user)
+                fmdbase.insertUserInfo(userInfo: self.user)
                 self.navigationController?.pushViewController(DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil), animated: true)
             }
             else if(dic["State"] as! Int == 1500 || dic["State"] as! Int == 1501){

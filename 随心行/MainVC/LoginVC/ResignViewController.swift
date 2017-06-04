@@ -248,14 +248,52 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 user.userId = String.init(format: "%d", (resultDic["User"]! as! Dictionary<String, Any>)["UserId"]! as! Int)
                 user.userPass = self.passFild.text
                 user.userPh = self.accTexfild.text
+                print("777777 \(user.userPh)")
                 ArchiveRoot(userInfo: user)
                 JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
                 Defaultinfos.putKeyWithNsobject(key: Account, value: self.accTexfild.text!)
                 Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"] as! String)
                 print((resultDic["User"]! as! Dictionary<String, Any>)["UserId"]!)
                 Defaultinfos.putKeyWithInt(key: UserID, value: (resultDic["User"]! as! Dictionary<String, Any>)["UserId"]! as! Int)
-                print("account \(Defaultinfos.getValueForKey(key: Account))  \(Defaultinfos.getValueForKey(key: AccountToken))")
-                self.navigationController?.pushViewController(BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil), animated: true)
+                
+                let requestDic = RequestKeyDic()
+                let timeZone = NSTimeZone.system
+                let interval = timeZone.secondsFromGMT()
+                requestDic.addEntries(from: ["UserId": StrongGoString(object: (user.userId)!),
+                                             "GroupId": "",
+                                             "MapType": "",
+                                             "LastTime": Date().description,
+                                             "TimeOffset": NSNumber(integerLiteral: interval/3600),
+                                             "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
+                
+                 httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
+                    
+                 }, success: { (URLSessionDataTask, result) in
+                    let resultDic = result as! Dictionary<String, Any>
+                    let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
+                    if items.count > 0{
+                        let homeVC = HomeViewController()
+                        homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                        let homeNav = NavViewController(rootViewController: homeVC)
+                        
+                        let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                        messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                        let messNav = NavViewController(rootViewController: messVC)
+                        
+                        let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                        meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                        let meNav = NavViewController(rootViewController: meVC)
+                        
+                        let tabVC = UITabBarController()
+                        tabVC.viewControllers = [homeNav,messNav,meNav]
+                        UIApplication.shared.keyWindow?.rootViewController = tabVC
+                    }
+                    else{
+                        self.navigationController?.pushViewController(BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil), animated: true)
+                    }
+                 }, failure: { (URLSessionDataTask, Error) in
+                     MBProgressHUD.showError(Error.localizedDescription)
+                 })
             }
         }) { (URLSessionDataTask, Error) in
             MBProgressHUD.hide()

@@ -43,6 +43,10 @@
 		EE4717401EC3018B00AB4CA4 /* NSDate+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717371EC3018B00AB4CA4 /* NSDate+FSExtension.m */; };
 		EE4717411EC3018B00AB4CA4 /* UIScrollView+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4717391EC3018B00AB4CA4 /* UIScrollView+FSExtension.m */; };
 		EE4717421EC3018B00AB4CA4 /* UIView+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE47173B1EC3018B00AB4CA4 /* UIView+FSExtension.m */; };
+		EE4E6B4E1EE2A07800D1E3D5 /* MoreSetTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4E6B4C1EE2A07800D1E3D5 /* MoreSetTableViewController.swift */; };
+		EE4E6B4F1EE2A07800D1E3D5 /* MoreSetTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE4E6B4D1EE2A07800D1E3D5 /* MoreSetTableViewController.xib */; };
+		EE4E6B521EE2AA2E00D1E3D5 /* GPSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4E6B501EE2AA2E00D1E3D5 /* GPSViewController.swift */; };
+		EE4E6B531EE2AA2E00D1E3D5 /* GPSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE4E6B511EE2AA2E00D1E3D5 /* GPSViewController.xib */; };
 		EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */; };
 		EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */; };
 		EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */; };
@@ -137,6 +141,10 @@
 		EE4717391EC3018B00AB4CA4 /* UIScrollView+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+FSExtension.m"; sourceTree = "<group>"; };
 		EE47173A1EC3018B00AB4CA4 /* UIView+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSExtension.h"; sourceTree = "<group>"; };
 		EE47173B1EC3018B00AB4CA4 /* UIView+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSExtension.m"; sourceTree = "<group>"; };
+		EE4E6B4C1EE2A07800D1E3D5 /* MoreSetTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreSetTableViewController.swift; sourceTree = "<group>"; };
+		EE4E6B4D1EE2A07800D1E3D5 /* MoreSetTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreSetTableViewController.xib; sourceTree = "<group>"; };
+		EE4E6B501EE2AA2E00D1E3D5 /* GPSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPSViewController.swift; sourceTree = "<group>"; };
+		EE4E6B511EE2AA2E00D1E3D5 /* GPSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GPSViewController.xib; sourceTree = "<group>"; };
 		EE5D65D81EBD7FC10055B657 /* DeviceToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceToolView.swift; sourceTree = "<group>"; };
 		EE7634291EA9FA4A0043FEC3 /* RelationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelationViewController.swift; sourceTree = "<group>"; };
 		EE76342A1EA9FA4A0043FEC3 /* RelationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelationViewController.xib; sourceTree = "<group>"; };
@@ -277,6 +285,10 @@
 				EEEF54BD1ED4166B006905A3 /* SecurityTableViewController.xib */,
 				EEEF54C41ED42C55006905A3 /* SecurityViewController.swift */,
 				EEEF54C51ED42C55006905A3 /* SecurityViewController.xib */,
+				EE4E6B4C1EE2A07800D1E3D5 /* MoreSetTableViewController.swift */,
+				EE4E6B4D1EE2A07800D1E3D5 /* MoreSetTableViewController.xib */,
+				EE4E6B501EE2AA2E00D1E3D5 /* GPSViewController.swift */,
+				EE4E6B511EE2AA2E00D1E3D5 /* GPSViewController.xib */,
 				EE2206DE1EB88D9D00885C15 /* VIEW */,
 				EEA67B1C1EBECF94000AAE88 /* MODE */,
 			);
@@ -550,10 +562,12 @@
 			files = (
 				EEF9DC5C1EC82BDC0097AC77 /* AddFamilyViewController.xib in Resources */,
 				EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */,
+				EE4E6B4F1EE2A07800D1E3D5 /* MoreSetTableViewController.xib in Resources */,
 				EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */,
 				EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */,
 				EE2206D61EB85F9200885C15 /* MeTableViewController.xib in Resources */,
 				EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */,
+				EE4E6B531EE2AA2E00D1E3D5 /* GPSViewController.xib in Resources */,
 				EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */,
 				EE7C35FA1E95DBFC000481E2 /* LaunchScreen.storyboard in Resources */,
 				EEEF54C71ED42C55006905A3 /* SecurityViewController.xib in Resources */,
@@ -637,6 +651,7 @@
 				EE47173F1EC3018B00AB4CA4 /* FSCalendarUnit.m in Sources */,
 				EEEF54BE1ED4166B006905A3 /* SecurityTableViewController.swift in Sources */,
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
+				EE4E6B4E1EE2A07800D1E3D5 /* MoreSetTableViewController.swift in Sources */,
 				EEEF54C61ED42C55006905A3 /* SecurityViewController.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
 				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
@@ -666,6 +681,7 @@
 				EE47173E1EC3018B00AB4CA4 /* FSCalendarPage.m in Sources */,
 				EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */,
 				EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */,
+				EE4E6B521EE2AA2E00D1E3D5 /* GPSViewController.swift in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
 				EEEF54C21ED41C6B006905A3 /* SecurityTableViewCell.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,

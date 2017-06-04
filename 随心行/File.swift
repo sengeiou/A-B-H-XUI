@@ -19,6 +19,18 @@ let Account = "ACCOUNT"
 
 let UserID = "USERID"
 
+let WORK_MODE = "0120"        //工作模式
+let DORMANT_TIME_BUCKET = "1020"  //晚间时间段
+let CHANGE_DEVICE = "2806"  //更换小普夹子
+let SOUND_SIZE = "2808"  //音量大小
+let LOCATION_REAL_TIME = "0039"  //即时定位
+let UPDATA_INTERVAL = "0003"  //上传间隔
+let SHIELD_OTHER_PHONE = "2807"  //屏蔽陌生号码开关
+let SET_WATCH_PHONE = "2807"  //设置手表号码
+let SHIELD_DEVICE = "2814"  //小普夹子开关
+let QUERY_TELEHONE_CHARGE = "2804"  //查询话费 cmdValue:app用户手机号码,目标号码,短信内容
+let GREET_CMD = "2810"  //问候指令 cmdvalue:app用户的手机号码,问候内容
+
 /*请求前缀*/
 let Prefix = "http://openapi.5gcity.com/"
 
@@ -236,6 +248,7 @@ func attributedString(strArr: Array<String>, fontArr: Array<UIFont>, colorArr: A
     for i in 0...(strArr.count - 1) {
         let dic:Dictionary = [NSForegroundColorAttributeName:colorArr[i%2],NSFontAttributeName:fontArr[i%2]]
         attrStr.append(NSAttributedString(string: strArr[i], attributes: dic))
+         print(attrStr)
     }
     return attrStr
 }

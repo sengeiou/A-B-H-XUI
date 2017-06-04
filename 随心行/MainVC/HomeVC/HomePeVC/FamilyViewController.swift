@@ -21,6 +21,7 @@ class FamilyViewController: UIViewController {
     @IBOutlet var transferBut: UIButton!
     @IBOutlet var deleteBut: UIButton!
     @IBOutlet var notTop: NSLayoutConstraint!
+    var IsAdmin: Bool! = false
     var relationDic: NSDictionary!
     var delegate: familyDelegate?
     override func viewDidLoad() {
@@ -48,6 +49,7 @@ class FamilyViewController: UIViewController {
         }
         relationLab.text = StrongGoString(object: relationDic.object(forKey: "RelationName"))
         phoneLab.text = StrongGoString(object: relationDic.object(forKey: "RelationPhone"))
+        print("relationDic \(relationDic)")
         if Int((relationDic["IsAdmin"] as? NSNumber)!) == 1{
             transferBut.isHidden = true
             deleteBut.isHidden = true
@@ -56,6 +58,12 @@ class FamilyViewController: UIViewController {
         }
         else{
             permissionsLab.text = Localizeable(key: "普通成员") as String
+            let user = UnarchiveUser()
+            if !IsAdmin{
+                transferBut.isHidden = true
+                deleteBut.isHidden = true
+                notTop.constant = -120
+            }
         }
 
     }
@@ -65,7 +73,7 @@ class FamilyViewController: UIViewController {
         let user = UnarchiveUser()
         let requestDic = RequestKeyDic()
         requestDic.addEntries(from: ["UserId": StrongGoString(object: user?.userId),
-                                     "DeviceId": StrongGoString(object: user?.deviceId),
+                                     "DeviceId": StrongGoString(object: relationDic.object(forKey: "DeviceId")),
                                      "UserGroupId": StrongGoString(object: relationDic.object(forKey: "UserGroupId"))])
         MyHttpSessionMar.shared.post(Prefix + "api/User/ChangeMasterUser", parameters: requestDic, progress: { (Progress) in
             
@@ -90,18 +98,14 @@ class FamilyViewController: UIViewController {
     }
     
     @IBAction func deleteSelect(_ sender: UIButton?) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.navigationController?.popViewController(animated: true)
-            self.delegate?.delegateRelation(relationDic: self.relationDic)
-        }
-        return
-        
         //        MBProgressHUD.showMessage(Localizeable(key: "删除中...") as String!)
+//        print(relationDic)
         let user = UnarchiveUser()
         let requestDic = RequestKeyDic()
-        requestDic.addEntries(from: ["UserId": StrongGoString(object: user?.userId),
-                                     "DeviceId": StrongGoString(object: user?.deviceId),
+        requestDic.addEntries(from: ["UserId":  StrongGoString(object: relationDic.object(forKey: "UserId")),
+                                     "DeviceId": StrongGoString(object: relationDic.object(forKey: "DeviceId")),
                                      "UserGroupId": StrongGoString(object: relationDic.object(forKey: "UserGroupId"))])
+        print("requestDic \(requestDic)")
         MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/RemoveShare", parameters: requestDic, progress: { (Progress) in
             
         }, success: { (URLSessionDataTask, request) in

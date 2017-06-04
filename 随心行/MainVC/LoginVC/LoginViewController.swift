@@ -139,6 +139,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         
                         let resultDic = result as! Dictionary<String, Any>
                         if resultDic["State"] as! Int == 100{
+                            print("44444 \(user.userPh)")
                             ArchiveRoot(userInfo: user)
                             Defaultinfos.putKeyWithInt(key: UserID, value: Int(user.userId!)!)
                             JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
@@ -180,7 +181,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
                             itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
                             itemUser.deviceName = StrongGoString(object: itemDic["NickName"])
-                            //                            itemUser.relatoin = ""
+                            //   itemUser.relatoin = ""
                             var url = StrongGoString(object: userDic["Avatar"])
                             if url == ""{
                                 url = "0"
@@ -196,6 +197,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                 logUser(user: itemUser)
                                 fmbase.insertUserInfo(userInfo: itemUser)
                                 if i == 0{
+                                    print("55555 \(itemUser.userPh)")
                                     ArchiveRoot(userInfo: itemUser)
                                 }
                                 if i == (items.count - 1){

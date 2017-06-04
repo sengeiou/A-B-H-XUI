@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        Defaultinfos.removeValueForKey(key: Account)
+//        Defaultinfos.removeValueForKey(key: Account)
 //        Defaultinfos.putKeyWithNsobject(key: Account, value: "333")
         let account1:String? = Defaultinfos.getValueForKey(key: Account) as? String
 //        print("首次  \(account1)")
@@ -147,13 +147,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
             JPUSHService.handleRemoteNotification(userInfo)
             print("返回通知信息: \(userInfo)")
             print("iOS10 接收远程通知 \(self.logDic(dic: userInfo as NSDictionary))")
-            let view = UILabel(frame: CGRect(x: 0, y: 0, width: 320, height: 410))
-            view.alpha = 0.8
-            view.backgroundColor = UIColor.green
-            view.text = userInfo.description
-            view.numberOfLines = 0
-            self.window?.addSubview(view)
-
+            guard let type = userInfo["DataType"] as? String, Int(type) == 3 , let apsDic = userInfo["aps"] as? NSDictionary,let alert = apsDic["alert"] as? String,let status = userInfo["Status"] as? String   else {
+                return
+            }
+            if Int(status) != 1 {
+                let aler = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
+                let consentAct = UIAlertAction(title: Localizeable(key: "确定") as String, style: .default, handler: { (UIAlertAction) in
+                    print("同意请求")
+//                    let user = UnarchiveUser()
+//                    user?.deviceId = userInfo["DeviceID"] as? String
+//                    ArchiveRoot(userInfo: user!)
+//                    NotificaCenter.post(name: Notification.Name(rawValue: "updateDevice"), object: self)
+                    NotificaCenter.removeObserver(self, name: Notification.Name(rawValue: "updateDevice"), object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updateDevice"), object: nil)
+                })
+                aler.addAction(consentAct)
+                self.window?.rootViewController?.present(aler, animated: true, completion: {
+                    
+                })
+                return
+            }
+            let aler = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
+            let refuseAct = UIAlertAction(title: Localizeable(key: "拒绝") as String, style: .default, handler: { (UIAlertAction) in
+                let requDic = RequestKeyDic()
+                requDic.addEntries(from: ["RequestId": userInfo["RequestID"]!,
+                                          "TypeId": 2])
+                MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/Process", parameters: requDic, progress: { (Progress) in
+                    
+                }, success: { (URLSessionDataTask, result) in
+                    let resultDic = result as! Dictionary<String, Any>
+                    if resultDic["State"] as! Int == 0{
+                        
+                    }
+                    else{
+                        MBProgressHUD.showError(resultDic["Message"] as! String)
+                    }
+                    
+                }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.showError(Error.localizedDescription)
+                })
+            })
+            let consentAct = UIAlertAction(title: Localizeable(key: "同意") as String, style: .default, handler: { (UIAlertAction) in
+                let requDic = RequestKeyDic()
+                requDic.addEntries(from: ["RequestId": userInfo["RequestID"]!,
+                                          "TypeId": 1])
+                MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/Process", parameters: requDic, progress: { (Progress) in
+                    
+                }, success: { (URLSessionDataTask, result) in
+                    let resultDic = result as! Dictionary<String, Any>
+                    if resultDic["State"] as! Int == 0{
+                        
+                    }
+                    else{
+                        MBProgressHUD.showError(resultDic["Message"] as! String)
+                    }
+                    
+                }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.showError(Error.localizedDescription)
+                })
+            })
+            aler.addAction(refuseAct)
+            aler.addAction(consentAct)
+            self.window?.rootViewController?.present(aler, animated: true, completion: {
+                
+            })
         }
         else{
             print(String.init(format: "iOS10 收到本地通知:{\nbody:%@，\ntitle:%@,\nsubtitle:%@,\nbadge：%@，\nsound：%@，\nuserInfo：%@\n}", body,title,subtitle,badge!,sound!,userInfo))
@@ -171,11 +228,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
         let sound = content.sound;  // 推送消息的声音
         let subtitle = content.subtitle;  // 推送消息的副标题
         let title = content.title;  // 推送消息的标题
+        
         if (notification.request.trigger?.isKind(of: UNPushNotificationTrigger.self))! {
             JPUSHService.handleRemoteNotification(userInfo)
              print("返回通知信息: \(userInfo)")
             print("iOS10 前台收到远程通知 \(self.logDic(dic: userInfo as NSDictionary))")
-            guard let type = userInfo["DataType"] as? String, Int(type) == 3 , let apsDic = userInfo["aps"] as? NSDictionary,let alert = apsDic["alert"] as? String,let status = userInfo["Status"] as? String , Int(status) == 1  else {
+            guard let type = userInfo["DataType"] as? String, Int(type) == 3 , let apsDic = userInfo["aps"] as? NSDictionary,let alert = apsDic["alert"] as? String,let status = userInfo["Status"] as? String   else {
+                return
+            }
+            if Int(status) != 1 {
+                 let aler = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
+                let consentAct = UIAlertAction(title: Localizeable(key: "确定") as String, style: .default, handler: { (UIAlertAction) in
+                    print("同意请求")
+//                    let user = UnarchiveUser()
+//                    user?.deviceId = userInfo["DeviceID"] as? String
+//                    ArchiveRoot(userInfo: user!)
+//                    NotificaCenter.post(name: Notification.Name(rawValue: "updateDevice"), object: self, userInfo: nil)
+                    NotificaCenter.removeObserver(self, name: Notification.Name(rawValue: "updateDevice"), object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updateDevice"), object: nil)
+                })
+                aler.addAction(consentAct)
+                self.window?.rootViewController?.present(aler, animated: true, completion: {
+                    
+                })
                 return
             }
             let aler = UIAlertController(title: alert, message: nil, preferredStyle: .alert)
@@ -244,14 +319,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         JPUSHService.handleRemoteNotification(userInfo)
         print("iOS7及以上系统受到通知", userInfo)
-        let view = UILabel(frame: CGRect(x: 0, y: 0, width: 320, height: 430))
-        view.backgroundColor = UIColor.yellow
-        view.numberOfLines = 0
-        view.text = userInfo.description
-        view.alpha = 0.8
-        self.window?.addSubview(view)
+//        let view = UILabel(frame: CGRect(x: 0, y: 0, width: 320, height: 430))
+//        view.backgroundColor = UIColor.yellow
+//        view.numberOfLines = 0
+//        view.text = userInfo.description
+//        view.alpha = 0.8
+//        self.window?.addSubview(view)
 
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "AddNotificationCount"), object: nil)  //把  要addnotificationcount
+//        NotificationCenter.default.post(name: Notification.Name(rawValue: "AddNotificationCount"), object: nil)  //把  要addnotificationcount
     }
     
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {

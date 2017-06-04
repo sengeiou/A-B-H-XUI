@@ -136,7 +136,8 @@ class FMDbase: NSObject {
     
     func delegateUser(userInfo : UserInfo) {
         do{
-            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userInfo.userId!,userInfo.deviceId!)
+//            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userInfo.userId!,userInfo.deviceId!)
+           let sql = String.init(format: "delete from tb_user where userid = \'%@\'", userInfo.userId!)
            try db.execute(sql)
             print("删除用户数据")
         }catch let error as NSError{
