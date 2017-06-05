@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NightSetViewController" customModule="随心行" customModuleProvider="target">
+            <connections>
+                <outlet property="nextDateLab" destination="RRE-SW-aMh" id="TOo-gK-PVm"/>
+                <outlet property="nowDateLab" destination="F9B-Q4-5hO" id="Mke-l8-QkH"/>
+                <outlet property="timePickView" destination="wxe-ya-fpf" id="Yv6-DQ-kic"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当日" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9B-Q4-5hO">
+                    <rect key="frame" x="0.0" y="0.0" width="187.5" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Fon-tw-pyJ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="次日" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRE-SW-aMh">
+                    <rect key="frame" x="187.5" y="0.0" width="187.5" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="HoW-WC-lS5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxe-ya-fpf">
+                    <rect key="frame" x="0.0" y="51" width="375" height="201"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="201" id="GNK-uB-TfO"/>
+                    </constraints>
+                </pickerView>
+            </subviews>
+            <color key="backgroundColor" red="0.92537945509999997" green="0.92556017639999999" blue="0.92537814380000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="RRE-SW-aMh" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="1/2" id="C4F-t9-d9o"/>
+                <constraint firstItem="F9B-Q4-5hO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Ddz-XR-mKL"/>
+                <constraint firstItem="wxe-ya-fpf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="KBR-MQ-uup"/>
+                <constraint firstAttribute="trailing" secondItem="wxe-ya-fpf" secondAttribute="trailing" id="NqY-pH-Q0O"/>
+                <constraint firstItem="F9B-Q4-5hO" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="1/2" id="bFs-Yh-C5S"/>
+                <constraint firstItem="F9B-Q4-5hO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dbn-xS-fs7"/>
+                <constraint firstAttribute="trailing" secondItem="RRE-SW-aMh" secondAttribute="trailing" id="fHG-rE-Smk"/>
+                <constraint firstItem="wxe-ya-fpf" firstAttribute="top" secondItem="RRE-SW-aMh" secondAttribute="bottom" constant="1" id="maf-Sj-XKo"/>
+                <constraint firstItem="RRE-SW-aMh" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="vhc-YF-FeB"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

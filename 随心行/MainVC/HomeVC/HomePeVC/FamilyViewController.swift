@@ -65,67 +65,90 @@ class FamilyViewController: UIViewController {
                 notTop.constant = -120
             }
         }
-
+        
     }
     
     @IBAction func transferSelect(_ sender: UIButton?) {
-        MBProgressHUD.showMessage(Localizeable(key: "转让中...") as String!)
-        let user = UnarchiveUser()
-        let requestDic = RequestKeyDic()
-        requestDic.addEntries(from: ["UserId": StrongGoString(object: user?.userId),
-                                     "DeviceId": StrongGoString(object: relationDic.object(forKey: "DeviceId")),
-                                     "UserGroupId": StrongGoString(object: relationDic.object(forKey: "UserGroupId"))])
-        MyHttpSessionMar.shared.post(Prefix + "api/User/ChangeMasterUser", parameters: requestDic, progress: { (Progress) in
-            
-        }, success: { (URLSessionDataTask, request) in
-            let resultDic = request as! Dictionary<String, Any>
-            MBProgressHUD.hide()
-            if resultDic["State"] as! Int == 0 {
-                MBProgressHUD.showSuccess(Localizeable(key: "转让成功") as String)
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                    self.navigationController?.popViewController(animated: true)
-                    self.delegate?.permissionManagers()
+        
+        let aler = UIAlertController(title: Localizeable(key: "是否转让管理员权限给该联系人？") as String, message: nil, preferredStyle: .alert)
+        let refuseAct = UIAlertAction(title: Localizeable(key: "取消") as String, style: .default, handler: { (UIAlertAction) in
+        })
+        let consentAct = UIAlertAction(title: Localizeable(key: "转让") as String, style: .default, handler: { (UIAlertAction) in
+            MBProgressHUD.showMessage(Localizeable(key: "转让中...") as String!)
+            let user = UnarchiveUser()
+            let requestDic = RequestKeyDic()
+            requestDic.addEntries(from: ["UserId": StrongGoString(object: user?.userId),
+                                         "DeviceId": StrongGoString(object: self.relationDic.object(forKey: "DeviceId")),
+                                         "UserGroupId": StrongGoString(object: self.relationDic.object(forKey: "UserGroupId"))])
+            MyHttpSessionMar.shared.post(Prefix + "api/User/ChangeMasterUser", parameters: requestDic, progress: { (Progress) in
+                
+            }, success: { (URLSessionDataTask, request) in
+                let resultDic = request as! Dictionary<String, Any>
+                MBProgressHUD.hide()
+                if resultDic["State"] as! Int == 0 {
+                    MBProgressHUD.showSuccess(Localizeable(key: "转让成功") as String)
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                        self.navigationController?.popViewController(animated: true)
+                        self.delegate?.permissionManagers()
+                    }
                 }
-            }
-            else{
-                MBProgressHUD.showError(resultDic["Message"] as! String)
+                else{
+                    MBProgressHUD.showError(resultDic["Message"] as! String)
+                }
+                
+            }) { (URLSessionDataTask, Error) in
+                MBProgressHUD.hide()
+                MBProgressHUD.showError(Error.localizedDescription)
             }
             
-        }) { (URLSessionDataTask, Error) in
-            MBProgressHUD.hide()
-            MBProgressHUD.showError(Error.localizedDescription)
-        }
+        })
+        aler.addAction(refuseAct)
+        aler.addAction(consentAct)
+        present(aler, animated: true, completion: {
+            
+        })
+        
     }
     
     @IBAction func deleteSelect(_ sender: UIButton?) {
-        //        MBProgressHUD.showMessage(Localizeable(key: "删除中...") as String!)
-//        print(relationDic)
-        let user = UnarchiveUser()
-        let requestDic = RequestKeyDic()
-        requestDic.addEntries(from: ["UserId":  StrongGoString(object: relationDic.object(forKey: "UserId")),
-                                     "DeviceId": StrongGoString(object: relationDic.object(forKey: "DeviceId")),
-                                     "UserGroupId": StrongGoString(object: relationDic.object(forKey: "UserGroupId"))])
-        print("requestDic \(requestDic)")
-        MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/RemoveShare", parameters: requestDic, progress: { (Progress) in
-            
-        }, success: { (URLSessionDataTask, request) in
-            let resultDic = request as! Dictionary<String, Any>
-            MBProgressHUD.hide()
-            if resultDic["State"] as! Int == 0 {
-                MBProgressHUD.showSuccess(Localizeable(key: "删除成功") as String)
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                    self.navigationController?.popViewController(animated: true)
-                    self.delegate?.delegateRelation(relationDic: self.relationDic)
+        
+        let aler = UIAlertController(title: Localizeable(key: "是否删除该联系人？") as String, message: nil, preferredStyle: .alert)
+        let refuseAct = UIAlertAction(title: Localizeable(key: "取消") as String, style: .default, handler: { (UIAlertAction) in
+        })
+        let consentAct = UIAlertAction(title: Localizeable(key: "删除") as String, style: .default, handler: { (UIAlertAction) in
+            MBProgressHUD.showMessage(Localizeable(key: "删除中...") as String!)
+            let requestDic = RequestKeyDic()
+            requestDic.addEntries(from: ["UserId":  StrongGoString(object: self.relationDic.object(forKey: "UserId")),
+                                         "DeviceId": StrongGoString(object: self.relationDic.object(forKey: "DeviceId")),
+                                         "UserGroupId": StrongGoString(object: self.relationDic.object(forKey: "UserGroupId"))])
+            print("requestDic \(requestDic)")
+            MyHttpSessionMar.shared.post(Prefix + "api/AuthShare/RemoveShare", parameters: requestDic, progress: { (Progress) in
+                
+            }, success: { (URLSessionDataTask, request) in
+                let resultDic = request as! Dictionary<String, Any>
+                MBProgressHUD.hide()
+                if resultDic["State"] as! Int == 0 {
+                    MBProgressHUD.showSuccess(Localizeable(key: "删除成功") as String)
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                        self.navigationController?.popViewController(animated: true)
+                        self.delegate?.delegateRelation(relationDic: self.relationDic)
+                    }
                 }
-            }
-            else{
-                MBProgressHUD.showError(resultDic["Message"] as! String)
+                else{
+                    MBProgressHUD.showError(resultDic["Message"] as! String)
+                }
+                
+            }) { (URLSessionDataTask, Error) in
+                MBProgressHUD.hide()
+                MBProgressHUD.showError(Error.localizedDescription)
             }
             
-        }) { (URLSessionDataTask, Error) in
-            MBProgressHUD.hide()
-            MBProgressHUD.showError(Error.localizedDescription)
-        }
+        })
+        aler.addAction(refuseAct)
+        aler.addAction(consentAct)
+        present(aler, animated: true, completion: {
+            
+        })
         
     }
     /*

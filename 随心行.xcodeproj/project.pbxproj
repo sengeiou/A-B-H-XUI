@@ -62,6 +62,9 @@
 		EE7CAD1C1EA5C5CB00A40760 /* BandDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */; };
 		EE7CAD1E1EA5E40C00A40760 /* ScanCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */; };
 		EE86580B1ED6A5D7006A950B /* SecurityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE86580A1ED6A5D6006A950B /* SecurityView.swift */; };
+		EE8B46F21EE5276700D93C32 /* NightSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B46F01EE5276700D93C32 /* NightSetViewController.swift */; };
+		EE8B46F31EE5276700D93C32 /* NightSetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE8B46F11EE5276700D93C32 /* NightSetViewController.xib */; };
+		EE8B46F51EE53A9600D93C32 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B46F41EE53A9600D93C32 /* VolumeView.swift */; };
 		EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */; };
 		EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */; };
 		EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A61E98DABB00D92A32 /* MBProgressHUD+MJ.m */; };
@@ -163,6 +166,9 @@
 		EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BandDeviceViewController.xib; sourceTree = "<group>"; };
 		EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanCodeViewController.swift; sourceTree = "<group>"; };
 		EE86580A1ED6A5D6006A950B /* SecurityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecurityView.swift; sourceTree = "<group>"; };
+		EE8B46F01EE5276700D93C32 /* NightSetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NightSetViewController.swift; sourceTree = "<group>"; };
+		EE8B46F11EE5276700D93C32 /* NightSetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NightSetViewController.xib; sourceTree = "<group>"; };
+		EE8B46F41EE53A9600D93C32 /* VolumeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		EEA487EC1EDE5F5E00AC6AB0 /* 随心行.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "随心行.entitlements"; sourceTree = "<group>"; };
 		EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawMap.swift; sourceTree = "<group>"; };
 		EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHttpSessionMar.swift; sourceTree = "<group>"; };
@@ -289,6 +295,8 @@
 				EE4E6B4D1EE2A07800D1E3D5 /* MoreSetTableViewController.xib */,
 				EE4E6B501EE2AA2E00D1E3D5 /* GPSViewController.swift */,
 				EE4E6B511EE2AA2E00D1E3D5 /* GPSViewController.xib */,
+				EE8B46F01EE5276700D93C32 /* NightSetViewController.swift */,
+				EE8B46F11EE5276700D93C32 /* NightSetViewController.xib */,
 				EE2206DE1EB88D9D00885C15 /* VIEW */,
 				EEA67B1C1EBECF94000AAE88 /* MODE */,
 			);
@@ -323,6 +331,7 @@
 				EEEF54C01ED41C6B006905A3 /* SecurityTableViewCell.swift */,
 				EEEF54C11ED41C6B006905A3 /* SecurityTableViewCell.xib */,
 				EE86580A1ED6A5D6006A950B /* SecurityView.swift */,
+				EE8B46F41EE53A9600D93C32 /* VolumeView.swift */,
 				EE47172D1EC3012C00AB4CA4 /* FSCalendar */,
 			);
 			path = VIEW;
@@ -561,6 +570,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEF9DC5C1EC82BDC0097AC77 /* AddFamilyViewController.xib in Resources */,
+				EE8B46F31EE5276700D93C32 /* NightSetViewController.xib in Resources */,
 				EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */,
 				EE4E6B4F1EE2A07800D1E3D5 /* MoreSetTableViewController.xib in Resources */,
 				EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */,
@@ -647,6 +657,7 @@
 				EEADA0231EC1CAA8003867DC /* GPSNaviViewController.m in Sources */,
 				EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */,
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
+				EE8B46F21EE5276700D93C32 /* NightSetViewController.swift in Sources */,
 				EE4717401EC3018B00AB4CA4 /* NSDate+FSExtension.m in Sources */,
 				EE47173F1EC3018B00AB4CA4 /* FSCalendarUnit.m in Sources */,
 				EEEF54BE1ED4166B006905A3 /* SecurityTableViewController.swift in Sources */,
@@ -687,6 +698,7 @@
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
 				EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */,
 				EE4717411EC3018B00AB4CA4 /* UIScrollView+FSExtension.m in Sources */,
+				EE8B46F51EE53A9600D93C32 /* VolumeView.swift in Sources */,
 				EE7C35F01E95DBFC000481E2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
