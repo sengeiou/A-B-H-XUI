@@ -9,87 +9,142 @@
 import UIKit
 
 class MessTableViewController: UITableViewController {
-        
+    var messArrs: NSMutableArray!
+    var detailArrs: NSMutableArray!
+    lazy var user: UserInfo = {
+        let user = UnarchiveUser()
+        return user!
+    }()
+//    var alertArr: NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        initializeMethod()
+         createUI()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func initializeMethod() {
+        messArrs = NSMutableArray()
+        detailArrs = NSMutableArray()
+        messArrs.add([Localizeable(key: "报警消息") as String, Localizeable(key: "申请消息") as String])
+        let devices = FMDbase.shared().selectUsers(userid: user.userId!)
+        guard devices != nil, (devices?.count)! > 0 else {
+          return
+        }
+        messArrs.add(devices!)
+        
+        let sql = FMDbase.shared()
+        let alertMess = sql.selectMess(userid: user.userId!, deviceId: nil, messType: 1)
+        let applyMess = sql.selectMess(userid: user.userId!, deviceId: nil, messType: 3)
+        //        let alertMess = sql.selectMess(userid: "33", deviceId: nil, messType: 1)
+        //        let applyMess = sql.selectMess(userid: "33", deviceId: nil, messType: 3)
+        detailArrs.add(alertMess)
+        detailArrs.add(applyMess)
+        print(detailArrs)
+        guard messArrs.count > 1,let msss = messArrs.lastObject as? NSMutableArray else {
+            return
+        }
+        let deviceArr = NSMutableArray()
+        for device in msss {
+            let devi = device as! UserInfo
+            let deviceMess = sql.selectMess(userid: devi.userId!, deviceId: devi.deviceId, messType: 999)
+            deviceArr.add(deviceMess)
+        }
+        detailArrs.add(deviceArr)
+    }
 
+    override func viewWillAppear(_ animated: Bool) {
+       
+    }
+    
+    func createUI() {
+
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return messArrs.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return (messArrs[section] as! NSArray).count
     }
 
-    /*
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0.001
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 1 {
+            return nil
+        }
+        return Localizeable(key: "回复消息") as String
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        var cell = tableView.dequeueReusableCell(withIdentifier: "MESSAGECELL")  as? MessTableViewCell
+        if cell == nil {
+            cell = Bundle.main.loadNibNamed("MessTableViewCell", owner: self, options: nil)?.last as? MessTableViewCell
+        }
+        cell?.selectionStyle = .none
+        if indexPath.section == 0{
+            let imadata = NSData(base64Encoded: (user.userIma == nil) ? "":user.userIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
+            var iamge: UIImage? = UIImage(data: imadata! as Data)
+            if iamge == nil {
+                iamge = #imageLiteral(resourceName: "pic-img_moren")
+            }
+            cell?.headIma.image = iamge?.drawCornerIma(Sise: nil)
+            cell?.titLab.text = (messArrs[indexPath.section] as! NSArray)[indexPath.row] as? String
+            guard let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
+                cell?.timeLab.text = ""
+                guard let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
+                    cell?.messLab.text = "暂无信息"
+                    return cell!
+                }
+                cell?.messLab.text = mess
+                return cell!
+            }
+            
+            cell?.timeLab.text = time
+        }
+        else{
+            let deviceInfo = (messArrs[indexPath.section] as! NSMutableArray)[indexPath.row] as! UserInfo
+            let imadata = NSData(base64Encoded: (deviceInfo.deviceIma == nil) ? "":deviceInfo.deviceIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
+            var iamge: UIImage? = UIImage(data: imadata! as Data)
+            if iamge == nil {
+                iamge = #imageLiteral(resourceName: "icon_img_3")
+            }
+            cell?.headIma.image = iamge?.drawCornerIma(Sise: nil)
+            cell?.titLab.text = user.deviceName! + (Localizeable(key: "的表") as String)
+            
+            guard let mesArr = detailArrs[2] as? NSMutableArray, let messArr = mesArr[indexPath.row] as? NSMutableArray, let dic = messArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
+                cell?.timeLab.text = ""
+                guard let mesArr = detailArrs[2] as? NSMutableArray,let messArr = mesArr[indexPath.row] as? NSMutableArray, let dic = messArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
+                    cell?.messLab.text = "暂无信息"
+                    return cell!
+                }
+                cell?.messLab.text = mess
+                return cell!
+            }
+            cell?.timeLab.text = time
 
-        // Configure the cell...
-
-        return cell
+        }
+        return cell!
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let mesDetailVC = MssDetailTableViewController(nibName: "MssDetailTableViewController", bundle: nil)
+        navigationController?.pushViewController(mesDetailVC, animated: true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
 }

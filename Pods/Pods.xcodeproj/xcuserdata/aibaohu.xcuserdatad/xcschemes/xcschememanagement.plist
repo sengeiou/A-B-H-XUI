@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SQLite.swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>5F4ADE4761346CFC3FC357B166F08927</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>CF671F7E57B92905F1CC91D036D6B4A7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EED444BE676A2942031683DDFDA044F3</key>
+		<key>E9D8D7D12B0752F50B1355252EDEE760</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F44B2D128DEB9BD5930C7FF6E36232E6</key>
+		<key>EFE47890AB59B08B24E222C5CE986D50</key>
 		<dict>
 			<key>primary</key>
 			<true/>

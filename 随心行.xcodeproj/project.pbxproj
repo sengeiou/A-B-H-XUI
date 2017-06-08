@@ -65,6 +65,22 @@
 		EE8B46F21EE5276700D93C32 /* NightSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B46F01EE5276700D93C32 /* NightSetViewController.swift */; };
 		EE8B46F31EE5276700D93C32 /* NightSetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE8B46F11EE5276700D93C32 /* NightSetViewController.xib */; };
 		EE8B46F51EE53A9600D93C32 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8B46F41EE53A9600D93C32 /* VolumeView.swift */; };
+		EE9B441F1EE8E7E6000E41FD /* MssDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B441D1EE8E7E6000E41FD /* MssDetailTableViewController.swift */; };
+		EE9B44201EE8E7E6000E41FD /* MssDetailTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9B441E1EE8E7E6000E41FD /* MssDetailTableViewController.xib */; };
+		EE9B44231EE8E81C000E41FD /* MessDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44211EE8E81C000E41FD /* MessDetailTableViewCell.swift */; };
+		EE9B44241EE8E81C000E41FD /* MessDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9B44221EE8E81C000E41FD /* MessDetailTableViewCell.xib */; };
+		EE9B44261EE901AB000E41FD /* textview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44251EE901AB000E41FD /* textview.swift */; };
+		EE9B442B1EE93A66000E41FD /* MessMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9B442A1EE93A66000E41FD /* MessMode.swift */; };
+		EE9B443D1EE96487000E41FD /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE9B442D1EE96486000E41FD /* MJRefresh.bundle */; };
+		EE9B443E1EE96487000E41FD /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44301EE96487000E41FD /* MJRefreshBaseView.m */; };
+		EE9B443F1EE96487000E41FD /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44321EE96487000E41FD /* MJRefreshConst.m */; };
+		EE9B44401EE96487000E41FD /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44341EE96487000E41FD /* MJRefreshFooterView.m */; };
+		EE9B44411EE96487000E41FD /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44361EE96487000E41FD /* MJRefreshHeaderView.m */; };
+		EE9B44421EE96487000E41FD /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B44381EE96487000E41FD /* UIScrollView+MJExtension.m */; };
+		EE9B44431EE96487000E41FD /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B443A1EE96487000E41FD /* UIScrollView+MJRefresh.m */; };
+		EE9B44441EE96487000E41FD /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9B443C1EE96487000E41FD /* UIView+MJExtension.m */; };
+		EE9BF5B91EE7AEE100DED26B /* MessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9BF5B71EE7AEE100DED26B /* MessTableViewCell.swift */; };
+		EE9BF5BA1EE7AEE100DED26B /* MessTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9BF5B81EE7AEE100DED26B /* MessTableViewCell.xib */; };
 		EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */; };
 		EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */; };
 		EEAA30AA1E98DABB00D92A32 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = EEAA30A61E98DABB00D92A32 /* MBProgressHUD+MJ.m */; };
@@ -169,6 +185,30 @@
 		EE8B46F01EE5276700D93C32 /* NightSetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NightSetViewController.swift; sourceTree = "<group>"; };
 		EE8B46F11EE5276700D93C32 /* NightSetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NightSetViewController.xib; sourceTree = "<group>"; };
 		EE8B46F41EE53A9600D93C32 /* VolumeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
+		EE9B441D1EE8E7E6000E41FD /* MssDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MssDetailTableViewController.swift; sourceTree = "<group>"; };
+		EE9B441E1EE8E7E6000E41FD /* MssDetailTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MssDetailTableViewController.xib; sourceTree = "<group>"; };
+		EE9B44211EE8E81C000E41FD /* MessDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessDetailTableViewCell.swift; sourceTree = "<group>"; };
+		EE9B44221EE8E81C000E41FD /* MessDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessDetailTableViewCell.xib; sourceTree = "<group>"; };
+		EE9B44251EE901AB000E41FD /* textview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = textview.swift; sourceTree = "<group>"; };
+		EE9B442A1EE93A66000E41FD /* MessMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessMode.swift; sourceTree = "<group>"; };
+		EE9B442D1EE96486000E41FD /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
+		EE9B442E1EE96487000E41FD /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
+		EE9B442F1EE96487000E41FD /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
+		EE9B44301EE96487000E41FD /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
+		EE9B44311EE96487000E41FD /* MJRefreshConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshConst.h; sourceTree = "<group>"; };
+		EE9B44321EE96487000E41FD /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
+		EE9B44331EE96487000E41FD /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
+		EE9B44341EE96487000E41FD /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
+		EE9B44351EE96487000E41FD /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
+		EE9B44361EE96487000E41FD /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		EE9B44371EE96487000E41FD /* UIScrollView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJExtension.h"; sourceTree = "<group>"; };
+		EE9B44381EE96487000E41FD /* UIScrollView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJExtension.m"; sourceTree = "<group>"; };
+		EE9B44391EE96487000E41FD /* UIScrollView+MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+MJRefresh.h"; sourceTree = "<group>"; };
+		EE9B443A1EE96487000E41FD /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
+		EE9B443B1EE96487000E41FD /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
+		EE9B443C1EE96487000E41FD /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		EE9BF5B71EE7AEE100DED26B /* MessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessTableViewCell.swift; sourceTree = "<group>"; };
+		EE9BF5B81EE7AEE100DED26B /* MessTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessTableViewCell.xib; sourceTree = "<group>"; };
 		EEA487EC1EDE5F5E00AC6AB0 /* 随心行.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "随心行.entitlements"; sourceTree = "<group>"; };
 		EEA67B1D1EBECFBF000AAE88 /* DrawMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawMap.swift; sourceTree = "<group>"; };
 		EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHttpSessionMar.swift; sourceTree = "<group>"; };
@@ -308,6 +348,10 @@
 			children = (
 				EE2206CE1EB85F7400885C15 /* MessTableViewController.swift */,
 				EE2206CF1EB85F7400885C15 /* MessTableViewController.xib */,
+				EE9B441D1EE8E7E6000E41FD /* MssDetailTableViewController.swift */,
+				EE9B441E1EE8E7E6000E41FD /* MssDetailTableViewController.xib */,
+				EED12BF31EE797A800EB93BD /* VIEW */,
+				EE9B44291EE939DA000E41FD /* MODE */,
 			);
 			path = MessPeVC;
 			sourceTree = "<group>";
@@ -439,6 +483,7 @@
 		EE7C36071E96158E000481E2 /* 全局方法 */ = {
 			isa = PBXGroup;
 			children = (
+				EE9B442C1EE96486000E41FD /* TableViewExtension */,
 				EE7C36081E9615BD000481E2 /* LocalizeableInfo.swift */,
 				EEE1A32B1E98853A00E90096 /* Defaultinfos.swift */,
 				EEAA30A01E98BB4900D92A32 /* MyHttpSessionMar.swift */,
@@ -456,6 +501,37 @@
 				EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */,
 			);
 			path = Device;
+			sourceTree = "<group>";
+		};
+		EE9B44291EE939DA000E41FD /* MODE */ = {
+			isa = PBXGroup;
+			children = (
+				EE9B442A1EE93A66000E41FD /* MessMode.swift */,
+			);
+			path = MODE;
+			sourceTree = "<group>";
+		};
+		EE9B442C1EE96486000E41FD /* TableViewExtension */ = {
+			isa = PBXGroup;
+			children = (
+				EE9B442D1EE96486000E41FD /* MJRefresh.bundle */,
+				EE9B442E1EE96487000E41FD /* MJRefresh.h */,
+				EE9B442F1EE96487000E41FD /* MJRefreshBaseView.h */,
+				EE9B44301EE96487000E41FD /* MJRefreshBaseView.m */,
+				EE9B44311EE96487000E41FD /* MJRefreshConst.h */,
+				EE9B44321EE96487000E41FD /* MJRefreshConst.m */,
+				EE9B44331EE96487000E41FD /* MJRefreshFooterView.h */,
+				EE9B44341EE96487000E41FD /* MJRefreshFooterView.m */,
+				EE9B44351EE96487000E41FD /* MJRefreshHeaderView.h */,
+				EE9B44361EE96487000E41FD /* MJRefreshHeaderView.m */,
+				EE9B44371EE96487000E41FD /* UIScrollView+MJExtension.h */,
+				EE9B44381EE96487000E41FD /* UIScrollView+MJExtension.m */,
+				EE9B44391EE96487000E41FD /* UIScrollView+MJRefresh.h */,
+				EE9B443A1EE96487000E41FD /* UIScrollView+MJRefresh.m */,
+				EE9B443B1EE96487000E41FD /* UIView+MJExtension.h */,
+				EE9B443C1EE96487000E41FD /* UIView+MJExtension.m */,
+			);
+			path = TableViewExtension;
 			sourceTree = "<group>";
 		};
 		EEA67B1C1EBECF94000AAE88 /* MODE */ = {
@@ -486,6 +562,18 @@
 				EEAA30A91E98DABB00D92A32 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		EED12BF31EE797A800EB93BD /* VIEW */ = {
+			isa = PBXGroup;
+			children = (
+				EE9BF5B71EE7AEE100DED26B /* MessTableViewCell.swift */,
+				EE9BF5B81EE7AEE100DED26B /* MessTableViewCell.xib */,
+				EE9B44211EE8E81C000E41FD /* MessDetailTableViewCell.swift */,
+				EE9B44221EE8E81C000E41FD /* MessDetailTableViewCell.xib */,
+				EE9B44251EE901AB000E41FD /* textview.swift */,
+			);
+			path = VIEW;
 			sourceTree = "<group>";
 		};
 		EEE3A06A1EAEEEAD00E75FC2 /* View */ = {
@@ -574,6 +662,7 @@
 				EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */,
 				EE4E6B4F1EE2A07800D1E3D5 /* MoreSetTableViewController.xib in Resources */,
 				EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */,
+				EE9BF5BA1EE7AEE100DED26B /* MessTableViewCell.xib in Resources */,
 				EE76342C1EA9FA4A0043FEC3 /* RelationViewController.xib in Resources */,
 				EE2206D61EB85F9200885C15 /* MeTableViewController.xib in Resources */,
 				EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */,
@@ -591,8 +680,11 @@
 				EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */,
 				EEC3D5601EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib in Resources */,
 				EE2206D11EB85F7400885C15 /* MessTableViewController.xib in Resources */,
+				EE9B443D1EE96487000E41FD /* MJRefresh.bundle in Resources */,
+				EE9B44201EE8E7E6000E41FD /* MssDetailTableViewController.xib in Resources */,
 				EEF9DC581EC7EA6C0097AC77 /* AddressBookTableViewController.xib in Resources */,
 				EE7C35F51E95DBFC000481E2 /* Main.storyboard in Resources */,
+				EE9B44241EE8E81C000E41FD /* MessDetailTableViewCell.xib in Resources */,
 				EEAA30AB1E98DABB00D92A32 /* MBProgressHUD.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -652,11 +744,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE9B44411EE96487000E41FD /* MJRefreshHeaderView.m in Sources */,
 				EE86580B1ED6A5D7006A950B /* SecurityView.swift in Sources */,
 				EEC3D55B1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.swift in Sources */,
 				EEADA0231EC1CAA8003867DC /* GPSNaviViewController.m in Sources */,
 				EEC3D55F1EAF5BA8009E9C09 /* PhotoCollectionViewCell.swift in Sources */,
+				EE9B441F1EE8E7E6000E41FD /* MssDetailTableViewController.swift in Sources */,
 				EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */,
+				EE9B443E1EE96487000E41FD /* MJRefreshBaseView.m in Sources */,
 				EE8B46F21EE5276700D93C32 /* NightSetViewController.swift in Sources */,
 				EE4717401EC3018B00AB4CA4 /* NSDate+FSExtension.m in Sources */,
 				EE47173F1EC3018B00AB4CA4 /* FSCalendarUnit.m in Sources */,
@@ -664,17 +759,23 @@
 				EEE1A32C1E98853A00E90096 /* Defaultinfos.swift in Sources */,
 				EE4E6B4E1EE2A07800D1E3D5 /* MoreSetTableViewController.swift in Sources */,
 				EEEF54C61ED42C55006905A3 /* SecurityViewController.swift in Sources */,
+				EE9B44261EE901AB000E41FD /* textview.swift in Sources */,
 				EE7C36091E9615BD000481E2 /* LocalizeableInfo.swift in Sources */,
 				EE2206CC1EB85F4600885C15 /* HomeViewController.swift in Sources */,
 				EEADA0201EC1A470003867DC /* MoreMenuView.m in Sources */,
 				EE47173C1EC3018B00AB4CA4 /* FSCalendar.m in Sources */,
+				EE9B443F1EE96487000E41FD /* MJRefreshConst.m in Sources */,
 				EE47173D1EC3018B00AB4CA4 /* FSCalendarHeader.m in Sources */,
+				EE9BF5B91EE7AEE100DED26B /* MessTableViewCell.swift in Sources */,
 				EE47172C1EC2E6C200AB4CA4 /* HisTrajectoryViewController.swift in Sources */,
 				EE5D65D91EBD7FC10055B657 /* DeviceToolView.swift in Sources */,
 				EEF9DC5F1EC845540097AC77 /* FamilyViewController.swift in Sources */,
 				EEE3A06C1EAEEEC600E75FC2 /* PhotoView.swift in Sources */,
 				EEADA0261EC1CABE003867DC /* SpeechSynthesizer.m in Sources */,
+				EE9B44421EE96487000E41FD /* UIScrollView+MJExtension.m in Sources */,
+				EE9B442B1EE93A66000E41FD /* MessMode.swift in Sources */,
 				EE7CAD1B1EA5C5CB00A40760 /* BandDeviceViewController.swift in Sources */,
+				EE9B44441EE96487000E41FD /* UIView+MJExtension.m in Sources */,
 				EEF9DC571EC7EA6C0097AC77 /* AddressBookTableViewController.swift in Sources */,
 				EE76342B1EA9FA4A0043FEC3 /* RelationViewController.swift in Sources */,
 				EE2206D01EB85F7400885C15 /* MessTableViewController.swift in Sources */,
@@ -692,11 +793,14 @@
 				EE47173E1EC3018B00AB4CA4 /* FSCalendarPage.m in Sources */,
 				EEA67B1E1EBECFBF000AAE88 /* DrawMap.swift in Sources */,
 				EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */,
+				EE9B44231EE8E81C000E41FD /* MessDetailTableViewCell.swift in Sources */,
 				EE4E6B521EE2AA2E00D1E3D5 /* GPSViewController.swift in Sources */,
+				EE9B44401EE96487000E41FD /* MJRefreshFooterView.m in Sources */,
 				EEAA30A11E98BB4900D92A32 /* MyHttpSessionMar.swift in Sources */,
 				EEEF54C21ED41C6B006905A3 /* SecurityTableViewCell.swift in Sources */,
 				EE7C36041E95EBBB000481E2 /* File.swift in Sources */,
 				EEE3A0681EAEE7BB00E75FC2 /* DeviceInfoViewController.swift in Sources */,
+				EE9B44431EE96487000E41FD /* UIScrollView+MJRefresh.m in Sources */,
 				EE4717411EC3018B00AB4CA4 /* UIScrollView+FSExtension.m in Sources */,
 				EE8B46F51EE53A9600D93C32 /* VolumeView.swift in Sources */,
 				EE7C35F01E95DBFC000481E2 /* AppDelegate.swift in Sources */,
@@ -757,6 +861,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_ON_DEMAND_RESOURCES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -807,6 +912,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_ON_DEMAND_RESOURCES = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -831,6 +937,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "随心行/随心行.entitlements";
 				DEVELOPMENT_TEAM = VHVLE5FL92;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -858,6 +965,7 @@
 				CODE_SIGN_ENTITLEMENTS = "随心行/随心行.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = VHVLE5FL92;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol nightDelegate: NSObjectProtocol{
+    func nightDidDisappear(dic: NSDictionary)
+}
+
 class NightSetViewController: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
     
     @IBOutlet weak var nowDateLab: UILabel!
@@ -18,7 +22,7 @@ class NightSetViewController: UIViewController,UIPickerViewDelegate,UIPickerView
     var startSelect: Int!
     var endSelect: Int!
     var deviceMode: Int!
-    
+    var delegate:nightDelegate?
     var timeArrs: Array<Array<String>>! = []
     
     override func viewDidLoad() {
@@ -31,6 +35,11 @@ class NightSetViewController: UIViewController,UIPickerViewDelegate,UIPickerView
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        delegate?.nightDidDisappear(dic: self.gpsDic)
     }
     
     func initializeMethod() {
@@ -89,6 +98,9 @@ class NightSetViewController: UIViewController,UIPickerViewDelegate,UIPickerView
             print(resultDic)
             if resultDic["State"] as! Int == 0{
                 MBProgressHUD.showSuccess(Localizeable(key: "设置成功！！！") as String)
+                let chDic = NSMutableDictionary(dictionary: self.gpsDic)
+                chDic.addEntries(from: ["CmdValue":String.init(format: "%@,%@", self.timeArrs[0][self.startSelect],self.timeArrs[1][self.endSelect])])
+                self.gpsDic = chDic
             }
             else{
                 MBProgressHUD.showError(resultDic["Message"] as! String)

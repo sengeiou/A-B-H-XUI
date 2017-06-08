@@ -51,7 +51,10 @@ class FMDbase: NSObject {
 //                TableBuilder.column(Expression<String>("userPass"))
 //                TableBuilder.column(Expression<String>("userIma"))
             }))
-          
+            
+            let messAge = "create table if not exists tb_message (mes_id integer primary key autoincrement, user_id varchar(20), device_id varchar(20), date datetime,type integer,ex_type integer,message text,handle integer)"
+            try db.execute(messAge)
+            
         }catch let error as NSError{
             print(error.description)
         }
@@ -142,6 +145,62 @@ class FMDbase: NSObject {
             print("删除用户数据")
         }catch let error as NSError{
             print("删除用户数据失败 ：\(error.description)")
+        }
+    }
+    
+    func insertMess(messDic: Dictionary<String, Any>){
+         do{
+           let found = selectMess(userID: messDic["USERID"] as! String, deviceID: messDic["DEVICEID"] as! String, date: messDic["DATE"] as! String)
+            var sql = ""
+            if !found {
+                sql = String.init(format: "INSERT INTO tb_message (user_id,device_id,date,type,ex_type,message,handle) values(\'%@\',\'%@\',\'%@\',%d,%d,\'%@\',%d)", messDic["USERID"] as! String, messDic["DEVICEID"] as! String, messDic["DATE"] as! String,  Int(StrongGoString(object: messDic["TYPE"] ))!, Int(StrongGoString(object: messDic["EXTYPE"]))!, messDic["MESSAGE"] as! String,Int(StrongGoString(object: messDic["HANDLE"]))!)
+            }
+            else{
+                sql = String.init(format: "update tb_message set type=%d, ex_type=%d, message=\'%@\', handle=%d where user_id=\'%@\' and device_id=\'%@\' and date=\'%@\'", Int(StrongGoString(object: messDic["TYPE"] ))!, Int(StrongGoString(object: messDic["EXTYPE"]))!, messDic["MESSAGE"] as! String, Int(StrongGoString(object: messDic["HANDLE"]))!,messDic["USERID"] as! String, messDic["DEVICEID"] as! String, messDic["DATE"] as! String)
+            }
+            try db.execute(sql)
+            print("更新消息数据  \(messDic) \n \(sql)")
+         }catch let error as NSError{
+            print("更新消息数据失败 ：\(error.description)")
+        }
+    }
+    
+    func selectMess(userID: String, deviceID: String, date: String) -> Bool{
+        var found: Bool = false
+        do{
+            let sql = String.init(format: "select *from tb_message where user_id=\'%@\' and device_id=\'%@\' and date=\'%@\'",userID,deviceID,date)
+            print(sql)
+            for row in try db.prepare(sql) {
+                print("数据会根据查的的按顺序打印 \(row)")
+                found = true
+            }
+            return found
+        }
+        catch let error as NSError{
+            print("更新消息数据失败 ：\(error.description)")
+            return found
+        }
+    }
+
+    func selectMess(userid: String,deviceId: String?, messType: Int) -> NSMutableArray{
+        let messArr = NSMutableArray()
+        do{
+            var sql = ""
+            if deviceId == nil {
+                sql = String.init(format: "select *from tb_message where user_id=\'%@\' and TYPE=%d order by mes_id DESC limit 1",userid,messType)
+            }else{
+             sql = String.init(format: "select *from tb_message where user_id=\'%@\' and device_id=\'%@\' and TYPE=%d order by mes_id DESC limit 1",userid,deviceId!,messType)
+            }
+            print(sql)
+            for row in try db.prepare(sql) {
+                print("数据会根据查的的按顺序打印 \(row)")
+                messArr.add( ["USERID": StrongGoString(object: row[1]),"DEVICEID": StrongGoString(object: row[2]),"DATE": StrongGoString(object: row[3]),"TYPE": StrongGoString(object: row[4]),"EXTYPE": StrongGoString(object: row[5]),"MESSAGE": StrongGoString(object: row[6]),"HANDLE": StrongGoString(object: row[7])])
+            }
+             return messArr
+        }
+        catch let error as NSError{
+            print("更新消息数据失败 ：\(error.description)")
+            return messArr
         }
     }
 }

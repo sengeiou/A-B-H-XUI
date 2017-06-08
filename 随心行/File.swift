@@ -139,6 +139,22 @@ func drawImaSize(image: UIImage, size: CGSize) -> UIImage {
     return newIma!
 }
 
+func getNowDateFromatAnDate(anyDate: Date) -> Date{
+    //设置源日期时区
+    let sourceTimeZone = TimeZone(abbreviation: "GMT")
+    //设置转换后的目标日期时区
+    let destinationTimeZone = NSTimeZone.system
+    //设置转换后与世界标准时间的偏移量
+    let sourceGTMOffset = sourceTimeZone?.secondsFromGMT(for: anyDate)
+    //目标日期与本地时区偏移量
+    let destinationGMTOffset = destinationTimeZone.secondsFromGMT(for: anyDate)
+    //得到时间偏移量的差值
+    let interval = destinationGMTOffset - sourceGTMOffset!
+    //转为现在时间
+    let date = Date(timeInterval: TimeInterval(interval), since: anyDate)
+    return date
+}
+
 ////合并两张图片
 //func mergeIma(ima: UIImage, ima1: UIImage) -> UIImage{
 ////    let imgRef1 = ima.cgImage

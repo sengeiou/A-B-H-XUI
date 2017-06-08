@@ -576,6 +576,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             deviSelView?.isHidden = !indexShow
         }
         else{
+            indexShow = !indexShow
             print("无设备")
             let banVC = BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil)
             banVC.hidesBottomBarWhenPushed = true
@@ -593,11 +594,14 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     }
     
     func moreSet() {
-        if deviceView != nil {
+        if (self.deviceCoor == nil){
+            MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+            return
+        }
             let moreSetVC = MoreSetTableViewController(nibName: "MoreSetTableViewController", bundle: nil)
             moreSetVC.deviceMode = deviceMode
+            moreSetVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(moreSetVC, animated: true)
-        }
     }
     
     func phoneOperator(operStr: String) -> String {

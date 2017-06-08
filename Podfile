@@ -3,4 +3,5 @@ use_frameworks!
 pod 'AFNetworking'
 pod 'SQLite.swift'
 pod 'JPush'
+pod 'SDWebImage'
 end

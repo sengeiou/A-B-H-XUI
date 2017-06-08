@@ -244,7 +244,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 MBProgressHUD.showError(resultDic["Message"] as! String)
             }
             else{
-                let user = UserInfo()
+                let user = getNewUser()
                 user.userId = String.init(format: "%d", (resultDic["User"]! as! Dictionary<String, Any>)["UserId"]! as! Int)
                 user.userPass = self.passFild.text
                 user.userPh = self.accTexfild.text

@@ -81,7 +81,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             MBProgressHUD.showError(Localizeable(key: "请输入密码") as String!)
             return
         }
-        
+        accFie.resignFirstResponder()
+        passFie.resignFirstResponder()
         MBProgressHUD.showMessage(Localizeable(key: "登录中...") as String!)
         let httpMar = MyHttpSessionMar.shared
         let requDic = RequestKeyDic()
@@ -147,7 +148,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                 MBProgressHUD.hide()
                                 MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
                             }
-                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                                 let homeVC = HomeViewController()
                                 homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
                                 let homeNav = NavViewController(rootViewController: homeVC)
@@ -206,7 +207,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                         MBProgressHUD.hide()
                                         MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
                                     }
-                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                                         let homeVC = HomeViewController()
                                         homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
                                         let homeNav = NavViewController(rootViewController: homeVC)

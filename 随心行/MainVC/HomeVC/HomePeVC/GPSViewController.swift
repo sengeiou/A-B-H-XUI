@@ -8,6 +8,10 @@
 
 import UIKit
 
+public protocol gpsDelegate: NSObjectProtocol{
+    func gpsDidDisappear(dic: NSDictionary)
+}
+
 class GPSViewController: UIViewController {
     
     @IBOutlet var normalBut: UIButton!
@@ -16,6 +20,7 @@ class GPSViewController: UIViewController {
     var gpsDic: NSDictionary!
     var modeSelect: Int!
     var deviceMode: Int!
+    var delegate: gpsDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +31,11 @@ class GPSViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+        delegate?.gpsDidDisappear(dic: self.gpsDic)
     }
     
     func createUI() {
@@ -83,6 +93,9 @@ class GPSViewController: UIViewController {
             print(resultDic)
             if resultDic["State"] as! Int == 0{
                 self.modeSelect = sender.tag - 100
+                let chDic = NSMutableDictionary(dictionary: self.gpsDic)
+                chDic.addEntries(from: ["CmdValue":String.init(format: "%d", self.modeSelect)])
+                self.gpsDic = chDic
                 MBProgressHUD.showSuccess(Localizeable(key: "设置成功！！！") as String)
             }
             else{

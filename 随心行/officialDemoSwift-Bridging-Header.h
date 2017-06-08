@@ -22,4 +22,6 @@
 #import "FSCalendar.h"
 #import "NSDate+FSExtension.h"
 #import "JPUSHService.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIScrollView+MJRefresh.h"
 #endif /* officialDemoSwift_Bridging_Header_h */
