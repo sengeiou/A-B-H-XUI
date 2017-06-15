@@ -209,27 +209,15 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 DispatchQueue.main.async() { () -> Void in
                     self.initializeMethod()
                     self.addAnnotation()
-                    //                            if self.isNavi{
-                    //                                let but = self.locaView.viewWithTag(1003) as! UIButton
-                    //                                self.tapMapFunction(sender: but)
-                    //                            }
                 }
             }
-            //                    print("返回 \(resultDic) items \(items)")
         }, failure: { (URLSessionDataTask, Error) in
             if showProgress{
                 MBProgressHUD.hide()
                 MBProgressHUD.showError(Error.localizedDescription)
             }
         })
-        //            })
-        
-        //        }) { (URLSessionDataTask, Error) in
-        //            if showProgress{
-        //                MBProgressHUD.hide()
-        //                MBProgressHUD.showError(Error.localizedDescription)
-        //            }
-        //        }
+
     }
     
     func initializeMethod() {

@@ -48,8 +48,8 @@ class FMDbase: NSObject {
                 TableBuilder.column(Expression<String>("deviceIma"))
                 TableBuilder.column(Expression<String>("deviceName"))
                 TableBuilder.column(Expression<String>("relation"))
-//                TableBuilder.column(Expression<String>("userPass"))
-//                TableBuilder.column(Expression<String>("userIma"))
+                //                TableBuilder.column(Expression<String>("userPass"))
+                //                TableBuilder.column(Expression<String>("userIma"))
             }))
             
             let messAge = "create table if not exists tb_message (mes_id integer primary key autoincrement, user_id varchar(20), device_id varchar(20), date datetime,type integer,ex_type integer,message text,handle integer)"
@@ -101,8 +101,8 @@ class FMDbase: NSObject {
                 userInfo.deviceIma = user[Expression<String>("deviceIma")]
                 userInfo.relatoin = user[Expression<String>("relation")]
                 userInfo.deviceName = user[Expression<String>("deviceName")]
-//                userInfo.userPass = user[Expression<String>("userPass")]
-//                userInfo.userIma = user[Expression<String>("userIma")]
+                //                userInfo.userPass = user[Expression<String>("userPass")]
+                //                userInfo.userIma = user[Expression<String>("userIma")]
                 devices.add(userInfo)
             }
             return devices
@@ -114,7 +114,7 @@ class FMDbase: NSObject {
     
     func selectUser(userid: String,deviceid: String) -> UserInfo? {
         do {
-//            let devices:NSMutableArray = []
+            //            let devices:NSMutableArray = []
             let userInfo = getNewUser()
             let userTab = Table("tb_user")
             let alice = userTab.filter(Expression<String>("userid") == userid).filter(Expression<String>("deviceid") == deviceid)
@@ -128,7 +128,7 @@ class FMDbase: NSObject {
                 userInfo.deviceName = user[Expression<String>("deviceName")]
                 //                userInfo.userPass = user[Expression<String>("userPass")]
                 //                userInfo.userIma = user[Expression<String>("userIma")]
-//                devices.add(userInfo)
+                //                devices.add(userInfo)
             }
             return userInfo
         } catch  let error as NSError {
@@ -139,9 +139,20 @@ class FMDbase: NSObject {
     
     func delegateUser(userInfo : UserInfo) {
         do{
-//            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userInfo.userId!,userInfo.deviceId!)
-           let sql = String.init(format: "delete from tb_user where userid = \'%@\'", userInfo.userId!)
-           try db.execute(sql)
+            //            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userInfo.userId!,userInfo.deviceId!)
+            let sql = String.init(format: "delete from tb_user where userid = \'%@\'", userInfo.userId!)
+            try db.execute(sql)
+            print("删除用户数据")
+        }catch let error as NSError{
+            print("删除用户数据失败 ：\(error.description)")
+        }
+    }
+    
+    func delegateDevice(userId : String, deviceId:String) {
+        do{
+            let sql = String.init(format: "delete from tb_user where userid = \'%@\' and deviceid = \'%@\'", userId,deviceId)
+            //            let sql = String.init(format: "delete from tb_user where userid = \'%@\'", userInfo.userId!)
+            try db.execute(sql)
             print("删除用户数据")
         }catch let error as NSError{
             print("删除用户数据失败 ：\(error.description)")
@@ -149,8 +160,8 @@ class FMDbase: NSObject {
     }
     
     func insertMess(messDic: Dictionary<String, Any>){
-         do{
-           let found = selectMess(userID: messDic["USERID"] as! String, deviceID: messDic["DEVICEID"] as! String, date: messDic["DATE"] as! String)
+        do{
+            let found = selectMess(userID: messDic["USERID"] as! String, deviceID: messDic["DEVICEID"] as! String, date: messDic["DATE"] as! String)
             var sql = ""
             if !found {
                 sql = String.init(format: "INSERT INTO tb_message (user_id,device_id,date,type,ex_type,message,handle) values(\'%@\',\'%@\',\'%@\',%d,%d,\'%@\',%d)", messDic["USERID"] as! String, messDic["DEVICEID"] as! String, messDic["DATE"] as! String,  Int(StrongGoString(object: messDic["TYPE"] ))!, Int(StrongGoString(object: messDic["EXTYPE"]))!, messDic["MESSAGE"] as! String,Int(StrongGoString(object: messDic["HANDLE"]))!)
@@ -160,7 +171,7 @@ class FMDbase: NSObject {
             }
             try db.execute(sql)
             print("更新消息数据  \(messDic) \n \(sql)")
-         }catch let error as NSError{
+        }catch let error as NSError{
             print("更新消息数据失败 ：\(error.description)")
         }
     }
@@ -181,7 +192,7 @@ class FMDbase: NSObject {
             return found
         }
     }
-
+    
     func selectMess(userid: String,deviceId: String?, messType: Int) -> NSMutableArray{
         let messArr = NSMutableArray()
         do{
@@ -189,14 +200,14 @@ class FMDbase: NSObject {
             if deviceId == nil {
                 sql = String.init(format: "select *from tb_message where user_id=\'%@\' and TYPE=%d order by mes_id DESC limit 1",userid,messType)
             }else{
-             sql = String.init(format: "select *from tb_message where user_id=\'%@\' and device_id=\'%@\' and TYPE=%d order by mes_id DESC limit 1",userid,deviceId!,messType)
+                sql = String.init(format: "select *from tb_message where user_id=\'%@\' and device_id=\'%@\' and TYPE=%d order by mes_id DESC limit 1",userid,deviceId!,messType)
             }
             print(sql)
             for row in try db.prepare(sql) {
                 print("数据会根据查的的按顺序打印 \(row)")
                 messArr.add( ["USERID": StrongGoString(object: row[1]),"DEVICEID": StrongGoString(object: row[2]),"DATE": StrongGoString(object: row[3]),"TYPE": StrongGoString(object: row[4]),"EXTYPE": StrongGoString(object: row[5]),"MESSAGE": StrongGoString(object: row[6]),"HANDLE": StrongGoString(object: row[7])])
             }
-             return messArr
+            return messArr
         }
         catch let error as NSError{
             print("更新消息数据失败 ：\(error.description)")

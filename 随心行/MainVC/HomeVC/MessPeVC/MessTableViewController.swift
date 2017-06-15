@@ -18,7 +18,7 @@ class MessTableViewController: UITableViewController {
 //    var alertArr: NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeMethod()
+       
          createUI()
     }
 
@@ -40,8 +40,6 @@ class MessTableViewController: UITableViewController {
         let sql = FMDbase.shared()
         let alertMess = sql.selectMess(userid: user.userId!, deviceId: nil, messType: 1)
         let applyMess = sql.selectMess(userid: user.userId!, deviceId: nil, messType: 3)
-        //        let alertMess = sql.selectMess(userid: "33", deviceId: nil, messType: 1)
-        //        let applyMess = sql.selectMess(userid: "33", deviceId: nil, messType: 3)
         detailArrs.add(alertMess)
         detailArrs.add(applyMess)
         print(detailArrs)
@@ -58,7 +56,8 @@ class MessTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-       
+        initializeMethod()
+        tableView.reloadData()
     }
     
     func createUI() {
@@ -69,10 +68,12 @@ class MessTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
+        print(messArrs.count)
         return messArrs.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+         print((messArrs[section] as! NSArray).count)
         return (messArrs[section] as! NSArray).count
     }
 
@@ -105,17 +106,26 @@ class MessTableViewController: UITableViewController {
             }
             cell?.headIma.image = iamge?.drawCornerIma(Sise: nil)
             cell?.titLab.text = (messArrs[indexPath.section] as! NSArray)[indexPath.row] as? String
-            guard let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
+            print(detailArrs)
+            guard detailArrs.count > 0, let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
                 cell?.timeLab.text = ""
-                guard let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
+                guard detailArrs.count > 0, let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
                     cell?.messLab.text = "暂无信息"
                     return cell!
                 }
                 cell?.messLab.text = mess
                 return cell!
             }
+            let b = NSMutableCharacterSet(charactersIn:" ")
+            b.addCharacters(in: "/")
+            let dateS = time.components(separatedBy: b as CharacterSet)
+            cell?.timeLab.text = String.init(format: "%@", dateS[3])
             
-            cell?.timeLab.text = time
+            guard detailArrs.count > 0, let mesArr0 = detailArrs[indexPath.row] as? NSMutableArray, let dic0 = mesArr0.lastObject as? NSDictionary, let mess0 = dic0["MESSAGE"] as? String else{
+                cell?.messLab.text = "暂无信息"
+                return cell!
+            }
+            cell?.messLab.text = mess0
         }
         else{
             let deviceInfo = (messArrs[indexPath.section] as! NSMutableArray)[indexPath.row] as! UserInfo
@@ -125,7 +135,7 @@ class MessTableViewController: UITableViewController {
                 iamge = #imageLiteral(resourceName: "icon_img_3")
             }
             cell?.headIma.image = iamge?.drawCornerIma(Sise: nil)
-            cell?.titLab.text = user.deviceName! + (Localizeable(key: "的表") as String)
+            cell?.titLab.text = deviceInfo.deviceName! + (Localizeable(key: "的表") as String)
             
             guard let mesArr = detailArrs[2] as? NSMutableArray, let messArr = mesArr[indexPath.row] as? NSMutableArray, let dic = messArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
                 cell?.timeLab.text = ""
@@ -136,15 +146,43 @@ class MessTableViewController: UITableViewController {
                 cell?.messLab.text = mess
                 return cell!
             }
-            cell?.timeLab.text = time
+            let b = NSMutableCharacterSet(charactersIn:" ")
+            b.addCharacters(in: "/")
+            let dateS = time.components(separatedBy: b as CharacterSet)
+            cell?.timeLab.text = String.init(format: "%@", dateS[3])
+
+            guard let mesArr0 = detailArrs[2] as? NSMutableArray,let messArr0 = mesArr0[indexPath.row] as? NSMutableArray, let dic0 = messArr0.lastObject as? NSDictionary, let mess0 = dic0["MESSAGE"] as? String else{
+                cell?.messLab.text = "暂无信息"
+                return cell!
+            }
+            cell?.messLab.text = mess0
+            return cell!
 
         }
         return cell!
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let mesDetailVC = MssDetailTableViewController(nibName: "MssDetailTableViewController", bundle: nil)
+          let mesDetailVC = MssDetailTableViewController(nibName: "MssDetailTableViewController", bundle: nil)
+        if indexPath.section == 0 && indexPath.row == 0 {
+            mesDetailVC.messType = 1
+            mesDetailVC.title = Localizeable(key: "报警消息") as String
+        }
+        if indexPath.section == 0 && indexPath.row == 1 {
+            mesDetailVC.messType = 3
+            mesDetailVC.title = Localizeable(key: "申请消息") as String
+        }
+        if indexPath.section == 1 && indexPath.row == 0 {
+            let deviceInfo = (messArrs[indexPath.section] as! NSMutableArray)[indexPath.row] as! UserInfo
+            mesDetailVC.messType = 999
+            mesDetailVC.title = deviceInfo.deviceName! + (Localizeable(key: "的表") as String)
+            mesDetailVC.deviceID = deviceInfo.deviceId
+            mesDetailVC.devicePh = deviceInfo.devicePh
+            mesDetailVC.title = Localizeable(key: "申请消息") as String
+        }
+        mesDetailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(mesDetailVC, animated: true)
+        
     }
     
 }

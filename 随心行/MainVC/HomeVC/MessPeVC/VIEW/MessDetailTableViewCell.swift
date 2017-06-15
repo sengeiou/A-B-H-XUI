@@ -10,6 +10,9 @@ import UIKit
 
 class MessDetailTableViewCell: UITableViewCell {
 
+    typealias tapBut = (Int?) ->Void
+    
+    var tapClosure: tapBut?
     @IBOutlet weak var headIma: UIImageView!
     @IBOutlet weak var arcLab: UILabel!
     @IBOutlet weak var messLab: UILabel!
@@ -17,7 +20,51 @@ class MessDetailTableViewCell: UITableViewCell {
     @IBOutlet weak var confimBut: UIButton!
     @IBOutlet weak var handleLasb: UILabel!
     @IBOutlet weak var messImage: UIImageView!
-    var messStype: Int!
+    var _status: Int = 0
+    var status:Int{
+        set{
+            _status = newValue
+            if _status == 0 {
+                cancelBut.isHidden = false
+                confimBut.isHidden = false
+                handleLasb.isHidden = true
+                handleLasb.text = Localizeable(key: "已处理") as String
+            }
+            else{
+                cancelBut.isHidden = true
+                confimBut.isHidden = true
+                handleLasb.isHidden = false
+                if _status == 1 {
+                    handleLasb.text = Localizeable(key: "已同意") as String
+                }
+                else {
+                   handleLasb.text = Localizeable(key: "已拒绝") as String
+                }
+            }
+        }
+        get{
+            return _status
+        }
+    }
+    var _messStype: Int = 1
+    var messStype: Int{
+        set{
+            _messStype = newValue
+            if _messStype == 1 {
+                cancelBut.isHidden = true
+                confimBut.isHidden = true
+                handleLasb.isHidden = true
+            }
+            else{
+                cancelBut.isHidden = false
+                confimBut.isHidden = false
+                handleLasb.isHidden = false
+            }
+        }
+        get{
+            return _messStype
+        }
+    }
     @IBOutlet weak var dateLab: UILabel!
     @IBOutlet weak var timeLab: UILabel!
     override func awakeFromNib() {
@@ -31,6 +78,13 @@ class MessDetailTableViewCell: UITableViewCell {
 
     }
     
+    func selectClosureWithBut(closure: tapBut?){
+        tapClosure = closure
+    }
+    
+    @IBAction func selectBut(_ sender: UIButton) {
+        tapClosure?(sender.tag)
+    }
     func createUI(){
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
