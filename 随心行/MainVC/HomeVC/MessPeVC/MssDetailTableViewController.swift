@@ -25,6 +25,7 @@ class MssDetailTableViewController: UITableViewController {
     }()
     var messType: Int = 1
     var mesPage: Int! = 1
+    var oldMesPage: Int! = 1
     var false1: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,12 +63,17 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 if update{
                     self.tableView.isScrollEnabled = true
-                    self.tableView.footerEndRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                 }
                 guard let itemDic = result as? NSDictionary, let items = itemDic["Items"] as? NSArray else{
                     return
                 }
-                
+                 if items.count < 10 && self.oldMesPage != requDic["PageNo"] as! Int{
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+                else{
+                    self.tableView.mj_footer.isHidden = false
+                }
                 self.toCalculateMess(dictions: items as! Array<Any>)
             }) { (URLSessionDataTask, Error) in
                 if !update {
@@ -76,8 +82,8 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
-                    self.tableView.footerEndRefreshing()
+//                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
+                    self.tableView.mj_footer.endRefreshing()
                 }
             }
         }
@@ -93,7 +99,7 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 if update{
                     self.tableView.isScrollEnabled = true
-                    self.tableView.footerEndRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                 }
                 guard let itemDic = result as? NSDictionary, let items = itemDic["Items"] as? NSArray else{
                     return
@@ -107,8 +113,8 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
-                    self.tableView.footerEndRefreshing()
+//                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
+                    self.tableView.mj_footer.endRefreshing()
                 }
             }
         }
@@ -129,10 +135,17 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 if update{
                     self.tableView.isScrollEnabled = true
-                    self.tableView.footerEndRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                 }
                 guard let itemDic = result as? NSDictionary, let items = itemDic["List"] as? NSArray else{
                     return
+                }
+                print("self.oldMesPage  \(self.oldMesPage)  \n requDic[PageNo] as! Int \(requDic["PageNo"] as! Int) \n items.count  \(items.count) ")
+                if items.count < 10 && self.oldMesPage != requDic["PageNo"] as! Int{
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }
+                else{
+                    self.tableView.mj_footer.isHidden = false
                 }
                 print(items)
                 self.toCalculateMess(dictions: items as! Array<Any>)
@@ -143,8 +156,8 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
-                    self.tableView.footerEndRefreshing()
+//                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
+                   self.tableView.mj_footer.endRefreshing()
                 }
             }
 
@@ -184,7 +197,7 @@ class MssDetailTableViewController: UITableViewController {
         let interval1 = timeZone1.secondsFromGMT()
         let zone1 = TimeZone(secondsFromGMT: interval1/3600)
         formatter1.timeZone = zone1
-        let found  = false
+        var found  = false
         var dates: Array<Dictionary<String, String>> = []
         for mesDic in dictions {
             let diction  = NSMutableDictionary(dictionary: mesDic as! Dictionary)
@@ -244,13 +257,19 @@ class MssDetailTableViewController: UITableViewController {
                     }
                 }
                 else{
-                    return false
+                    if element["CreateTime"] as! String == diction ["CreateTime"] as! String{
+                        return true
+                    }else {
+                        return false
+                    }
                 }
             })
             if !b1 {
                 self.itemsArr.append(diction as! Dictionary<String, Any>)
                 messHeigh.add(messRect)
-                if found {
+                if !found {
+                    found = true
+                    self.oldMesPage = self.mesPage
                     self.mesPage! += 1
                 }
             }
@@ -266,15 +285,27 @@ class MssDetailTableViewController: UITableViewController {
     }
     
     func setupRefrish(){
-        self.tableView.addFooter(withTarget: self, action: #selector(footRereshing))
-        self.tableView.footerPullToRefreshText = Localizeable(key: "上拉可以刷新") as String
-        self.tableView.footerReleaseToRefreshText = Localizeable(key: "松开马上刷新") as String
-        self.tableView.footerRefreshingText = Localizeable(key: "刷新中...") as String
+//        self.tableView.addFooter(withTarget: self, action: #selector(footRereshing))
+//        self.tableView.footerPullToRefreshText = Localizeable(key: "上拉可以刷新") as String
+//        self.tableView.footerReleaseToRefreshText = Localizeable(key: "松开马上刷新") as String
+//        self.tableView.footerRefreshingText = Localizeable(key: "刷新中...") as String
+        
+        let footer = MJRefreshAutoNormalFooter { 
+            self.footRereshing()
+        }
+        footer?.setTitle("点击或上拉可以刷新", for: .idle)
+        footer?.setTitle("刷新中...", for: .refreshing)
+        footer?.setTitle("无更多数据", for: .noMoreData)
+        self.tableView.mj_footer = footer
+        
+//        if messType == 3{
+             self.tableView.mj_footer.isHidden = true
+//        }
     }
     
     func footRereshing(){
         self.tableView.isScrollEnabled = false
-        self.tableView.footerRefreshingText = Localizeable(key: "刷新中...") as String
+//        self.tableView.footerRefreshingText = Localizeable(key: "刷新中...") as String
         initializeMethod(update: true)
     }
     

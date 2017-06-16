@@ -178,7 +178,6 @@ class MessTableViewController: UITableViewController {
             mesDetailVC.title = deviceInfo.deviceName! + (Localizeable(key: "的表") as String)
             mesDetailVC.deviceID = deviceInfo.deviceId
             mesDetailVC.devicePh = deviceInfo.devicePh
-            mesDetailVC.title = Localizeable(key: "申请消息") as String
         }
         mesDetailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(mesDetailVC, animated: true)

@@ -58,6 +58,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         let timeZone = NSTimeZone.system
         let interval = timeZone.secondsFromGMT()
         let httpMar = MyHttpSessionMar.shared
+        if devicePoint != nil {
+            mapView.removeAnnotation(devicePoint)
+        }
+        deviceCoor = nil
         print(user.deviceId)
         let requestDic0 = RequestKeyDic()
         //        if user?.deviceId == nil {
@@ -107,7 +111,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                      "LastTime": Date().description,
                                      "TimeOffset": NSNumber(integerLiteral: interval/3600),
                                      "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
-        //              print("requestDic \(requestDic) frb  \(interval)")
+        //      print("requestDic \(requestDic) frb  \(interval)")
         httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
             
         }, success: { (URLSessionDataTask, result) in
@@ -217,7 +221,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 MBProgressHUD.showError(Error.localizedDescription)
             }
         })
-
+        
     }
     
     func initializeMethod() {
@@ -391,6 +395,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             //            print("点击 \(Int)")
             switch Int{
             case 101:
+                if (self.deviceCoor == nil){
+                    MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+                    return
+                }
+                
                 let urlStr = "tel://" + self.user.devicePh!
                 if let url = URL(string: urlStr){
                     if #available(iOS 10, *){
@@ -412,11 +421,15 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 self.navigationController?.pushViewController(hisVC, animated: true)
                 break
             case 103:
+                if (self.deviceCoor == nil){
+                    MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+                    return
+                }
                 MBProgressHUD.showMessage(Localizeable(key: "正在查询...") as String)
                 
                 let http = MyHttpSessionMar.shared
                 var phoneOper = ""
-                http.get("https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + self.user.devicePh!, parameters: nil, progress: { (Progress) in
+                http.get("https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + StrongGoString(object: self.user.devicePh), parameters: nil, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in
                     if let rdsdic = result as? NSDictionary, let subDic = rdsdic["result"] as? NSDictionary, let operators = subDic["operators"] as? String{
@@ -442,6 +455,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             MBProgressHUD.showError(resultDic["Message"] as! String)
                         }
                     }, failure: { (URLSessionDataTask, Error) in
+                        MBProgressHUD.hide()
                         MBProgressHUD.showError(Error.localizedDescription)
                     })
                     
@@ -452,11 +466,21 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 })
                 break
             case 104:
+                if (self.deviceCoor == nil){
+                    MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+                    return
+                }
+                
                 let addressVC = AddressBookTableViewController(nibName: "AddressBookTableViewController", bundle: nil)
                 addressVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(addressVC, animated: true)
                 break
             case 105:
+                if (self.deviceCoor == nil){
+                    MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+                    return
+                }
+                
                 let securityVC = SecurityTableViewController(nibName: "SecurityTableViewController", bundle: nil)
                 securityVC.hidesBottomBarWhenPushed = true
                 securityVC.deviceLocation = self.deviceCoor
@@ -466,6 +490,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 //                let securityVC = DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil)
                 //                securityVC.hidesBottomBarWhenPushed = true
                 //                self.navigationController?.pushViewController(securityVC, animated: true)
+                if (self.deviceCoor == nil){
+                    MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
+                    return
+                }
+                
                 MBProgressHUD.showMessage(Localizeable(key: "正在发送...") as String)
                 let inta = self.phoneGreetings()
                 let resDic = RequestKeyDic()
@@ -586,10 +615,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
             return
         }
-            let moreSetVC = MoreSetTableViewController(nibName: "MoreSetTableViewController", bundle: nil)
-            moreSetVC.deviceMode = deviceMode
-            moreSetVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(moreSetVC, animated: true)
+        let moreSetVC = MoreSetTableViewController(nibName: "MoreSetTableViewController", bundle: nil)
+        moreSetVC.deviceMode = deviceMode
+        moreSetVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(moreSetVC, animated: true)
     }
     
     func phoneOperator(operStr: String) -> String {

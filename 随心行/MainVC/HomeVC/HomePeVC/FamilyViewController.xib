@@ -16,7 +16,7 @@
                 <outlet property="notTop" destination="Pxt-oN-l26" id="XMN-2g-yfZ"/>
                 <outlet property="permissionsLab" destination="ZiD-28-8ev" id="lI2-Qt-9Kc"/>
                 <outlet property="phoneLab" destination="qtS-5w-S0Z" id="VOC-2O-lpb"/>
-                <outlet property="relationLab" destination="y7D-zv-g27" id="Y2e-TK-kTK"/>
+                <outlet property="relationFile" destination="w07-C7-nBZ" id="3zU-3N-c6I"/>
                 <outlet property="transferBut" destination="KYM-Dp-TTx" id="Bxb-67-q8a"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -75,24 +75,24 @@
                                 <constraint firstAttribute="height" constant="15" id="sow-Nv-nmn"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="儿子" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7D-zv-g27">
-                            <rect key="frame" x="88" y="0.0" width="254" height="44"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w07-C7-nBZ">
+                            <rect key="frame" x="86" y="0.0" width="256" height="44"/>
+                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="ECM-E5-T8i" secondAttribute="bottom" id="2zz-0i-PY6"/>
                         <constraint firstItem="ECM-E5-T8i" firstAttribute="leading" secondItem="dv9-zU-3MF" secondAttribute="leading" constant="15" id="3CJ-mj-dgE"/>
-                        <constraint firstItem="Opb-cc-ZYY" firstAttribute="leading" secondItem="y7D-zv-g27" secondAttribute="trailing" constant="8" id="Jbp-9C-2lc"/>
+                        <constraint firstItem="w07-C7-nBZ" firstAttribute="leading" secondItem="ECM-E5-T8i" secondAttribute="trailing" constant="8" id="GTo-cM-Mfj"/>
                         <constraint firstItem="Opb-cc-ZYY" firstAttribute="centerY" secondItem="dv9-zU-3MF" secondAttribute="centerY" id="N9s-NB-8EX"/>
+                        <constraint firstAttribute="bottom" secondItem="w07-C7-nBZ" secondAttribute="bottom" id="Pnl-mR-vSG"/>
+                        <constraint firstItem="w07-C7-nBZ" firstAttribute="top" secondItem="dv9-zU-3MF" secondAttribute="top" id="Qsd-Ez-uQH"/>
                         <constraint firstAttribute="trailing" secondItem="Opb-cc-ZYY" secondAttribute="trailing" constant="16" id="SjS-66-KZ4"/>
-                        <constraint firstAttribute="bottom" secondItem="y7D-zv-g27" secondAttribute="bottom" id="U0S-V8-2Px"/>
-                        <constraint firstItem="y7D-zv-g27" firstAttribute="top" secondItem="dv9-zU-3MF" secondAttribute="top" id="XAx-Od-7bF"/>
+                        <constraint firstItem="Opb-cc-ZYY" firstAttribute="leading" secondItem="w07-C7-nBZ" secondAttribute="trailing" constant="8" id="Wrl-uK-1Dg"/>
                         <constraint firstItem="ECM-E5-T8i" firstAttribute="top" secondItem="dv9-zU-3MF" secondAttribute="top" id="bDs-JX-Cqe"/>
-                        <constraint firstItem="y7D-zv-g27" firstAttribute="leading" secondItem="ECM-E5-T8i" secondAttribute="trailing" constant="10" id="cJu-5f-iL3"/>
                         <constraint firstAttribute="height" constant="44" id="zaM-f5-S7s"/>
                     </constraints>
                 </view>
@@ -108,7 +108,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="OMO-Gr-7qd">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="OMO-Gr-7qd">
                             <rect key="frame" x="350" y="14.5" width="9" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="15" id="bgJ-AG-u6h"/>

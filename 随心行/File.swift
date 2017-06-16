@@ -217,7 +217,7 @@ extension UIImage{
         return callBackIma!
     }
     
-    //绘制圆角图片
+    //绘制指定大小图片
     func drawSquareIma(Sise: CGSize?) -> UIImage {
         var imaSise:CGSize? = Sise
         if imaSise == nil {

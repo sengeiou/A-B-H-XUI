@@ -16,7 +16,11 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Localizeable(key: "手表通讯录") as String
-        initializeMethod()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+         initializeMethod()
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,6 +59,7 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
             MBProgressHUD.showError(Error.localizedDescription)
         }
     }
+
     
     // MARK: - Table view data source
     
@@ -123,14 +128,12 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
             cell?.detailTextLabel?.font = UIFont.systemFont(ofSize: 15)
             cell?.detailTextLabel?.textColor = UIColor.gray
             let itemDic = deviceInfo[indexPath.row] as! NSDictionary
-            let imaData = NSData(base64Encoded: StrongGoString(object: itemDic.object(forKey: "Avatar")), options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
-            let iamge: UIImage? = UIImage(data: imaData! as Data)
-            if iamge == nil {
-                cell?.imageView?.image = drawImaSize(image: #imageLiteral(resourceName: "icon_img_3"), size: CGSize(width: 50, height: 50))
-            }
-            else{
-                cell?.imageView?.image = drawImaSize(image: iamge!, size: CGSize(width: 50, height: 50))
-            }
+//            cell?.imageView?.sd_setImage(with: URL(string: StrongGoString(object: itemDic.object(forKey: "Avatar"))), placeholderImage: #imageLiteral(resourceName: "icon_img_3"))
+            cell?.imageView?.sd_setImage(with: URL(string: StrongGoString(object: itemDic.object(forKey: "Avatar"))), placeholderImage: drawImaSize(image: #imageLiteral(resourceName: "icon_img_3"), size: CGSize(width: 50, height: 50)), options: .retryFailed, completed: { (image, error, cacheType, imageURL) in
+                if image != nil{
+                    cell?.imageView?.image = image?.drawSquareIma(Sise: CGSize(width: 50, height: 50)).drawCornerIma(Sise: nil)
+                }
+            })
             cell?.detailTextLabel?.text = StrongGoString(object: itemDic.object(forKey: "RelationPhone"))
             print(itemDic["IsAdmin"]!)
             if Int((itemDic["IsAdmin"] as? NSNumber)!) == 1{
