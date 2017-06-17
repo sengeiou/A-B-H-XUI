@@ -22,6 +22,7 @@ class FamilyViewController: UIViewController {
     @IBOutlet var deleteBut: UIButton!
     @IBOutlet var notTop: NSLayoutConstraint!
     @IBOutlet weak var relationFile: UITextField!
+    @IBOutlet weak var relationIndeIma: UIImageView!
     var IsAdmin: Bool! = false
     var relationDic: NSDictionary!
     var delegate: familyDelegate?
@@ -55,12 +56,15 @@ class FamilyViewController: UIViewController {
             deleteBut.isHidden = true
             notTop.constant = -120
             permissionsLab.text = Localizeable(key: "管理员") as String
-            
-            let backbut = UIButton(type: UIButtonType(rawValue: 0)!)
-            backbut.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
-            backbut.setTitle(Localizeable(key: "保存") as String, for: .normal)
-            backbut.addTarget(self, action: #selector(saveSelector), for: UIControlEvents.touchUpInside)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: backbut)
+            if IsAdmin{
+                relationIndeIma.isHidden = false
+                relationFile.isEnabled = true
+                let backbut = UIButton(type: UIButtonType(rawValue: 0)!)
+                backbut.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+                backbut.setTitle(Localizeable(key: "保存") as String, for: .normal)
+                backbut.addTarget(self, action: #selector(saveSelector), for: UIControlEvents.touchUpInside)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: backbut)
+            }
         }
         else{
             permissionsLab.text = Localizeable(key: "普通成员") as String
@@ -70,14 +74,15 @@ class FamilyViewController: UIViewController {
                 deleteBut.isHidden = true
                 notTop.constant = -120
             }
-            //            if user?.userPh == StrongGoString(object: relationDic.object(forKey: "RelationPhone")) {
-            relationFile.isEnabled = true
-            let backbut = UIButton(type: UIButtonType(rawValue: 0)!)
-            backbut.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
-            backbut.setTitle(Localizeable(key: "保存") as String, for: .normal)
-            backbut.addTarget(self, action: #selector(saveSelector), for: UIControlEvents.touchUpInside)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: backbut)
-            //            }
+            if (user?.userPh == StrongGoString(object: relationDic.object(forKey: "RelationPhone")) || IsAdmin) {
+                relationIndeIma.isHidden = false
+                relationFile.isEnabled = true
+                let backbut = UIButton(type: UIButtonType(rawValue: 0)!)
+                backbut.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+                backbut.setTitle(Localizeable(key: "保存") as String, for: .normal)
+                backbut.addTarget(self, action: #selector(saveSelector), for: UIControlEvents.touchUpInside)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: backbut)
+            }
         }
     }
     

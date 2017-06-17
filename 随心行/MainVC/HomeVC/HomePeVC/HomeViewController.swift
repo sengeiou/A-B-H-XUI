@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreTelephony
 
 class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate {
     var mapView: MAMapView!
@@ -62,8 +63,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             mapView.removeAnnotation(devicePoint)
         }
         deviceCoor = nil
-        print(user.deviceId)
-        let requestDic0 = RequestKeyDic()
         //        if user?.deviceId == nil {
         //            return
         //        }
@@ -119,7 +118,18 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
             let fmbase = FMDbase.shared()
             var foundDevi = false
-            fmbase.delegateUser(userInfo: self.user)
+//            fmbase.delegateUser(userInfo: self.user)
+            let devices = FMDbase.shared().selectUsers(userid: self.user.userId!)
+            for item in items{
+                for device in devices!{
+                    if item["Id"] as? Int == Int((device as! UserInfo).deviceId!){
+                        devices?.remove(device)
+                    }
+                }
+            }
+            for device in devices!{
+                fmbase.delegateDevice(userId: (device as! UserInfo).userId!, deviceId: (device as! UserInfo).deviceId!)
+            }
             if (items.count > 0) {
                 for i in 0...(items.count - 1){
                     let itemDic = items[i]
@@ -147,7 +157,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         self.user.deviceName = StrongGoString(object: itemDic0["NickName"])
                         self.user.relatoin = StrongGoString(object: itemDic0["RelationName"])
                     }
-                    print(itemDic)
+                    print("itemDic   \(itemDic)")
                     itemUser.userId = self.user.userId
                     itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
                     itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
@@ -167,12 +177,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         logUser(user: itemUser)
                         fmbase.insertUserInfo(userInfo: itemUser)
                         if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
-                            print("000000 \(itemUser.userPh)")
                             ArchiveRoot(userInfo: itemUser)
                         }
                         if i == (items.count - 1){
                             if !foundDevi{
-                                print("111111 \(self.user.userPh)")
                                 ArchiveRoot(userInfo: self.user)
                                 
                             }
@@ -252,13 +260,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         formatter1.timeZone = zone
                         let date = formatter1.date(from: self.lastCommunTime)
                         titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
-                        print(-((date?.timeIntervalSinceNow)!))
+                        print("-((date?.timeIntervalSinceNow)!)   \(-((date?.timeIntervalSinceNow)!))")
                         print(Int((-(date?.timeIntervalSinceNow)!))/60)
                         if Int((-(date?.timeIntervalSinceNow)!))/60 > 6 {
                             titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                         }
-                        
-                        
                     }
                     else{
                         titleLab = "无设备"
@@ -278,7 +284,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         }
         
         if deviceArr.count > 0 {
-            //            if deviSelView != nil{
             deviSelView?.removeFromSuperview()
             deviSelView = DeviceView(frame: CGRect(x: 10, y: 4, width: MainScreen.width - 20, height: CGFloat(deviceArr.count) * 44.0))
             deviSelView?.deviceArr = deviceArr
@@ -299,7 +304,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 self.user.deviceName = StrongGoString(object: Dictionary?["DEVICENAME"])
                 self.user.deviceIma = StrongGoString(object: Dictionary?["DEVICEIMA"])
                 self.user.relatoin = StrongGoString(object: Dictionary?["RELATION"])
-                print("33333 \(self.user.userPh)")
                 ArchiveRoot(userInfo: self.user)
                 for j in 0...(self.deviceArr.count - 1){
                     let dic = self.deviceArr[j] as! NSMutableDictionary
@@ -336,6 +340,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             //            deviSelView?.deviceArr = deviceArr
         }
         else{
+            self.indexShow = false;
+            indexView.transform = CGAffineTransform.identity
             deviSelView?.removeFromSuperview()
             deviSelView = nil
             deviceView.image = #imageLiteral(resourceName: "icon_tianjia")
@@ -442,12 +448,13 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                              "CmdCode": 2804,
                                              "Params": self.user.devicePh! + inta,
                                              "UserId": self.user.userId!])
+                    print("resDic  \(resDic) \n  self.user.devicePh \(self.user.devicePh) \n foig  \(result)")
                     http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
                         
                     }, success: { (URLSessionDataTask, result) in
                         MBProgressHUD.hide()
                         let resultDic = result as! Dictionary<String, Any>
-                        print(resultDic)
+                        print("resultDic0000000000000  \(resultDic)")
                         if resultDic["State"] as! Int == 0{
                             
                         }
@@ -504,13 +511,13 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                          "CmdCode": 2810,
                                          "Params": self.user.userPh! + inta,
                                          "UserId": self.user.userId!])
-                print(resDic)
+                print("resDic111111111111 \(resDic)")
                 http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in
                     MBProgressHUD.hide()
                     let resultDic = result as! Dictionary<String, Any>
-                    print(resultDic)
+                    print("resultDic22222222 \(resultDic)")
                     if resultDic["State"] as! Int == 0{
                         
                     }
@@ -794,12 +801,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
-        devicePoint = MAPointAnnotation()
-        devicePoint?.coordinate = deviceCoor!
+         devicePoint = MAPointAnnotation()
+        devicePoint?.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(request.location.latitude), longitude: CLLocationDegrees(request.location.longitude))
         devicePoint?.title = Localizeable(key: "当前位置") as String!
         devicePoint?.subtitle = String.init(format: "%@%@%@%@",response.regeocode.addressComponent.province,response.regeocode.addressComponent.city,response.regeocode.addressComponent.district,response.regeocode.addressComponent.township)
         mapView.addAnnotation(devicePoint)
-        //        buildTit.text = String.init(format: "%@%@%@%@%@%@",response.regeocode.addressComponent.province,response.regeocode.addressComponent.city,response.regeocode.addressComponent.district,response.regeocode.addressComponent.township,response.regeocode.addressComponent.neighborhood,response.regeocode.addressComponent.building)
         buildTit.text = response.regeocode.formattedAddress
         if buildTit.text == "" {
             buildTit.text = Localizeable(key: "暂无信息") as String

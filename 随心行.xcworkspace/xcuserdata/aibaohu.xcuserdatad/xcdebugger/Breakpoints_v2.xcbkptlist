@@ -42,60 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/LoginViewController.swift"
-            timestampString = "519288160.102911"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "loginSelect(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/LoginViewController.swift"
             timestampString = "519288166.869482"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "146"
             endingLineNumber = "146"
             landmarkName = "loginSelect(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/MessPeVC/MssDetailTableViewController.swift"
-            timestampString = "519292242.427055"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "initializeMethod(update:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/MessPeVC/MssDetailTableViewController.swift"
-            timestampString = "519292502.067605"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
-            landmarkName = "toCalculateMess(dictions:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -145,6 +97,54 @@
             endingLineNumber = "115"
             landmarkName = "StrongGoString(object:)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/HomeViewController.swift"
+            timestampString = "519383278.003001"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
+            landmarkName = "createUI()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.HomeViewController.(createUI () -&gt; ()).(closure #1).(closure #3)"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/HomeVC/HomePeVC/HomeViewController.swift"
+                  timestampString = "519383490.787713"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "466"
+                  endingLineNumber = "466"
+                  offsetFromSymbolStart = "5184">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "&#x968f;&#x5fc3;&#x884c;.HomeViewController.(createUI () -&gt; ()).(closure #1).(closure #3).(closure #1)"
+                  moduleName = "&#x968f;&#x5fc3;&#x884c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/HomeVC/HomePeVC/HomeViewController.swift"
+                  timestampString = "519383490.789796"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "468"
+                  endingLineNumber = "468"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

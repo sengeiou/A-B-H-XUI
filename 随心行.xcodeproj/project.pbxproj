@@ -197,7 +197,7 @@
 		EE2206CB1EB85F4600885C15 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		EE2206CE1EB85F7400885C15 /* MessTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessTableViewController.swift; sourceTree = "<group>"; };
 		EE2206CF1EB85F7400885C15 /* MessTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessTableViewController.xib; sourceTree = "<group>"; };
-		EE2206D31EB85F9200885C15 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeTableViewController.swift; sourceTree = "<group>"; };
+		EE2206D31EB85F9200885C15 /* MeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeTableViewController.swift; path = HomeVC/MePeVC/MeTableViewController.swift; sourceTree = "<group>"; };
 		EE2206D41EB85F9200885C15 /* MeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeTableViewController.xib; sourceTree = "<group>"; };
 		EE2206DC1EB8894200885C15 /* officialDemoSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "officialDemoSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE2206DF1EB88DC000885C15 /* DeviceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
@@ -526,7 +526,6 @@
 		EE2206D21EB85F8300885C15 /* MePeVC */ = {
 			isa = PBXGroup;
 			children = (
-				EE2206D31EB85F9200885C15 /* MeTableViewController.swift */,
 				EE2206D41EB85F9200885C15 /* MeTableViewController.xib */,
 				EE0717C51EEF983D00BE53A7 /* DeviceListTableViewController.swift */,
 				EE0717C61EEF983D00BE53A7 /* DeviceListTableViewController.xib */,
@@ -563,6 +562,7 @@
 		EE3E3BA11E97432E0065827E /* MainVC */ = {
 			isa = PBXGroup;
 			children = (
+				EE2206D31EB85F9200885C15 /* MeTableViewController.swift */,
 				EE2206C91EB85EB600885C15 /* HomeVC */,
 				EE3E3BA31E9743C40065827E /* NavVC */,
 				EE3E3BA21E9743690065827E /* LoginVC */,
@@ -1105,6 +1105,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "随心行/随心行.entitlements";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = VHVLE5FL92;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1119,7 +1120,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smawatch.xuixin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f17e5ecf-f436-40ba-9a30-438a0cd19c8b";
+				PROVISIONING_PROFILE = "6587bb77-361b-4b48-b3e9-3c087e7cd0b7";
 				PROVISIONING_PROFILE_SPECIFIER = liang_deve_xuixin_text;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/officialDemoSwift-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

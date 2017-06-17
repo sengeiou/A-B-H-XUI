@@ -10,10 +10,14 @@ import UIKit
 
 class HelpViewController: UIViewController {
     
+    @IBOutlet weak var helpWebView: UIWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
         title = Localizeable(key: "常见问题") as String
         // Do any additional setup after loading the view.
+        helpWebView.loadRequest(URLRequest(url: URL(string: "http://139.129.202.165/HealthTracker/HT_FAQ.html")!))
+//        let progressLay = wlwebl
+        
     }
     
     override func didReceiveMemoryWarning() {

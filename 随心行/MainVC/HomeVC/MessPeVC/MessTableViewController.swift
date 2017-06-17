@@ -11,29 +11,30 @@ import UIKit
 class MessTableViewController: UITableViewController {
     var messArrs: NSMutableArray!
     var detailArrs: NSMutableArray!
-    lazy var user: UserInfo = {
-        let user = UnarchiveUser()
-        return user!
-    }()
-//    var alertArr: NSMutableArray!
+    var user: UserInfo!
+    //    var alertArr: NSMutableArray!
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-         createUI()
+        createUI()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func initializeMethod() {
+        user = UnarchiveUser()
         messArrs = NSMutableArray()
         detailArrs = NSMutableArray()
         messArrs.add([Localizeable(key: "报警消息") as String, Localizeable(key: "申请消息") as String])
         let devices = FMDbase.shared().selectUsers(userid: user.userId!)
         guard devices != nil, (devices?.count)! > 0 else {
-          return
+            //            DispatchQueue.main.async() { () -> Void in
+            //                print("1111111111111111111111111111111111111")
+            //                self.tableView.reloadData()
+            //            }
+            return
         }
         messArrs.add(devices!)
         
@@ -44,6 +45,10 @@ class MessTableViewController: UITableViewController {
         detailArrs.add(applyMess)
         print(detailArrs)
         guard messArrs.count > 1,let msss = messArrs.lastObject as? NSMutableArray else {
+            //            DispatchQueue.main.async() { () -> Void in
+            //                print("2222222222222222222222222222222222222222222")
+            //                self.tableView.reloadData()
+            //            }
             return
         }
         let deviceArr = NSMutableArray()
@@ -53,30 +58,33 @@ class MessTableViewController: UITableViewController {
             deviceArr.add(deviceMess)
         }
         detailArrs.add(deviceArr)
+        
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         initializeMethod()
-        tableView.reloadData()
+        DispatchQueue.main.async() { () -> Void in
+            self.tableView.reloadData()
+        }
+        
     }
     
     func createUI() {
-
+        
     }
     
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        print(messArrs.count)
         return messArrs.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         print((messArrs[section] as! NSArray).count)
+        print("(messArrs[section] as! NSArray).count  \((messArrs[section] as! NSArray).count)")
         return (messArrs[section] as! NSArray).count
     }
-
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
@@ -105,8 +113,13 @@ class MessTableViewController: UITableViewController {
                 iamge = #imageLiteral(resourceName: "pic-img_moren")
             }
             cell?.headIma.image = iamge?.drawCornerIma(Sise: nil)
-            cell?.titLab.text = (messArrs[indexPath.section] as! NSArray)[indexPath.row] as? String
-            print(detailArrs)
+            if let array = messArrs[indexPath.section] as? NSArray,let text = array[indexPath.row] as? String {
+                cell?.titLab.text = text
+            }
+            else{
+                cell?.titLab.text = ""
+            }
+            
             guard detailArrs.count > 0, let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
                 cell?.timeLab.text = ""
                 guard detailArrs.count > 0, let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
@@ -150,20 +163,20 @@ class MessTableViewController: UITableViewController {
             b.addCharacters(in: "/")
             let dateS = time.components(separatedBy: b as CharacterSet)
             cell?.timeLab.text = String.init(format: "%@", dateS[3])
-
+            
             guard let mesArr0 = detailArrs[2] as? NSMutableArray,let messArr0 = mesArr0[indexPath.row] as? NSMutableArray, let dic0 = messArr0.lastObject as? NSDictionary, let mess0 = dic0["MESSAGE"] as? String else{
                 cell?.messLab.text = "暂无信息"
                 return cell!
             }
             cell?.messLab.text = mess0
             return cell!
-
+            
         }
         return cell!
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-          let mesDetailVC = MssDetailTableViewController(nibName: "MssDetailTableViewController", bundle: nil)
+        let mesDetailVC = MssDetailTableViewController(nibName: "MssDetailTableViewController", bundle: nil)
         if indexPath.section == 0 && indexPath.row == 0 {
             mesDetailVC.messType = 1
             mesDetailVC.title = Localizeable(key: "报警消息") as String

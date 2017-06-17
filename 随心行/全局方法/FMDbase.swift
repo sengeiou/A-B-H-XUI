@@ -161,7 +161,8 @@ class FMDbase: NSObject {
     
     func insertMess(messDic: Dictionary<String, Any>){
         do{
-            let found = selectMess(userID: messDic["USERID"] as! String, deviceID: messDic["DEVICEID"] as! String, date: messDic["DATE"] as! String)
+            deleteMess(messDic: messDic)
+            let found = selectMess(messDic: messDic)
             var sql = ""
             if !found {
                 sql = String.init(format: "INSERT INTO tb_message (user_id,device_id,date,type,ex_type,message,handle) values(\'%@\',\'%@\',\'%@\',%d,%d,\'%@\',%d)", messDic["USERID"] as! String, messDic["DEVICEID"] as! String, messDic["DATE"] as! String,  Int(StrongGoString(object: messDic["TYPE"] ))!, Int(StrongGoString(object: messDic["EXTYPE"]))!, messDic["MESSAGE"] as! String,Int(StrongGoString(object: messDic["HANDLE"]))!)
@@ -176,10 +177,10 @@ class FMDbase: NSObject {
         }
     }
     
-    func selectMess(userID: String, deviceID: String, date: String) -> Bool{
+    func selectMess(messDic: Dictionary<String, Any>) -> Bool{
         var found: Bool = false
         do{
-            let sql = String.init(format: "select *from tb_message where user_id=\'%@\' and device_id=\'%@\' and date=\'%@\'",userID,deviceID,date)
+            let sql = String.init(format: "select *from tb_message where user_id=\'%@\' and device_id=\'%@\' and date=\'%@\' and type=%d and ex_type=%d",messDic["USERID"] as! String,messDic["DEVICEID"] as! String,messDic["DATE"] as! String,Int(StrongGoString(object: messDic["TYPE"] ))!,Int(StrongGoString(object: messDic["EXTYPE"]))!)
             print(sql)
             for row in try db.prepare(sql) {
                 print("数据会根据查的的按顺序打印 \(row)")
@@ -213,5 +214,18 @@ class FMDbase: NSObject {
             print("更新消息数据失败 ：\(error.description)")
             return messArr
         }
+    }
+    
+    func deleteMess(messDic: Dictionary<String, Any>) {
+        do{
+            print("dic  __ \(messDic)")
+            let sql = String.init(format: "delete from tb_message where user_id=\'%@\' and device_id=\'%@\' and date=\'%@\' and type=%d and ex_type=%d", messDic["USERID"] as! String,messDic["DEVICEID"] as! String,messDic["DATE"] as! String,Int(StrongGoString(object: messDic["TYPE"] ))!,Int(StrongGoString(object: messDic["EXTYPE"]))!)
+            try db.execute(sql)
+            print("删除消息数据")
+        }
+        catch let error as NSError{
+            print("删除消息数据失败 ：\(error.description)")
+        }
+        
     }
 }

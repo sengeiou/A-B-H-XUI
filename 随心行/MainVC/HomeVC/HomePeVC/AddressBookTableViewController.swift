@@ -175,7 +175,7 @@ class AddressBookTableViewController: UITableViewController,familyDelegate {
     }
     
     func permissionManagers() {
-        initializeMethod()
+//        initializeMethod()
     }
     
     func  delegateRelation(relationDic: NSDictionary){

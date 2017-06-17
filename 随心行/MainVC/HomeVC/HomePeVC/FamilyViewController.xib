@@ -17,6 +17,7 @@
                 <outlet property="permissionsLab" destination="ZiD-28-8ev" id="lI2-Qt-9Kc"/>
                 <outlet property="phoneLab" destination="qtS-5w-S0Z" id="VOC-2O-lpb"/>
                 <outlet property="relationFile" destination="w07-C7-nBZ" id="3zU-3N-c6I"/>
+                <outlet property="relationIndeIma" destination="Opb-cc-ZYY" id="vVU-3W-Af7"/>
                 <outlet property="transferBut" destination="KYM-Dp-TTx" id="Bxb-67-q8a"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -68,7 +69,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Opb-cc-ZYY">
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Opb-cc-ZYY">
                             <rect key="frame" x="350" y="14.5" width="9" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="9" id="LY5-xV-YEC"/>
@@ -77,7 +78,7 @@
                         </imageView>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w07-C7-nBZ">
                             <rect key="frame" x="86" y="0.0" width="256" height="44"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>

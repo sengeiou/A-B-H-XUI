@@ -82,7 +82,6 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-//                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
                     self.tableView.mj_footer.endRefreshing()
                 }
             }
@@ -113,7 +112,6 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-//                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
                     self.tableView.mj_footer.endRefreshing()
                 }
             }
@@ -156,11 +154,9 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-//                    self.tableView.footerRefreshingText = Localizeable(key: "刷新失败") as String
                    self.tableView.mj_footer.endRefreshing()
                 }
             }
-
         }
     }
     
@@ -198,7 +194,7 @@ class MssDetailTableViewController: UITableViewController {
         let zone1 = TimeZone(secondsFromGMT: interval1/3600)
         formatter1.timeZone = zone1
         var found  = false
-        var dates: Array<Dictionary<String, String>> = []
+//        var dates: Array<Dictionary<String, String>> = []
         for mesDic in dictions {
             let diction  = NSMutableDictionary(dictionary: mesDic as! Dictionary)
             let labWith = MainScreen.width - 78 - 5 - 15 - 8 - 8
@@ -227,20 +223,20 @@ class MssDetailTableViewController: UITableViewController {
             let dateS = nowTimeStr.components(separatedBy: b as CharacterSet)
             diction.addEntries(from: ["DATE": String.init(format: "%@/%@", dateS[1],dateS[2])])
             diction.addEntries(from: ["TIME": String.init(format: "%@", dateS[3])])
-            if messType == 1{
-                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: diction["NotificationType"]),"MESSAGE":StrongGoString(object: diction["Message"]),"HANDLE": "0"]
-                dates.append(baseDic)
-            }
-            else if messType == 3{
-                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["Info"]),"HANDLE": StrongGoString(object: diction["Status"])]
-                dates.append(baseDic)
-            }
-            else {
-                let baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["BillContent"]),"HANDLE":"0"]
-                dates.append(baseDic)
-
-                print("mesDic  \(mesDic)  (((+  \(diction)")
-            }
+//            if messType == 1{
+//                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: diction["NotificationType"]),"MESSAGE":StrongGoString(object: diction["Message"]),"HANDLE": "0"]
+//                dates.append(baseDic)
+//            }
+//            else if messType == 3{
+//                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["Info"]),"HANDLE": StrongGoString(object: diction["Status"])]
+//                dates.append(baseDic)
+//            }
+//            else {
+//                let baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["BillContent"]),"HANDLE":"0"]
+//                dates.append(baseDic)
+//
+//                print("mesDic  \(mesDic)  (((+  \(diction)")
+//            }
             let b1 = self.itemsArr.contains(where: { (element) -> Bool in
                 if messType == 1{
                     if element["DeviceDate"] as! String == diction ["DeviceDate"] as! String{
@@ -275,8 +271,31 @@ class MssDetailTableViewController: UITableViewController {
             }
         }
         
-        for insDas in dates.reversed() {
-            fmdbase.insertMess(messDic: insDas)
+        for insDas in self.itemsArr.reversed() {
+            var date = ""
+            if messType == 1{
+                date = insDas["DeviceDate"] as! String
+            }
+            else if messType == 3{
+                date = insDas["Created"] as! String
+            }
+            else{
+                date = insDas["CreateTime"] as! String
+            }
+            let date1 = formatter.date(from: date)
+            let dateTime = getNowDateFromatAnDate(anyDate: date1!)
+            let nowTimeStr = formatter1.string(from: dateTime)
+            var baseDic:Dictionary<String, Any>
+            if messType == 1{
+                 baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: insDas["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: insDas["NotificationType"]),"MESSAGE":StrongGoString(object: insDas["Message"]),"HANDLE": "0"]
+            }
+            else if messType == 3{
+                 baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: insDas["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: insDas["Info"]),"HANDLE": StrongGoString(object: insDas["Status"])]
+            }
+            else {
+                 baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: insDas["BillContent"]),"HANDLE":"0"]
+            }
+            fmdbase.insertMess(messDic: baseDic)
         }
         print("mesrect \(messHeigh)  \n ))) \(self.itemsArr)")
         DispatchQueue.main.async { () -> Void in
@@ -285,10 +304,6 @@ class MssDetailTableViewController: UITableViewController {
     }
     
     func setupRefrish(){
-//        self.tableView.addFooter(withTarget: self, action: #selector(footRereshing))
-//        self.tableView.footerPullToRefreshText = Localizeable(key: "上拉可以刷新") as String
-//        self.tableView.footerReleaseToRefreshText = Localizeable(key: "松开马上刷新") as String
-//        self.tableView.footerRefreshingText = Localizeable(key: "刷新中...") as String
         
         let footer = MJRefreshAutoNormalFooter { 
             self.footRereshing()
@@ -297,15 +312,11 @@ class MssDetailTableViewController: UITableViewController {
         footer?.setTitle("刷新中...", for: .refreshing)
         footer?.setTitle("无更多数据", for: .noMoreData)
         self.tableView.mj_footer = footer
-        
-//        if messType == 3{
-             self.tableView.mj_footer.isHidden = true
-//        }
+        self.tableView.mj_footer.isHidden = true
     }
     
     func footRereshing(){
         self.tableView.isScrollEnabled = false
-//        self.tableView.footerRefreshingText = Localizeable(key: "刷新中...") as String
         initializeMethod(update: true)
     }
     
