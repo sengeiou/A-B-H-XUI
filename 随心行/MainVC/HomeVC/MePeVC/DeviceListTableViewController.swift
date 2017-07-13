@@ -96,6 +96,7 @@ class DeviceListTableViewController: UITableViewController {
                 let resDic = result as! Dictionary<String,Any?>
                 if resDic["State"] as! Int == 0{
                     MBProgressHUD.showSuccess(Localizeable(key: "解绑成功") as String)
+                    FMDbase.shared().deleteDeviceMess(userid: self.userInfo.userId!, deviceId: StrongGoString(object: itemDic["Id"]), messType: 999)
                     FMDbase.shared().delegateDevice(userId: self.userInfo.userId!, deviceId: StrongGoString(object: itemDic["Id"]))
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
                         self.navigationController?.popViewController(animated: true)

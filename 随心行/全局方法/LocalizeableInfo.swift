@@ -13,8 +13,8 @@ class LocalizeableInfo: NSObject {
         var s = NSLocalizedString(translation_key as String, comment: "");
         var defaults = Bundle.main.preferredLocalizations.first! as NSString
         defaults = defaults.substring(to: 2) as NSString
-        if defaults != "en" {
-            let path = Bundle.main.path(forResource: "en", ofType: "lproj")
+        if defaults != "zh" {
+            let path = Bundle.main.path(forResource: "zh", ofType: "lproj")
             let languageBundle = Bundle.init(path: path!)
             s = (languageBundle?.localizedString(forKey: translation_key as String, value: "", table: nil))!;
         }

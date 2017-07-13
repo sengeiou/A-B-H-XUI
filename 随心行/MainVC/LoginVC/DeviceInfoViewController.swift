@@ -220,6 +220,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 if resDic["State"] as! Int == 0{
                     MBProgressHUD.showSuccess(Localizeable(key: "保存成功") as String)
                     self.user?.userName = self.deviceRelat.text
+                    self.user?.userPh = self.devicePh.text
                     ArchiveRoot(userInfo: self.user!)
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: { 
                         self.navigationController?.popViewController(animated: true)

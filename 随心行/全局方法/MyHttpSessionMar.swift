@@ -23,11 +23,11 @@ class MyHttpSessionMar: AFHTTPSessionManager {
         self.responseSerializer.acceptableContentTypes = NSSet(objects: "application/json","text/json") as? Set<String>
         self.requestSerializer.setValue("3A73DE89-2C32-4DD8-A8F8-B43C1FC26C17", forHTTPHeaderField: "key")
         self.requestSerializer.setValue("application/json", forHTTPHeaderField: "content-type")
+        self.requestSerializer.timeoutInterval = 60
     }
     
    class func shared1() -> MyHttpSessionMar{
         let httpMar = MyHttpSessionMar()
-    
       return httpMar
     }
   

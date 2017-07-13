@@ -68,7 +68,7 @@ class MssDetailTableViewController: UITableViewController {
                 guard let itemDic = result as? NSDictionary, let items = itemDic["Items"] as? NSArray else{
                     return
                 }
-                 if items.count < 10 && self.oldMesPage != requDic["PageNo"] as! Int{
+                if items.count < 10 && self.oldMesPage != requDic["PageNo"] as! Int{
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }
                 else{
@@ -122,15 +122,12 @@ class MssDetailTableViewController: UITableViewController {
                                       "PageCount": 10,
                                       "AppPhone": user.userPh!,
                                       "Type": 0
-                                      ])
+                ])
             print(requDic)
             let httpMgr = MyHttpSessionMar.shared
             httpMgr.post(Prefix + "api/Device/SelectDeviceBills", parameters: requDic, progress: { (Progress) in
                 
             }, success: { (URLSessionDataTask, result) in
-                if !update {
-                    MBProgressHUD.hide()
-                }
                 if update{
                     self.tableView.isScrollEnabled = true
                     self.tableView.mj_footer.endRefreshing()
@@ -147,6 +144,9 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 print(items)
                 self.toCalculateMess(dictions: items as! Array<Any>)
+                if !update {
+                    MBProgressHUD.hide()
+                }
             }) { (URLSessionDataTask, Error) in
                 if !update {
                     MBProgressHUD.hide()
@@ -154,7 +154,7 @@ class MssDetailTableViewController: UITableViewController {
                 }
                 else{
                     self.tableView.isScrollEnabled = true
-                   self.tableView.mj_footer.endRefreshing()
+                    self.tableView.mj_footer.endRefreshing()
                 }
             }
         }
@@ -169,7 +169,7 @@ class MssDetailTableViewController: UITableViewController {
         }
         
         tableView.tableFooterView = UIView()
-        tableView.separatorStyle = .none
+        //        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
     }
     
@@ -194,16 +194,33 @@ class MssDetailTableViewController: UITableViewController {
         let zone1 = TimeZone(secondsFromGMT: interval1/3600)
         formatter1.timeZone = zone1
         var found  = false
-//        var dates: Array<Dictionary<String, String>> = []
+        //        var dates: Array<Dictionary<String, String>> = []
         for mesDic in dictions {
             let diction  = NSMutableDictionary(dictionary: mesDic as! Dictionary)
-            let labWith = MainScreen.width - 78 - 5 - 15 - 8 - 8
+            let labWith = MainScreen.width - 86 - 15 - 8 - 8
             var messRect: CGRect
             if messType == 999 {
-                 messRect = MessMode.putMessRect(mess: StrongGoString(object: diction["BillContent"]) as NSString, mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                print("e g== ]\(labWith) ** \(diction["BillContent"])")
+                var mess = diction["BillContent"] as! String
+                let messet = CharacterSet.init(charactersIn: "\r")
+                //                mess = mess.trimmingCharacters(in: messet)
+                mess = mess.replacingOccurrences(of: "\r", with: "")
+                //               mess = mess.replacingOccurrences(of: "\n", with: "")
+                let newStr = MessMode.componentsString(mess: mess)
+                var htmlStr = NSAttributedString(string: "")
+                do {
+                    htmlStr = try NSAttributedString(data: newStr.data(using: String.Encoding.unicode)!, options: [NSFontAttributeName: UIFont.systemFont(ofSize: 14),NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+                }
+                catch let error as NSError{
+                    
+                }
+                
+                //   messRect = MessMode.putMessRect(mess: NSAttributedString(string: newStr), mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                print(htmlStr)
+                messRect = MessMode.putMessRect(mess: htmlStr, mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
             }
             else{
-                 messRect = MessMode.putMessRect(mess: StrongGoString(object: diction["Message"]) as NSString, mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
+                messRect = MessMode.putMessRect(mess: NSAttributedString(string: (StrongGoString(object: diction["Message"]) as NSString) as String), mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
             }
             var date = ""
             if messType == 1{
@@ -215,7 +232,13 @@ class MssDetailTableViewController: UITableViewController {
             else{
                 date = diction["CreateTime"] as! String
             }
-            let date1 = formatter.date(from: date)
+            var date1 = formatter.date(from: date)
+            print("date \(date), BillContent \(diction["BillContent"])")
+            if date1 == nil && messType != 1 && messType != 3{
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                date1 = formatter.date(from: date)
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            }
             let dateTime = getNowDateFromatAnDate(anyDate: date1!)
             let nowTimeStr = formatter1.string(from: dateTime)
             let b = NSMutableCharacterSet(charactersIn:" ")
@@ -223,20 +246,20 @@ class MssDetailTableViewController: UITableViewController {
             let dateS = nowTimeStr.components(separatedBy: b as CharacterSet)
             diction.addEntries(from: ["DATE": String.init(format: "%@/%@", dateS[1],dateS[2])])
             diction.addEntries(from: ["TIME": String.init(format: "%@", dateS[3])])
-//            if messType == 1{
-//                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: diction["NotificationType"]),"MESSAGE":StrongGoString(object: diction["Message"]),"HANDLE": "0"]
-//                dates.append(baseDic)
-//            }
-//            else if messType == 3{
-//                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["Info"]),"HANDLE": StrongGoString(object: diction["Status"])]
-//                dates.append(baseDic)
-//            }
-//            else {
-//                let baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["BillContent"]),"HANDLE":"0"]
-//                dates.append(baseDic)
-//
-//                print("mesDic  \(mesDic)  (((+  \(diction)")
-//            }
+            //            if messType == 1{
+            //                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: diction["NotificationType"]),"MESSAGE":StrongGoString(object: diction["Message"]),"HANDLE": "0"]
+            //                dates.append(baseDic)
+            //            }
+            //            else if messType == 3{
+            //                let baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: diction["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["Info"]),"HANDLE": StrongGoString(object: diction["Status"])]
+            //                dates.append(baseDic)
+            //            }
+            //            else {
+            //                let baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: diction["BillContent"]),"HANDLE":"0"]
+            //                dates.append(baseDic)
+            //
+            //                print("mesDic  \(mesDic)  (((+  \(diction)")
+            //            }
             let b1 = self.itemsArr.contains(where: { (element) -> Bool in
                 if messType == 1{
                     if element["DeviceDate"] as! String == diction ["DeviceDate"] as! String{
@@ -282,18 +305,23 @@ class MssDetailTableViewController: UITableViewController {
             else{
                 date = insDas["CreateTime"] as! String
             }
-            let date1 = formatter.date(from: date)
+            var date1 = formatter.date(from: date)
+            if date1 == nil && messType != 1 && messType != 3{
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                date1 = formatter.date(from: date)
+                formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            }
             let dateTime = getNowDateFromatAnDate(anyDate: date1!)
             let nowTimeStr = formatter1.string(from: dateTime)
             var baseDic:Dictionary<String, Any>
             if messType == 1{
-                 baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: insDas["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: insDas["NotificationType"]),"MESSAGE":StrongGoString(object: insDas["Message"]),"HANDLE": "0"]
+                baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: insDas["DeviceID"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": StrongGoString(object: insDas["NotificationType"]),"MESSAGE":StrongGoString(object: insDas["Message"]),"HANDLE": "0"]
             }
             else if messType == 3{
-                 baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: insDas["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: insDas["Info"]),"HANDLE": StrongGoString(object: insDas["Status"])]
+                baseDic = ["USERID": self.user.userId!,"DEVICEID": StrongGoString(object: insDas["DeviceId"]),"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: insDas["Info"]),"HANDLE": StrongGoString(object: insDas["Status"])]
             }
             else {
-                 baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: insDas["BillContent"]),"HANDLE":"0"]
+                baseDic = ["USERID": self.user.userId!,"DEVICEID": deviceID!,"DATE": nowTimeStr,"TYPE": String.init(format: "%d", messType),"EXTYPE": "0","MESSAGE":StrongGoString(object: insDas["BillContent"]),"HANDLE":"0"]
             }
             fmdbase.insertMess(messDic: baseDic)
         }
@@ -305,7 +333,7 @@ class MssDetailTableViewController: UITableViewController {
     
     func setupRefrish(){
         
-        let footer = MJRefreshAutoNormalFooter { 
+        let footer = MJRefreshAutoNormalFooter {
             self.footRereshing()
         }
         footer?.setTitle("点击或上拉可以刷新", for: .idle)
@@ -351,14 +379,14 @@ class MssDetailTableViewController: UITableViewController {
             cell?.headIma.sd_setImage(with: URL(string: dic["Avatar"] as! String), placeholderImage: #imageLiteral(resourceName: "icon_pu"))
         }
         else{
-//            let imadata = NSData(base64Encoded: self.user.deviceIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
-//            let iamge: UIImage? = UIImage(data: imadata! as Data)
-//            if iamge == nil {
-                cell?.headIma.image = #imageLiteral(resourceName: "icon_pu")
-//            }
-//            else{
-//                cell?.headIma.image = iamge
-//            }
+            //            let imadata = NSData(base64Encoded: self.user.deviceIma!, options: NSData.Base64DecodingOptions(rawValue: UInt(0)))
+            //            let iamge: UIImage? = UIImage(data: imadata! as Data)
+            //            if iamge == nil {
+            cell?.headIma.image = #imageLiteral(resourceName: "icon_pu")
+            //            }
+            //            else{
+            //                cell?.headIma.image = iamge
+            //            }
         }
         cell?.dateLab.text = StrongGoString(object: dic["DATE"])
         cell?.timeLab.text = StrongGoString(object: dic["TIME"])
@@ -428,7 +456,20 @@ class MssDetailTableViewController: UITableViewController {
             })
         }
         else{
-             cell?.messLab.text = StrongGoString(object: dic["BillContent"])
+            //             cell?.messLab.text = StrongGoString(object: dic["BillContent"])
+            var mess = dic["BillContent"] as! String
+            mess = mess.replacingOccurrences(of: "\r", with: "")
+            let newStr = MessMode.componentsString(mess: mess)
+            var htmlStr = NSAttributedString(string: "")
+            do {
+                htmlStr = try NSAttributedString(data: newStr.data(using: String.Encoding.unicode)!, options: [NSFontAttributeName: UIFont.systemFont(ofSize: 14),NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType], documentAttributes: nil)
+            }
+            catch let error as NSError{
+                
+            }
+
+            cell?.messLab.attributedText = htmlStr
+            //            cell?.messLab.attributedText = NSAttributedString(string: newStr, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
         }
         
         return cell!

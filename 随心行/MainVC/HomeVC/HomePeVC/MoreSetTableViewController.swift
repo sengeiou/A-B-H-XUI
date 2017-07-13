@@ -22,10 +22,20 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
         super.viewDidLoad()
         initializeMethod()
         createUI()
+        NotificaCenter.addObserver(self, selector: #selector(notifiction), name: Notification.Name(rawValue: "updateSetting"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        requestCommand()
+    }
+    
+    deinit {
+        NotificaCenter.removeObserver(self, name: Notification.Name(rawValue: "updateSetting"), object: nil)
+    }
+    
+    func notifiction() {
+        print("接收到通知")
         requestCommand()
     }
     
@@ -384,6 +394,7 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                         print(resultDic)
                         if resultDic["State"] as! Int == 0{
                             MBProgressHUD.showSuccess(Localizeable(key: "解绑成功！！！") as String)
+                            FMDbase.shared().deleteDeviceMess(userid: self.userInfo.userId!, deviceId: self.userInfo.deviceId!, messType: 999)
                             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                                 self.navigationController?.popViewController(animated: true)
                             }
@@ -492,6 +503,8 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
             cell?.detailTextLabel?.text = "20:00 -- 07:00"
         }
     }
+    
+    
     /*
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

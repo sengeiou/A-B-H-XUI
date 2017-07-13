@@ -747,9 +747,23 @@ const char * flowKey;
 
 #pragma mark - Unit Delegate
 
+- (BOOL)selectUnitIsPlaceholder:(FSCalendarUnit *)unit
+{
+    FSCalendarPage *page = (FSCalendarPage *)unit.superview;
+    NSLog(@"fwgerh %@  __ %@  +++ %@",unit.date ,page.date,self.currentMonth);
+    BOOL isPlaceholder = NO;
+    if (page.date.fs_month == [NSDate date].fs_month && page.date.fs_year == [NSDate date].fs_year && unit.date.fs_day > [NSDate date].fs_day) {
+        isPlaceholder = YES;
+    }   else
+        if (self.currentMonth.fs_year == unit.date.fs_year && self.currentMonth.fs_month == unit.date.fs_month) {
+            isPlaceholder = YES;
+        }
+    return isPlaceholder;
+}
+
 - (void)handleUnitTap:(FSCalendarUnit *)unit
 {
-    if ([self shouldSelectDate:unit.date] && !unit.isSelected) {
+    if ([self shouldSelectDate:unit.date] && !unit.isSelected && [self selectUnitIsPlaceholder:unit]) {
         if (unit.isPlaceholder) {
             NSArray *subviews;
             if ([_page0.subviews containsObject:unit]) {
@@ -777,7 +791,7 @@ const char * flowKey;
 
 - (void)changeDateWithSelectedDate:(NSDate *)date currentDate:(NSDate *)currentDate{
     NSInteger gap = 0;
-           NSLog(@"wggrhh==%@  *** %@ )))  %ld  +++ %ld  —————— %ld",self.selectedDate,date,(long)gap,_currentMonth.fs_month,date.fs_month);
+    NSLog(@"wggrhh==%@  *** %@ )))  %ld  +++ %ld  —————— %ld",self.selectedDate,date,(long)gap,_currentMonth.fs_month,date.fs_month);
     if (_currentMonth.fs_month == date.fs_month) {
         if (self.selectedDate.fs_year != date.fs_year) {
             gap = self.selectedDate.fs_year - date.fs_year;
@@ -789,7 +803,7 @@ const char * flowKey;
     else{
         gap = _currentMonth.fs_month - date.fs_month;
     }
-        //    NSInteger index = date.fs_day;
+    //    NSInteger index = date.fs_day;
         CGPoint destOffset;
     NSLog(@"fewhehh=== %ld",gap);
         if (gap >= 1) {
@@ -800,7 +814,7 @@ const char * flowKey;
             destOffset = CGPointMake(_scrollView.contentOffset.x+([self flowOffset].x * -gap), _scrollView.contentOffset.y+self.flowOffset.y);
             [_scrollView setContentOffset:destOffset animated:YES];
         }
-//    }
+    //    }
     
     self.selectedDate = date;
     [self didSelectDate:date];

@@ -119,7 +119,16 @@ class MessTableViewController: UITableViewController {
             else{
                 cell?.titLab.text = ""
             }
-            
+            if indexPath.row == 0 {
+                if Defaultinfos.getIntValueForKey(key: warningNum) > 0 {
+                    cell?.notiLab.isHidden = false
+                }
+            }
+            else{
+                if Defaultinfos.getIntValueForKey(key: applyForNum) > 0 {
+                    cell?.notiLab.isHidden = false
+                }
+            }
             guard detailArrs.count > 0, let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
                 cell?.timeLab.text = ""
                 guard detailArrs.count > 0, let mesArr = detailArrs[indexPath.row] as? NSMutableArray, let dic = mesArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
@@ -149,7 +158,9 @@ class MessTableViewController: UITableViewController {
             }
             cell?.headIma.image = iamge?.drawCornerIma(Sise: nil)
             cell?.titLab.text = deviceInfo.deviceName! + (Localizeable(key: "的表") as String)
-            
+            if Defaultinfos.getIntValueForKey(key: revertNum) > 0 {
+                cell?.notiLab.isHidden = false
+            }
             guard let mesArr = detailArrs[2] as? NSMutableArray, let messArr = mesArr[indexPath.row] as? NSMutableArray, let dic = messArr.lastObject as? NSDictionary, let time = dic["DATE"] as? String else{
                 cell?.timeLab.text = ""
                 guard let mesArr = detailArrs[2] as? NSMutableArray,let messArr = mesArr[indexPath.row] as? NSMutableArray, let dic = messArr.lastObject as? NSDictionary, let mess = dic["MESSAGE"] as? String else{
@@ -176,14 +187,17 @@ class MessTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as? MessTableViewCell
         let mesDetailVC = MssDetailTableViewController(nibName: "MssDetailTableViewController", bundle: nil)
         if indexPath.section == 0 && indexPath.row == 0 {
             mesDetailVC.messType = 1
             mesDetailVC.title = Localizeable(key: "报警消息") as String
+             Defaultinfos.putKeyWithInt(key: warningNum, value: 0)
         }
         if indexPath.section == 0 && indexPath.row == 1 {
             mesDetailVC.messType = 3
             mesDetailVC.title = Localizeable(key: "申请消息") as String
+             Defaultinfos.putKeyWithInt(key: applyForNum, value: 0)
         }
         if indexPath.section == 1 && indexPath.row == 0 {
             let deviceInfo = (messArrs[indexPath.section] as! NSMutableArray)[indexPath.row] as! UserInfo
@@ -191,6 +205,15 @@ class MessTableViewController: UITableViewController {
             mesDetailVC.title = deviceInfo.deviceName! + (Localizeable(key: "的表") as String)
             mesDetailVC.deviceID = deviceInfo.deviceId
             mesDetailVC.devicePh = deviceInfo.devicePh
+            Defaultinfos.putKeyWithInt(key: revertNum, value: 0)
+        }
+        cell?.notiLab.isHidden = true
+        let notNum = Defaultinfos.getIntValueForKey(key: warningNum)
+        let applyNum = Defaultinfos.getIntValueForKey(key: applyForNum)
+        let reverNum = Defaultinfos.getIntValueForKey(key: revertNum)
+        self.navigationController?.tabBarItem.badgeValue = String.init(format: "%d", notNum + applyNum + reverNum)
+        if notNum + applyNum + reverNum == 0{
+            self.navigationController?.tabBarItem.badgeValue = nil
         }
         mesDetailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(mesDetailVC, animated: true)

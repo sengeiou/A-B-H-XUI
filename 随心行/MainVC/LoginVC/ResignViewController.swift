@@ -28,17 +28,17 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
         createUI()
         
-//        let fmdb = FMDbase.shared()
-//        let user = UserInfo()
-//        user.userId = "123456"
-//        user.deviceId = "imed"
-//        user.devicePh = "7894561"
-//        user.deviceIma = "baidu.com1"
-//        user.relatoin = "老大1"
-//        user.userName = "welcome1"
-//        user.userPass = "******1"
-//        user.userIma = "2manhua.com1"
-//        fmdb.insertUserInfo(userInfo: user)
+        //        let fmdb = FMDbase.shared()
+        //        let user = UserInfo()
+        //        user.userId = "123456"
+        //        user.deviceId = "imed"
+        //        user.devicePh = "7894561"
+        //        user.deviceIma = "baidu.com1"
+        //        user.relatoin = "老大1"
+        //        user.userName = "welcome1"
+        //        user.userPass = "******1"
+        //        user.userIma = "2manhua.com1"
+        //        fmdb.insertUserInfo(userInfo: user)
     }
     
     override func didReceiveMemoryWarning() {
@@ -53,15 +53,17 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         view.endEditing(true)
         super.viewWillDisappear(animated)
-//        let fmdb = FMDbase.shared()
-//        let user = UserInfo()
-//        user.userId = "123456"
-//        user.deviceId = "imed"
-//        fmdb.delegateUser(userInfo: user)
+        //        let fmdb = FMDbase.shared()
+        //        let user = UserInfo()
+        //        user.userId = "123456"
+        //        user.deviceId = "imed"
+        //        fmdb.delegateUser(userInfo: user)
     }
     
     func createUI() {
-        
+        Defaultinfos.putKeyWithInt(key: warningNum, value: 0)
+        Defaultinfos.putKeyWithInt(key: applyForNum, value: 0)
+        Defaultinfos.putKeyWithInt(key: revertNum, value: 0)
         NotificationCenter.default.addObserver(self, selector: #selector(becomeActivity(not:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         title = Localizeable(key: "创建账号") as String
         if changePass {
@@ -112,7 +114,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 MBProgressHUD.hide()
                 MBProgressHUD.showError(Localizeable(key: "发送失败") as String!)
             }
-        return
+            return
         }
         parameterDic.addEntries(from: ["Token" : ""])
         print(parameterDic)
@@ -151,7 +153,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 MBProgressHUD.showError(resDic["Message"] as! String!)
             }
         }) { (DataTask, Error) in
-           print("Error  \(Error)")
+            print("Error  \(Error)")
             MBProgressHUD.hide()
             MBProgressHUD.showError(Error.localizedDescription)
         }
@@ -171,8 +173,8 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func resignSelect(_ sender: UIButton) {
-//        navigationController?.pushViewController(BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil), animated: true)
-//        return
+        //        navigationController?.pushViewController(BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil), animated: true)
+        //        return
         
         let result : Bool = CheckText(str: passFild.text!)
         print("eiowig \(result)  iwogijoerg  \(passFild.text!)")
@@ -210,7 +212,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 
             }, success: { (URLSessionDataTask, result) in
                 print("loginResult \(result)")
-                 MBProgressHUD.hide()
+                MBProgressHUD.hide()
                 let resultDic = result as! Dictionary<String, Any>
                 if resultDic["State"] as! Int != 0{
                     MBProgressHUD.showError(resultDic["Message"] as! String)
@@ -219,10 +221,10 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                     MBProgressHUD.showSuccess(Localizeable(key: "修改成功") as String!)
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                         //code
-                       _ = self.navigationController?.popViewController(animated: true)
+                        _ = self.navigationController?.popViewController(animated: true)
                     }
                 }
-
+                
             }, failure: { (URLSessionDataTask, Error) in
                 MBProgressHUD.hide()
                 MBProgressHUD.showError(Error.localizedDescription)
@@ -266,9 +268,9 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                                              "TimeOffset": NSNumber(integerLiteral: interval/3600),
                                              "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
                 
-                 httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
+                httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
                     
-                 }, success: { (URLSessionDataTask, result) in
+                }, success: { (URLSessionDataTask, result) in
                     let resultDic = result as! Dictionary<String, Any>
                     let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
                     if items.count > 0{
@@ -291,9 +293,9 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                     else{
                         self.navigationController?.pushViewController(BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil), animated: true)
                     }
-                 }, failure: { (URLSessionDataTask, Error) in
-                     MBProgressHUD.showError(Error.localizedDescription)
-                 })
+                }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.showError(Error.localizedDescription)
+                })
             }
         }) { (URLSessionDataTask, Error) in
             MBProgressHUD.hide()
@@ -322,7 +324,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func tagsAliasCallback(resCode:CInt, tags:NSSet, alias:NSString) {
-         print("tagsAliasCallback \(resCode)")
+        print("tagsAliasCallback \(resCode)")
         if resCode != 0 {
             JPUSHService.setTags(nil, aliasInbackground: "U" + (UnarchiveUser()?.userId)!)
         }

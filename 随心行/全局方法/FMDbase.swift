@@ -226,6 +226,17 @@ class FMDbase: NSObject {
         catch let error as NSError{
             print("删除消息数据失败 ：\(error.description)")
         }
-        
     }
+    
+     func deleteDeviceMess(userid: String,deviceId: String, messType: Int) {
+        do{
+            let sql = String.init(format: "delete from tb_message where user_id=\'%@\' and device_id=\'%@\' and type=%d", userid,deviceId,messType)
+            try db.execute(sql)
+            print("删除指定用户消息数据")
+        }
+        catch let error as NSError{
+            print("删除指定用户消息数据失败 ：\(error.description)")
+        }
+    }
+
 }

@@ -22,7 +22,7 @@ class MeTableViewController: UITableViewController {
     }
     
     func initializeMethod(){
-        titArr = [[Localizeable(key: "账号信息") as String],[Localizeable(key: "设备列表") as String,Localizeable(key: "密码修改") as String],[Localizeable(key: "常见问题") as String,Localizeable(key: "关于") as String],[Localizeable(key: "退出登录") as String]]
+        titArr = [[Localizeable(key: "账号信息") as String],[Localizeable(key: "设备列表") as String,Localizeable(key: "密码修改") as String,Localizeable(key: "检查更新") as String],[Localizeable(key: "常见问题") as String,Localizeable(key: "关于") as String],[Localizeable(key: "退出登录") as String]]
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -47,6 +47,9 @@ class MeTableViewController: UITableViewController {
             cell?.textLabel?.text = titArr[indexPath.section][indexPath.row]
             cell?.selectionStyle = .none
             cell?.accessoryType = .disclosureIndicator
+            if indexPath.row == 2 {
+                cell?.accessoryType = .none
+            }
             return cell!
         }
         else{
@@ -56,7 +59,7 @@ class MeTableViewController: UITableViewController {
                 cell = UITableViewCell(style: .value1, reuseIdentifier: cellIndent)
             }
             cell?.selectionStyle = .none
-            let signoutLab = UILabel(frame: (cell?.contentView.bounds)!)
+            let signoutLab = UILabel(frame: CGRect(x: 0, y: 0, width: MainScreen.size.width, height: 44))
             signoutLab.textColor = ColorFromRGB(rgbValue: 0x59AAFD)
             signoutLab.textAlignment = .center
             signoutLab.text = titArr[indexPath.section][indexPath.row]
@@ -75,7 +78,7 @@ class MeTableViewController: UITableViewController {
         }
         return 20
     }
-
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             let deviceVC = DeviceInfoViewController(nibName: "DeviceInfoViewController", bundle: nil)
@@ -112,20 +115,30 @@ class MeTableViewController: UITableViewController {
                 
             })
             let conAct = UIAlertAction(title: "确定", style: .default, handler: { (AlertAction) in
-            ArchiveRoot(userInfo: getNewUser())
+                ArchiveRoot(userInfo: getNewUser())
+                JPUSHService.setTags(nil, alias: "U1", callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
                 Defaultinfos.removeValueForKey(key: Account)
                 Defaultinfos.removeValueForKey(key: AccountToken)
+                Defaultinfos.putKeyWithInt(key: warningNum, value: 0)
+                Defaultinfos.putKeyWithInt(key: applyForNum, value: 0)
+                Defaultinfos.putKeyWithInt(key: revertNum, value: 0)
                 let loginVC = LoginViewController(nibName: "LoginViewController", bundle: nil)
                 let nav = NavViewController(rootViewController: loginVC)
                 UIApplication.shared.keyWindow?.rootViewController = nav
-
+                
             })
             aler.addAction(canAct)
             aler.addAction(conAct)
-            present(aler, animated: true, completion: { 
+            present(aler, animated: true, completion: {
                 
             })
         }
     }
     
+    @objc func tagsAliasCallback(resCode:CInt, tags:NSSet, alias:NSString) {
+        print("signuptagsAliasCallback \(resCode)")
+        if resCode != 0 {
+            JPUSHService.setTags(nil, aliasInbackground: "U1")
+        }
+    }
 }

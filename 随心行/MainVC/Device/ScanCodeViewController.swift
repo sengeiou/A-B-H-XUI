@@ -220,6 +220,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                 let httpMar = MyHttpSessionMar.shared
                 let parameterDic = RequestKeyDic()
                 parameterDic.addEntries(from: ["SerialNumber":resultObj.stringValue,"UserId": String.init(format: "%d", Defaultinfos.getIntValueForKey(key: UserID))])
+                print("Defaultinfos.getIntValueForKey(key: UserID)  \(Defaultinfos.getIntValueForKey(key: UserID))")
                 print(parameterDic)
                 httpMar.post(Prefix + "api/Device/CheckDevice", parameters: parameterDic, progress: { (Progress) in
                     
@@ -229,8 +230,10 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                     let relationVC = RelationViewController(nibName: "RelationViewController", bundle: nil)
                     let user = getNewUser()
                     user.userId = String(format: "%d", Defaultinfos.getIntValueForKey(key: UserID))
+                    user.userPh = Defaultinfos.getValueForKey(key: Account) as? String
                     user.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
 //                    let fmdb = FMDbase.shared()
+                    print("lgepk   \(Defaultinfos.getValueForKey(key: Account))  ***  \(user.userPh)")
                    relationVC.user = user
                     //记录已选中设备信息
                     

@@ -25,6 +25,8 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
     var polylines : Array<MAPolyline> = []
     var timeArrs: Array<String> = []
     var search: AMapSearchAPI!
+    var checkSearch: Int = 0
+    var starTit,endTit: String!
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeMethod()
@@ -126,12 +128,14 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         playBut.addTarget(self, action: #selector(tapPlayBut(sender:)), for: .touchUpInside)
         locaView.addSubview(playBut)
         
-        locaTit = UILabel(frame: CGRect(x: 10, y: 8, width: MainScreen.width - playBut.frame.width - 38, height: 40))
+        locaTit = UILabel(frame: CGRect(x: 10, y: 4, width: MainScreen.width - playBut.frame.width - 38, height: 46))
         locaTit.text = "暂无数据"
-        locaTit.font = UIFont.systemFont(ofSize: 20)
+        //        locaTit.backgroundColor = UIColor.green
+        locaTit.numberOfLines = 0;
+        locaTit.font = UIFont.systemFont(ofSize: 19)
         locaView.addSubview(locaTit)
         
-        locaSub = UILabel(frame: CGRect(x: 10, y: locaTit.frame.maxY , width: MainScreen.width - playBut.frame.width - 38, height: 40 - 8 - 4))
+        locaSub = UILabel(frame: CGRect(x: 10, y: locaTit.frame.maxY , width: MainScreen.width - playBut.frame.width - 38, height: 40 - 8 - 8))
         locaSub.text = "暂无数据"
         locaSub.font = UIFont.systemFont(ofSize: 13)
         locaSub.textColor = UIColor.gray
@@ -225,7 +229,9 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
                 self.timeArrs.append(locaDic["Time"] as! String)
             }
             print("self.coords \(self.coords)")
-            self.drawAnnotation()
+//            self.drawAnnotation()
+            self.checkSearch = 0
+            self.checkGeocode()
         }) { (SessionDataTask, error) in
             MBProgressHUD.hide()
             MBProgressHUD.showError(error.localizedDescription)
@@ -266,10 +272,12 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         
         let starAnn = MAAnimatedAnnotation()
         starAnn.coordinate = coords.first!
+        starAnn.title = starTit
         annotations.append(starAnn)
         
         let endAnn = MAAnimatedAnnotation()
         endAnn.coordinate = coords.last!
+        endAnn.title = endTit
         annotations.append(endAnn)
         
         mapView.addAnnotations(annotations)
@@ -279,7 +287,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         mapView.addOverlays(polylines)
         mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(70, 50, 40, 50), animated: true)
         
-        self.checkGeocode()
+        
     }
     
     func tapDateBut(sender: UIButton) {
@@ -308,18 +316,23 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
     }
     
     func tapPlayBut(sender: UIButton) {
+        if(self.movingAnnotation == nil || annotations.count == 0)
+        {
+            return
+        }
         if(self.movingAnnotation.allMoveAnimations() != nil) {
             for item in self.movingAnnotation.allMoveAnimations() {
                 let animation = item
                 animation.cancel()
             }
         }
+        //        print(annotations)
         let movAnnView:MAPinAnnotationView = mapView .view(for: annotations.first) as! MAPinAnnotationView
         movAnnView.isHidden = false
         self.movingAnnotation.movingDirection = 0;
         self.movingAnnotation.coordinate = coords.first!
         
-      
+        
         var distances:Double = 0
         var oldPoint = MAMapPointForCoordinate(coords.first!)
         if coords.count > 1 {
@@ -338,7 +351,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         }
         self.movingAnnotation.addMoveAnimation(withKeyCoordinates: &(self.coords), count: UInt(self.coords.count), withDuration: CGFloat(duration), withName: nil) { (Bool) in
             if Bool{
-                 movAnnView.isHidden = true
+                movAnnView.isHidden = true
             }
         }
     }
@@ -347,15 +360,28 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         self.date = date;
         self.dateBut.setTitle(checkDate(date: self.date), for: .normal)
         dateBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletopright, space: 6)
+        var found = false
+        print(hisTrajectorys)
         if (hisTrajectorys != nil) {
             let formatter1 = DateFormatter()
             formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             for day in self.hisTrajectorys!{
                 let dateStr = formatter1.date(from: day as! String)! as NSDate
                 if (self.date as NSDate).fs_day == dateStr.fs_day && (self.date as NSDate).fs_month == dateStr.fs_month{
+                    found = true
                     requestHistoryDay()
                 }
             }
+        }
+        if !found{
+            locaTit.text = "暂无数据"
+            locaSub.text = "当日无定位数据"
+            self.coords.removeAll()
+            self.timeArrs.removeAll()
+            mapView.removeAnnotations(annotations)
+            annotations.removeAll()
+            mapView.removeOverlays(polylines)
+            polylines.removeAll()
         }
     }
     
@@ -384,8 +410,13 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
     }
     
     func checkGeocode() {
-//        let search = AMapSearchAPI()
-//        search?.delegate = self
+        //        let search = AMapSearchAPI()
+        //        search?.delegate = self
+        let regeo0 = AMapReGeocodeSearchRequest()
+        regeo0.location = AMapGeoPoint.location(withLatitude: CGFloat((coords.first?.latitude)!), longitude: CGFloat((coords.first?.longitude)!))
+        regeo0.requireExtension = true
+        search.aMapReGoecodeSearch(regeo0)
+        
         let regeo = AMapReGeocodeSearchRequest()
         regeo.location = AMapGeoPoint.location(withLatitude: CGFloat((coords.last?.latitude)!), longitude: CGFloat((coords.last?.longitude)!))
         regeo.requireExtension = true
@@ -403,7 +434,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
             }
             annotationView?.canShowCallout              = true
             annotationView.animatesDrop                 = false
-            annotationView.isDraggable                   = false
+            annotationView.isDraggable                  = false
             
             var imge =  UIImage.init(named: "userPosition")
             if (annotation as? MAAnimatedAnnotation == movingAnnotation) {
@@ -421,9 +452,9 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
                 if annotation as? MAAnimatedAnnotation == annotations[2] {
                     imge = #imageLiteral(resourceName: "ic_dingwei_zd").mergeIma(ima: iamge!.drawSquareIma(Sise: nil).drawCornerIma(Sise: nil))
                 }
+                annotationView.centerOffset = CGPoint(x: CGFloat(0), y: -CGFloat((imge?.size.height)!/2))
             }
             annotationView?.image =  imge
-            annotationView.centerOffset = CGPoint(x: CGFloat(0), y: -CGFloat((imge?.size.height)!/2))
             
             if (annotation as? MAAnimatedAnnotation == movingAnnotation) {
                 annotationView.isHidden = true
@@ -453,10 +484,34 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
     }
     
     func onReGeocodeSearchDone(_ request: AMapReGeocodeSearchRequest!, response: AMapReGeocodeSearchResponse!) {
-        locaTit.text = response.regeocode.addressComponent.building
-        let sessionId = timeArrs.last
-        let index = sessionId?.index((sessionId?.endIndex)!, offsetBy: -5)
-        let suffix = sessionId?.substring(from: index!)
-        locaSub.text = suffix! + " 手表精准定位"
+        print(response.regeocode.addressComponent)
+        checkSearch = checkSearch + 1
+        if request.location.latitude == CGFloat((coords.last?.latitude)!) && request.location.longitude == CGFloat((coords.last?.longitude)!) {
+            locaTit.text = response.regeocode.addressComponent.city + response.regeocode.addressComponent.district + response.regeocode.addressComponent.township
+            let sessionId = timeArrs.last
+//            let index = sessionId?.index((sessionId?.endIndex)!, offsetBy: -8)
+//            let suffix = sessionId?.substring(from: index!)
+            
+            let formatter1 = DateFormatter()
+            formatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let zone = TimeZone(secondsFromGMT: 0)
+            formatter1.timeZone = zone
+            let date0 = formatter1.date(from: sessionId!)
+            let date = getNowDateFromatAnDate(anyDate:date0!)
+            formatter1.dateFormat = "HH:mm:ss"
+            
+            locaSub.text = formatter1.string(from: date) + " 手表精准定位"
+            if locaTit.text == ""{
+                locaTit.text = "暂无数据"
+                locaSub.text = "当日无定位数据"
+            }
+            endTit = response.regeocode.formattedAddress
+        }
+        else{
+            starTit = response.regeocode.formattedAddress
+        }
+        if checkSearch == 2 {
+            drawAnnotation()
+        }
     }
 }

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>zh_CN</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.1</string>
+	<string>1.0.5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -36,11 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow this app to access your camera or not</string>
+	<string>允许这个程序访问你的相机</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow this app to access your location or not</string>
+	<string>允许这个程序访问你的位置</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow this app to access your album or not</string>
+	<string>允许这个程序访问你的相册</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

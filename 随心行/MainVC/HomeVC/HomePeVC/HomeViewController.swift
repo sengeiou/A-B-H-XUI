@@ -31,6 +31,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     var deviceMode: Int!
     var lastCommunTime: String!
     var positionType: Int!
+    var firstLoad: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
@@ -44,6 +45,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage.ImageWithColor(color: ColorFromRGB(rgbValue: 0x389aff), size: CGSize(width: MainScreen.width, height: 64)), for: UIBarMetrics(rawValue: 0)!)
         requestDeviceData(showProgress: false)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("iowjf iojgi o  ==\(mapView.userLocation.location)")
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,7 +69,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
-        deviceCoor = nil
+        
         //        if user?.deviceId == nil {
         //            return
         //        }
@@ -118,37 +125,49 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
             let fmbase = FMDbase.shared()
             var foundDevi = false
-//            fmbase.delegateUser(userInfo: self.user)
+            //            fmbase.delegateUser(userInfo: self.user)
             let devices = FMDbase.shared().selectUsers(userid: self.user.userId!)
+           
             for item in items{
-                for device in devices!{
-                    if item["Id"] as? Int == Int((device as! UserInfo).deviceId!){
-                        devices?.remove(device)
+//                if ((devices?.count)! > 0){
+                let set = NSMutableIndexSet()
+                var i = 0
+                    for device in devices!{
+                        if item["Id"] as? Int == Int((device as! UserInfo).deviceId!){
+//                            devices?.remove(device)
+                            set.add(i)
+                        }
+                        i = i + 1
                     }
-                }
+//                }
+                print("set.count  \(set.count)")
+                devices?.removeObjects(at: set as IndexSet)
             }
             for device in devices!{
                 fmbase.delegateDevice(userId: (device as! UserInfo).userId!, deviceId: (device as! UserInfo).deviceId!)
             }
+            self.deviceCoor = nil
             if (items.count > 0) {
                 for i in 0...(items.count - 1){
                     let itemDic = items[i]
                     var itemUser = getNewUser()
                     if self.user.deviceId != nil{
                         if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
+                            print(itemDic)
                             itemUser = self.user
                             self.deviceMode = itemDic["Model"] as! Int
                             self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
-                            self.lastCommunTime = itemDic["LastCommunication"] as! String
+                            self.lastCommunTime = itemDic["DeviceUtcTime"] as! String
                             self.positionType = itemDic["PositionType"] as! Int
                             foundDevi = true
                         }
                     }
                     if !foundDevi && i == (items.count - 1){
                         let itemDic0 = items[0]
+                        print(itemDic0)
                         self.deviceMode = itemDic0["Model"] as! Int
                         self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic0["Latitude"] as! Double, longitude: itemDic0["Longitude"] as! Double)
-                        self.lastCommunTime = itemDic0["LastCommunication"] as! String
+                        self.lastCommunTime = itemDic0["DeviceUtcTime"] as! String
                         self.positionType = itemDic0["PositionType"] as! Int
                         
                         //                                itemUser.userId = self.user.userId
@@ -188,7 +207,14 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                 DispatchQueue.main.async() { () -> Void in
                                     MBProgressHUD.hide()
                                     if self.deviceCoor != nil{
-                                        self.mapView.setCenter(self.deviceCoor!, animated: true)
+                                        if (self.mapView.userLocation.location != nil && self.deviceCoor != nil){
+                                            var arrCoods:Array<CLLocationCoordinate2D> = [self.mapView.userLocation.location.coordinate,self.deviceCoor!]
+                                            let distance = MAMetersBetweenMapPoints(MAMapPointForCoordinate(arrCoods.first!),MAMapPointForCoordinate(arrCoods[1]))
+                                            let polyline1:MAPolyline! =  MAPolyline.init(coordinates: &(arrCoods), count: UInt(arrCoods.count))
+                                            if distance < 500 {
+                                                self.mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(200, 100, self.toolView.frame.height + 150, 100), animated: false)                                            }
+                                        }
+                                        self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
                                     }
                                 }
                             }
@@ -214,11 +240,22 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     DispatchQueue.main.async() { () -> Void in
                         MBProgressHUD.hide()
                         if self.deviceCoor != nil{
-                            self.mapView.setCenter(self.deviceCoor!, animated: true)
+                            if (self.mapView.userLocation.location != nil && self.deviceCoor != nil){
+                                var arrCoods:Array<CLLocationCoordinate2D> = [self.mapView.userLocation.location.coordinate,self.deviceCoor!]
+                                let distance = MAMetersBetweenMapPoints(MAMapPointForCoordinate(arrCoods.first!),MAMapPointForCoordinate(arrCoods[1]))
+                                let polyline1:MAPolyline! =  MAPolyline.init(coordinates: &(arrCoods), count: UInt(arrCoods.count))
+                                if distance < 500 {
+                                    self.mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(200, 100, self.toolView.frame.height + 150, 100), animated: false)                                }
+                            }
+                            self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
                         }
                     }
                 }
                 DispatchQueue.main.async() { () -> Void in
+                    //                    if !self.firstLoad && self.deviceCoor != nil{
+                    //                        self.firstLoad = true
+                    //                         self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
+                    //                    }
                     self.initializeMethod()
                     self.addAnnotation()
                 }
@@ -258,11 +295,12 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         formatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
                         let zone = TimeZone(secondsFromGMT: 0)
                         formatter1.timeZone = zone
-                        let date = formatter1.date(from: self.lastCommunTime)
+                        let date0 = formatter1.date(from: self.lastCommunTime)
+                        let date = getNowDateFromatAnDate(anyDate:date0!)
                         titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
-                        print("-((date?.timeIntervalSinceNow)!)   \(-((date?.timeIntervalSinceNow)!))")
-                        print(Int((-(date?.timeIntervalSinceNow)!))/60)
-                        if Int((-(date?.timeIntervalSinceNow)!))/60 > 6 {
+                        print("-((date?.timeIntervalSinceNow)!)   \(((date.timeIntervalSinceNow))) *****   \(((date0?.timeIntervalSinceNow)))___ \(date)")
+                        print(Int(-((date0?.timeIntervalSinceNow)!))/60)
+                        if Int(-((date0?.timeIntervalSinceNow)!))/60 > 6 {
                             titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                         }
                     }
@@ -332,7 +370,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     titleLab = "无设备"
                     self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                 }
-                
+                self.requestDeviceData(showProgress: true)
             }
             view.addSubview(deviSelView!)
             //            }
@@ -357,7 +395,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     func createUI() {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem.buttonWithItem(target: self, butIma: #imageLiteral(resourceName: "icon_set"), frame: CGRect(x: 0, y: 0, width: 40, height: 40), action: #selector(moreSet))
-        
         NotificaCenter.addObserver(self, selector: #selector(notifiction), name: Notification.Name(rawValue: "updateDevice"), object: nil)
         
         view.backgroundColor = UIColor.white
@@ -367,6 +404,18 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
+        //      mapView.userLocation.showsAccuracyRing
+        
+        let r = MAUserLocationRepresentation()
+        r.showsHeadingIndicator = true;
+        r.showsAccuracyRing = false
+        r.fillColor = UIColor.blue
+        r.strokeColor = UIColor.clear
+        r.lineWidth = 2
+        r.enablePulseAnnimation = true
+        r.locationDotBgColor = ColorFromRGB(rgbValue: 0x389aff)
+        r.locationDotFillColor = UIColor.white
+        mapView.update(r)
         view.addSubview(mapView)
         
         search = AMapSearchAPI()
@@ -389,11 +438,13 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         let barBar = UIBarButtonItem(customView: leftBar)
         navigationItem.leftBarButtonItem = barBar
         
-        titLab = UILabel(frame: CGRect(x: 0, y: 0, width: 154, height: 44))
+        titLab = UILabel(frame: CGRect(x: 0, y: 0, width: 184, height: 44))
         titLab.attributedText = attributedString(strArr: ["无设备",Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
         titLab.textAlignment = .center
         titLab.lineBreakMode = .byTruncatingMiddle
+        //    titLab.backgroundColor = UIColor.green
         navigationItem.titleView = titLab
+        //    navigationController?.navigationBar.setNeedsDisplay()
         
         toolView = DeviceToolView(frame: CGRect(x: 0, y: view.bounds.height - 64 - (tabBarController?.tabBar.frame.height)! - 180, width: MainScreen.width, height: 180))
         view.addSubview(toolView)
@@ -446,7 +497,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
                                              "DeviceModel": self.deviceMode,
                                              "CmdCode": 2804,
-                                             "Params": self.user.devicePh! + inta,
+                                             "Params": self.user.userPh! + inta,
                                              "UserId": self.user.userId!])
                     print("resDic  \(resDic) \n  self.user.devicePh \(self.user.devicePh) \n foig  \(result)")
                     http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
@@ -511,7 +562,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                          "CmdCode": 2810,
                                          "Params": self.user.userPh! + inta,
                                          "UserId": self.user.userId!])
-                print("resDic111111111111 \(resDic)")
+                print("resDic111111111111 \(resDic)  ——————  \(self.user.userPh!)")
                 http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in
@@ -615,6 +666,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         else{
             mapView.zoomLevel = mapView.zoomLevel + 1
         }
+        print("mapView.zoomLevel \(mapView.zoomLevel)")
     }
     
     func moreSet() {
@@ -666,7 +718,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     func tapMapFunction(sender: UIButton) {
         switch sender.tag {
         case 1001:
-            mapView.setCenter(mapView.userLocation.location.coordinate, animated: true)
+            //            mapView.setCenter(mapView.userLocation.location.coordinate, animated: true)
+            self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: mapView.userLocation.location.coordinate.latitude - 0.0001, longitude: mapView.userLocation.location.coordinate.longitude), animated: true)
             break
         case 1002:
             requestDeviceData(showProgress: true)
@@ -715,7 +768,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             }
             self.leftBar.isHidden = !self.toolShow
             self.titLab.isHidden = !self.toolShow
-            
+            self.navigationItem.rightBarButtonItem?.customView?.isHidden = !self.toolShow
         }, completion: { (Bool) in
             if !self.toolShow {
                 UIView.animate(withDuration: 0.3, animations: {
@@ -731,6 +784,22 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     }
     
     func addAnnotation() {
+        print("userloca \(mapView.userLocation.location)  deviece \(deviceCoor)")
+        
+        if !self.firstLoad && self.deviceCoor != nil{
+            self.firstLoad = true
+            if (mapView.userLocation.location != nil && deviceCoor != nil){
+                var arrCoods:Array<CLLocationCoordinate2D> = [mapView.userLocation.location.coordinate,deviceCoor!]
+                let distance = MAMetersBetweenMapPoints(MAMapPointForCoordinate(arrCoods.first!),MAMapPointForCoordinate(arrCoods[1]))
+                let polyline1:MAPolyline! =  MAPolyline.init(coordinates: &(arrCoods), count: UInt(arrCoods.count))
+                if distance < 500 {
+                    mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(200, 100, self.toolView.frame.height + 150, 100), animated: false)
+                }
+            }
+            self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
+            
+            //            self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: false)
+        }
         guard deviceCoor != nil else {
             return
         }
@@ -766,6 +835,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         annotationView?.leftCalloutAccessoryView = navBut
         annotationView?.image = #imageLiteral(resourceName: "ic_dingwei").mergeIma(ima: iamge!.drawSquareIma(Sise: nil).drawCornerIma(Sise: nil))
         annotationView?.canShowCallout = true
+        
         return annotationView
     }
     
@@ -784,6 +854,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     }
     
     func aMapSearchRequest(_ request: Any!, didFailWithError error: Error!) {
+        
+        
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
@@ -801,7 +873,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if devicePoint != nil {
             mapView.removeAnnotation(devicePoint)
         }
-         devicePoint = MAPointAnnotation()
+        devicePoint = MAPointAnnotation()
         devicePoint?.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(request.location.latitude), longitude: CLLocationDegrees(request.location.longitude))
         devicePoint?.title = Localizeable(key: "当前位置") as String!
         devicePoint?.subtitle = String.init(format: "%@%@%@%@",response.regeocode.addressComponent.province,response.regeocode.addressComponent.city,response.regeocode.addressComponent.district,response.regeocode.addressComponent.township)
@@ -810,17 +882,28 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         if buildTit.text == "" {
             buildTit.text = Localizeable(key: "暂无信息") as String
         }
-        buildSub.text = positionType(type: positionType)
+        let formatter1 = DateFormatter()
+        formatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let zone = TimeZone(secondsFromGMT: 0)
+        formatter1.timeZone = zone
+        let date0 = formatter1.date(from: self.lastCommunTime)
+        let date = getNowDateFromatAnDate(anyDate:date0!)
+        formatter1.dateFormat = "HH:mm:ss"
+        buildSub.text =  formatter1.string(from: date) + positionType(type: positionType)
+    }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MAMapView!) {
+        print("mapViewDidFinishLoadingMap")
     }
     
     func positionType(type: Int) -> String {
         switch type {
         case 1:
-            return Localizeable(key: "GPS 定位") as String
+            return Localizeable(key: " GPS 定位") as String
         case 2:
-            return Localizeable(key: "LBS 定位") as String
+            return Localizeable(key: " LBS 定位") as String
         default:
-            return Localizeable(key: "WIFI 定位") as String
+            return Localizeable(key: " WIFI 定位") as String
         }
     }
 }

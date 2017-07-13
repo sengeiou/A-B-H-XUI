@@ -7,7 +7,9 @@
 //
 
 import UIKit
-
+let warningNum = "warningNum"   //报警
+let applyForNum = "applyForNum"  //申请
+let revertNum = "revertNum"     //回复
 
 class Defaultinfos: NSObject {
  
