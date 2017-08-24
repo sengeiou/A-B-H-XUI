@@ -241,7 +241,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         }
                         print("返回 \(resultDic) items \(items)")
                     }, failure: { (URLSessionDataTask, Error) in
+                        
                         MBProgressHUD.hide()
+                        if (Error as NSError).code == -999{
+                            return;
+                        }
                         MBProgressHUD.showError(Error.localizedDescription)
                     })
                     

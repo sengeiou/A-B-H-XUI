@@ -128,6 +128,9 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                 }
             }, failure: { (URLSessionDataTask, Error) in
                 MBProgressHUD.hide()
+                if (Error as NSError).code == -999{
+                    return;
+                }
                 MBProgressHUD.showError(Error.localizedDescription)
                 sender.isOn = !sender.isOn
             })
@@ -160,6 +163,9 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                 }
             }, failure: { (URLSessionDataTask, Error) in
                 MBProgressHUD.hide()
+                if (Error as NSError).code == -999{
+                    return;
+                }
                 MBProgressHUD.showError(Error.localizedDescription)
                 sender.isOn = !sender.isOn
             })
@@ -352,6 +358,9 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                     }
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             })
@@ -405,6 +414,9 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                         }
                     }, failure: { (URLSessionDataTask, Error) in
                         MBProgressHUD.hide()
+                        if (Error as NSError).code == -999{
+                            return;
+                        }
                         MBProgressHUD.showError(Error.localizedDescription)
                     })
                     
@@ -454,6 +466,9 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                     }
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             })

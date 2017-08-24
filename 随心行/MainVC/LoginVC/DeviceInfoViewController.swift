@@ -76,6 +76,9 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 
             }, failure: { (URLSessionDataTask, Error) in
                 MBProgressHUD.hide()
+                if (Error as NSError).code == -999{
+                    return;
+                }
                 MBProgressHUD.showError(Error.localizedDescription)
             })
             
@@ -232,6 +235,9 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 
             }, failure: { (URLSessionDataTask, Error) in
                 MBProgressHUD.hide()
+                if (Error as NSError).code == -999{
+                    return;
+                }
                 MBProgressHUD.showError(Error.localizedDescription)
             })
             return

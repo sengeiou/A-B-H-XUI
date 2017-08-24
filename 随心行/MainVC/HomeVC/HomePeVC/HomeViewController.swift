@@ -32,6 +32,9 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     var lastCommunTime: String!
     var positionType: Int!
     var firstLoad: Bool = false
+    var allowTap: Bool = false
+    var requestTimer: Timer!
+    var requestNum: Int! = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
@@ -45,71 +48,63 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage.ImageWithColor(color: ColorFromRGB(rgbValue: 0x389aff), size: CGSize(width: MainScreen.width, height: 64)), for: UIBarMetrics(rawValue: 0)!)
         requestDeviceData(showProgress: false)
+        allowTap = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("iowjf iojgi o  ==\(mapView.userLocation.location)")
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificaCenter.removeObserver(self)
+        let httpMar = MyHttpSessionMar.shared
+        httpMar.operationQueue.cancelAllOperations()
+        for task in httpMar.tasks{
+            task.cancel()
+        }
     }
     
-    func requestDeviceData(showProgress: Bool) {
-        if showProgress{
-            MBProgressHUD.showMessage(Localizeable(key: "正在查询设备...") as String!)
+    func timeRequest(httpMa: MyHttpSessionMar,showPro: Bool){
+        let userDic = requestTimer.userInfo as! Dictionary<String, Any>
+        let showProgress =  userDic["showProgress"] as! Bool
+        let httpMar = userDic["manager"] as! MyHttpSessionMar
+        
+        if self.requestNum >= 30 {
+            for task in httpMar.tasks{
+                task.cancel()
+            }
+            if (self.requestTimer != nil) {
+                self.requestTimer.invalidate()
+                self.requestTimer = nil
+                self.requestNum = 0
+            }
+            return
         }
-        user = UnarchiveUser()
-        let timeZone = NSTimeZone.system
-        let interval = timeZone.secondsFromGMT()
-        let httpMar = MyHttpSessionMar.shared
-        if devicePoint != nil {
-            mapView.removeAnnotation(devicePoint)
+       self.requestNum! += 1
+        if self.deviceMode != nil {
+            
+            let resDic = RequestKeyDic()
+            resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
+                                     "DeviceModel": self.deviceMode,
+                                     "CmdCode": LOCATION_REAL_TIME,
+                                     "Params": "",
+                                     "UserId": self.user.userId!])
+            httpMar.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
+                
+            }, success: { (URLSessionDataTask, result) in
+                let resultDic = result as! Dictionary<String, Any>
+                print("resultDic000*******0000000000  \(resultDic)  ***8 number \(self.requestNum)")
+                
+                
+            }) { (URLSessionDataTask, Error) in
+                
+            }
         }
         
-        //        if user?.deviceId == nil {
-        //            return
-        //        }
-        //        requestDic0.addEntries(from: ["DeviceId": StrongGoString(object: (user?.deviceId)!)])
-        //        httpMar.post(Prefix + "api/AuthShare/ShareList", parameters: requestDic0, progress: { (Progress) in
-        //
-        //        }, success: { (URLSessionDataTask, result) in
-        //            let resultDic = result as! Dictionary<String, Any>
-        //            print("resultDic \(resultDic)")
-        //            let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
-        //            var userImaUrl = ""
-        //            var foneDevice = false
-        //            if resultDic["State"] as! Int == 0{
-        //                for i in 0...(items.count - 1){
-        //                    if self.user.userId != nil{
-        //                        let itemDic = items[i]
-        //                        if Int(self.user.userId!) == itemDic["UserId"] as? Int{
-        //                            self.user.userId = StrongGoString(object: itemDic["UserId"]  as! Int)
-        //                            self.user.userPh = StrongGoString(object: itemDic["LoginName"])
-        //                            self.user.userName = StrongGoString(object: itemDic["Username"])
-        //                            self.user.relatoin = StrongGoString(object: itemDic["RelationName"])
-        //                            userImaUrl = StrongGoString(object: itemDic["Avatar"])
-        //                            foneDevice = true
-        //                        }
-        //                    }
-        //                    if i == (items.count - 1) && foneDevice == false{
-        //                        let itemDic = items[i]
-        //                        self.user.userId = StrongGoString(object: itemDic["UserId"]  as! Int)
-        //                        self.user.userPh = StrongGoString(object: itemDic["LoginName"])
-        //                        self.user.userName = StrongGoString(object: itemDic["Username"])
-        //                        self.user.relatoin = StrongGoString(object: itemDic["RelationName"])
-        //                        userImaUrl = StrongGoString(object: itemDic["Avatar"])
-        //                    }
-        //                }
-        //            }
-        //            if userImaUrl == ""{
-        //                userImaUrl = "0"
-        //            }
-        //            downloadedFrom(url: URL(string: userImaUrl)!, callBack: { (Image)  in
-        //                self.user.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+        let timeZone = NSTimeZone.system
+        let interval = timeZone.secondsFromGMT()
         let requestDic = RequestKeyDic()
         requestDic.addEntries(from: ["UserId": StrongGoString(object: (self.user?.userId)!),
                                      "GroupId": "",
@@ -117,36 +112,36 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                      "LastTime": Date().description,
                                      "TimeOffset": NSNumber(integerLiteral: interval/3600),
                                      "Token": StrongGoString(object: Defaultinfos.getValueForKey(key: AccountToken))])
-        //      print("requestDic \(requestDic) frb  \(interval)")
+        print("requestDic \(requestDic) frb  \(interval)")
         httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
             
-        }, success: { (URLSessionDataTask, result) in
+        }, success: { (SessionDataTask, result) in
             let resultDic = result as! Dictionary<String, Any>
             let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
             let fmbase = FMDbase.shared()
             var foundDevi = false
             //            fmbase.delegateUser(userInfo: self.user)
             let devices = FMDbase.shared().selectUsers(userid: self.user.userId!)
-           
+            
             for item in items{
-//                if ((devices?.count)! > 0){
+                //                if ((devices?.count)! > 0){
                 let set = NSMutableIndexSet()
                 var i = 0
-                    for device in devices!{
-                        if item["Id"] as? Int == Int((device as! UserInfo).deviceId!){
-//                            devices?.remove(device)
-                            set.add(i)
-                        }
-                        i = i + 1
+                for device in devices!{
+                    if item["Id"] as? Int == Int((device as! UserInfo).deviceId!){
+                        // devices?.remove(device)
+                        set.add(i)
                     }
-//                }
+                    i = i + 1
+                }
+                //                }
                 print("set.count  \(set.count)")
                 devices?.removeObjects(at: set as IndexSet)
             }
             for device in devices!{
                 fmbase.delegateDevice(userId: (device as! UserInfo).userId!, deviceId: (device as! UserInfo).deviceId!)
             }
-            self.deviceCoor = nil
+            var reloadUI = false
             if (items.count > 0) {
                 for i in 0...(items.count - 1){
                     let itemDic = items[i]
@@ -156,7 +151,35 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             print(itemDic)
                             itemUser = self.user
                             self.deviceMode = itemDic["Model"] as! Int
-                            self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
+                            if self.deviceCoor == nil{
+                                self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
+//                                for task in httpMar.tasks{
+//                                    if task != SessionDataTask{
+//                                        task.cancel()
+//                                    }
+//                                }
+//                                if (self.requestTimer != nil) {
+//                                    self.requestTimer.invalidate()
+//                                    self.requestTimer = nil
+//                                    self.requestNum = 0
+//                                }
+                                reloadUI = true
+                            }
+                            if (self.deviceCoor?.latitude != itemDic["Latitude"] as? Double || self.deviceCoor?.longitude != itemDic["Longitude"] as? Double){
+                                self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
+                                for task in httpMar.tasks{
+                                    if task != SessionDataTask{
+                                        task.cancel()
+                                    }
+                                }
+                                if (self.requestTimer != nil) {
+                                    self.requestTimer.invalidate()
+                                    self.requestTimer = nil
+                                    self.requestNum = 0
+                                }
+                                reloadUI = true
+                            }
+                            
                             self.lastCommunTime = itemDic["DeviceUtcTime"] as! String
                             self.positionType = itemDic["PositionType"] as! Int
                             foundDevi = true
@@ -169,12 +192,22 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic0["Latitude"] as! Double, longitude: itemDic0["Longitude"] as! Double)
                         self.lastCommunTime = itemDic0["DeviceUtcTime"] as! String
                         self.positionType = itemDic0["PositionType"] as! Int
-                        
                         //                                itemUser.userId = self.user.userId
                         self.user.deviceId = StrongGoString(object: itemDic0["Id"] as! Int)
                         self.user.devicePh = StrongGoString(object: itemDic0["Sim"])
                         self.user.deviceName = StrongGoString(object: itemDic0["NickName"])
                         self.user.relatoin = StrongGoString(object: itemDic0["RelationName"])
+                        
+                        for task in httpMar.tasks{
+                            if task != SessionDataTask{
+                                task.cancel()
+                            }
+                        }
+                        if (self.requestTimer != nil) {
+                            self.requestTimer.invalidate()
+                            self.requestTimer = nil
+                            self.requestNum = 0
+                        }
                     }
                     print("itemDic   \(itemDic)")
                     itemUser.userId = self.user.userId
@@ -220,7 +253,9 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             }
                             DispatchQueue.main.async() { () -> Void in
                                 self.initializeMethod()
-                                self.addAnnotation()
+                                if reloadUI{
+                                    self.addAnnotation()
+                                }
                                 if self.isNavi{
                                     let but = self.locaView.viewWithTag(1003) as! UIButton
                                     self.tapMapFunction(sender: but)
@@ -260,12 +295,114 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     self.addAnnotation()
                 }
             }
-        }, failure: { (URLSessionDataTask, Error) in
+        }, failure: { (URLSessionDataTask, error) in
+            for task in httpMar.tasks{
+                task.cancel()
+            }
+            if (self.requestTimer != nil) {
+                self.requestTimer.invalidate()
+                self.requestTimer = nil
+                self.requestNum = 0
+            }
+            print(error)
+            MBProgressHUD.hide()
+            if (error as NSError).code == -999{
+                return;
+            }
+            if showProgress{
+                MBProgressHUD.showError(error.localizedDescription)
+            }
+        })
+    }
+    
+    func requestDeviceData(showProgress: Bool) {
+        if showProgress{
+            MBProgressHUD.showMessage(Localizeable(key: "正在查询设备...") as String!)
+        }
+        user = UnarchiveUser()
+        
+        let httpMar = MyHttpSessionMar.shared
+        httpMar.operationQueue.cancelAllOperations()
+        for task in httpMar.tasks{
+            task.cancel()
+        }
+        // TimeRequest(httpMar: httpMar, showProgress: showProgress)
+        if (self.requestTimer != nil) {
+            self.requestTimer.invalidate()
+            self.requestTimer = nil
+            self.requestNum = 0
+        }
+        
+        if self.deviceMode == nil || self.deviceCoor == nil {
+            self.requestTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timeRequest(httpMa:showPro:)), userInfo: ["manager":httpMar,"showProgress":showProgress], repeats: true)
+            return
+        }
+        
+        let resDic = RequestKeyDic()
+        resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
+                                 "DeviceModel": self.deviceMode,
+                                 "CmdCode": LOCATION_REAL_TIME,
+                                 "Params": "",
+                                 "UserId": self.user.userId!])
+        httpMar.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
+            
+        }, success: { (URLSessionDataTask, result) in
+            let resultDic = result as! Dictionary<String, Any>
+            print("resultDic0000000000000  \(resultDic)")
+            if resultDic["State"] as! Int == 0{
+                self.requestTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timeRequest(httpMa:showPro:)), userInfo: ["manager":httpMar,"showProgress":showProgress], repeats: true)
+            }
+            else{
+                MBProgressHUD.hide()
+                MBProgressHUD.showError(resultDic["Message"] as! String)
+            }
+            
+        }) { (URLSessionDataTask, Error) in
             if showProgress{
                 MBProgressHUD.hide()
                 MBProgressHUD.showError(Error.localizedDescription)
             }
-        })
+        }
+        //        if user?.deviceId == nil {
+        //            return
+        //        }
+        //        requestDic0.addEntries(from: ["DeviceId": StrongGoString(object: (user?.deviceId)!)])
+        //        httpMar.post(Prefix + "api/AuthShare/ShareList", parameters: requestDic0, progress: { (Progress) in
+        //
+        //        }, success: { (URLSessionDataTask, result) in
+        //            let resultDic = result as! Dictionary<String, Any>
+        //            print("resultDic \(resultDic)")
+        //            let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
+        //            var userImaUrl = ""
+        //            var foneDevice = false
+        //            if resultDic["State"] as! Int == 0{
+        //                for i in 0...(items.count - 1){
+        //                    if self.user.userId != nil{
+        //                        let itemDic = items[i]
+        //                        if Int(self.user.userId!) == itemDic["UserId"] as? Int{
+        //                            self.user.userId = StrongGoString(object: itemDic["UserId"]  as! Int)
+        //                            self.user.userPh = StrongGoString(object: itemDic["LoginName"])
+        //                            self.user.userName = StrongGoString(object: itemDic["Username"])
+        //                            self.user.relatoin = StrongGoString(object: itemDic["RelationName"])
+        //                            userImaUrl = StrongGoString(object: itemDic["Avatar"])
+        //                            foneDevice = true
+        //                        }
+        //                    }
+        //                    if i == (items.count - 1) && foneDevice == false{
+        //                        let itemDic = items[i]
+        //                        self.user.userId = StrongGoString(object: itemDic["UserId"]  as! Int)
+        //                        self.user.userPh = StrongGoString(object: itemDic["LoginName"])
+        //                        self.user.userName = StrongGoString(object: itemDic["Username"])
+        //                        self.user.relatoin = StrongGoString(object: itemDic["RelationName"])
+        //                        userImaUrl = StrongGoString(object: itemDic["Avatar"])
+        //                    }
+        //                }
+        //            }
+        //            if userImaUrl == ""{
+        //                userImaUrl = "0"
+        //            }
+        //            downloadedFrom(url: URL(string: userImaUrl)!, callBack: { (Image)  in
+        //                self.user.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
         
     }
     
@@ -473,6 +610,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     MBProgressHUD.showError(Localizeable(key: "未连接设备") as String!);
                     return
                 }
+                if self.allowTap{
+                    return
+                }
+                self.allowTap = true
                 let hisVC = HisTrajectoryViewController()
                 hisVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(hisVC, animated: true)
@@ -514,11 +655,18 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         }
                     }, failure: { (URLSessionDataTask, Error) in
                         MBProgressHUD.hide()
+                        if (Error as NSError).code == -999{
+                            return;
+                        }
+                        
                         MBProgressHUD.showError(Error.localizedDescription)
                     })
                     
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                     //                    print("error \(Error) ")
                 })
@@ -576,6 +724,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         MBProgressHUD.showError(resultDic["Message"] as! String)
                     }
                 }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.hide()
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
                 break

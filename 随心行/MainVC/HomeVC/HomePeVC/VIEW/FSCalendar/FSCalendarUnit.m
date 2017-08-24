@@ -257,11 +257,11 @@
     if (self.isSelected) {
         return FSCalendarUnitStateSelected;
     }
-    if (self.isToday) {
-        return FSCalendarUnitStateToday;
-    }
     if (self.isMonth) {
         return FSCalendarUnitStateMonth;
+    }
+    if (self.isToday) {
+        return FSCalendarUnitStateToday;
     }
     if (self.isPlaceholder) {
         return FSCalendarUnitStatePlaceholder;

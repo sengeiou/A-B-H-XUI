@@ -253,6 +253,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
                     }
                     
                 }, failure: { (URLSessionDataTask, Error) in
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             })
@@ -272,6 +275,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
                     }
                     
                 }, failure: { (URLSessionDataTask, Error) in
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             })
@@ -371,6 +377,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
                     }
                     
                 }, failure: { (URLSessionDataTask, Error) in
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             })
@@ -390,6 +399,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
                     }
                     
                 }, failure: { (URLSessionDataTask, Error) in
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             })

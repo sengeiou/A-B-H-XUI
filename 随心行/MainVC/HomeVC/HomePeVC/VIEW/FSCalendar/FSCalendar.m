@@ -81,7 +81,7 @@ const char * flowKey;
     _headerTitleFont = [UIFont systemFontOfSize:16];
     
     //    NSArray *weekSymbols = [[NSCalendar currentCalendar] shortStandaloneWeekdaySymbols];
-//    NSArray *weekSymbols = [[NSCalendar currentCalendar] veryShortStandaloneWeekdaySymbols];
+    //    NSArray *weekSymbols = [[NSCalendar currentCalendar] veryShortStandaloneWeekdaySymbols];
     NSArray *weekSymbols = @[@"日",@"一",@"二",@"三",@"四",@"五",@"六"];
     _weekdays = [NSMutableArray arrayWithCapacity:weekSymbols.count];
     for (int i = 0; i < weekSymbols.count; i++) {
@@ -203,7 +203,11 @@ const char * flowKey;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.flow == FSCalendarFlowHorizontal && self.currentPage == 0) {
+    NSLog(@"scrollView   %f   ** %d",scrollView.contentOffset.x,self.flow);
+    //    if (scrollView.contentOffset.x > 600 || scrollView.contentOffset.x < -600) {
+    //        return;
+    //    }
+    if (self.flow == FSCalendarFlowHorizontal && _currentPage == 0 && scrollView.contentOffset.x < 600 && scrollView.contentOffset.x > -600) {
         if (scrollView.contentOffset.x > scrollView.frame.size.width) {//为初始显示位置
             scrollView.contentOffset = CGPointMake(scrollView.frame.size.width, 0);
             return;
@@ -213,7 +217,7 @@ const char * flowKey;
             return;
         }
     }
-    else if (self.flow == FSCalendarFlowVertical && self.currentPage == 0){
+    else if (self.flow == FSCalendarFlowVertical && _currentPage == 0){
         if (scrollView.contentOffset.y > scrollView.frame.size.height) {//为初始显示位置
             scrollView.contentOffset = CGPointMake(0, scrollView.frame.size.height);
             return;
@@ -228,7 +232,8 @@ const char * flowKey;
         _baseOffset += self.flowOffset.x + self.flowOffset.y;
         offset -= (self.flowOffset.x + self.flowOffset.y);
         [self updatePointer];
-        [self updatePage:_page1 forIndex:self.currentPage + 1];
+        [self updatePage:_page1 forIndex:_currentPage + 1];
+//        _tapgChange = YES;
     } else if (offset < 0) {
         _isRightPush = YES;
         _scrollView.bounds = CGRectOffset(_scrollView.bounds, self.flowOffset.x, self.flowOffset.y);
@@ -238,16 +243,18 @@ const char * flowKey;
         offset += (self.flowOffset.x + self.flowOffset.y);
         [self updatePointer];
         [self updatePage:_page0 forIndex:self.currentPage - 1];
+        
     }
     self.currentPage = (roundf(offset/self.flowSide)*self.flowSide+self.baseOffset)/self.flowSide;
     if (_oldCurrentPage - _currentPage >= 1) {
-        _turnRight = NO;
+        _turnRight = 0;
         _oldCurrentPage = _currentPage;
     }
     else if (_oldCurrentPage - _currentPage <= -1){
-        _turnRight = YES;
+        _turnRight = 1;
         _oldCurrentPage = _currentPage;
     }
+    //    else{
     if (_header) {
         _header.scrollOffset = (self.baseOffset+offset)/self.flowSide;
     }
@@ -259,12 +266,11 @@ const char * flowKey;
 {
     if (_currentPage != currentPage) {
         _currentPage = currentPage;
-        self.currentMonth = [_currentDate fs_dateByAddingMonths:currentPage];
+        _currentMonth = [_currentDate fs_dateByAddingMonths:currentPage];
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(calendarCurrentMonthDidChange:)] && (self.scrollView.contentOffset.x == 0 || self.scrollView.contentOffset.x == 320)) {
-        [_delegate calendarCurrentMonthDidChange:self];
+    if (_delegate && [_delegate respondsToSelector:@selector(calendarCurrentMonthDidChange:)] && (self.scrollView.contentOffset.x == 0 || self.scrollView.contentOffset.x == self.flowSide) ) {
+            [_delegate calendarCurrentMonthDidChange:self];
     }
-
 }
 
 - (void)setFlow:(FSCalendarFlow)flow
@@ -633,7 +639,7 @@ const char * flowKey;
     if (_delegate && [_delegate respondsToSelector:@selector(calendar:shouldSelectDate:)]) {
         return [_delegate calendar:self shouldSelectDate:date];
     }
-    if (date.fs_day > self.currentDate.fs_day) {
+    if (date.fs_month > self.currentMonth.fs_month) {
         return NO;
     }
     return YES;
@@ -725,6 +731,7 @@ const char * flowKey;
 
 - (BOOL)unitIsMonth:(FSCalendarUnit *)unit{
     FSCalendarPage *page = (FSCalendarPage *)unit.superview;
+    //    NSLog(@"unit.date. %@  **** %@  +++ %@",unit.date,page.date,_currentMonth);
     BOOL toMonth = unit.date.fs_month != page.date.fs_month;
     return toMonth;
     
@@ -785,14 +792,23 @@ const char * flowKey;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [_page0.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
             [_page1.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
+            //            [self reloadData];
         });
     }
 }
 
 - (void)changeDateWithSelectedDate:(NSDate *)date currentDate:(NSDate *)currentDate{
     NSInteger gap = 0;
-    NSLog(@"wggrhh==%@  *** %@ )))  %ld  +++ %ld  —————— %ld",self.selectedDate,date,(long)gap,_currentMonth.fs_month,date.fs_month);
-    if (_currentMonth.fs_month == date.fs_month) {
+    NSLog(@"wggrhh==%@  *** %@ )))  %ld  +++ %@  —————— %ld",self.selectedDate,date,(long)gap,_currentMonth,date.fs_month);
+    if (_currentMonth.fs_year < date.fs_year) {
+        NSLog(@"ghioij  %ld    %ld",(long)_currentMonth.fs_month,date.fs_month + 12);
+        gap = _currentMonth.fs_month - (date.fs_month + 12);
+    }
+    else if (_currentMonth.fs_year > date.fs_year) {
+        NSLog(@"ghioij  %ld    %ld",(long)_currentMonth.fs_month,date.fs_month + 12);
+        gap = _currentMonth.fs_month - (12 - date.fs_month);
+    }
+    else if (_currentMonth.fs_month == date.fs_month) {
         if (self.selectedDate.fs_year != date.fs_year) {
             gap = self.selectedDate.fs_year - date.fs_year;
         }
@@ -804,23 +820,26 @@ const char * flowKey;
         gap = _currentMonth.fs_month - date.fs_month;
     }
     //    NSInteger index = date.fs_day;
-        CGPoint destOffset;
+    CGPoint destOffset;
     NSLog(@"fewhehh=== %ld",gap);
-        if (gap >= 1) {
-            destOffset = CGPointMake(_scrollView.contentOffset.x-([self flowOffset].x * gap), _scrollView.contentOffset.y-self.flowOffset.y);
-            [_scrollView setContentOffset:destOffset animated:YES];
-        }
-        else if (gap <= -1){
-            destOffset = CGPointMake(_scrollView.contentOffset.x+([self flowOffset].x * -gap), _scrollView.contentOffset.y+self.flowOffset.y);
-            [_scrollView setContentOffset:destOffset animated:YES];
-        }
+    if (gap >= 1) {
+        destOffset = CGPointMake(_scrollView.contentOffset.x-([self flowOffset].x * gap), _scrollView.contentOffset.y-self.flowOffset.y);
+        [_scrollView setContentOffset:destOffset animated:YES];
+    }
+    else if (gap <= -1){
+        destOffset = CGPointMake(_scrollView.contentOffset.x+([self flowOffset].x * -gap), _scrollView.contentOffset.y+self.flowOffset.y);
+        [_scrollView setContentOffset:destOffset animated:YES];
+    }
     //    }
     
     self.selectedDate = date;
     [self didSelectDate:date];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"fewhehhfffffffff=== %ld",gap);
         [_page0.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
         [_page1.subviews makeObjectsPerformSelector:@selector(setNeedsLayout)];
+        
+        //        [self reloadData];
     });
 }
 

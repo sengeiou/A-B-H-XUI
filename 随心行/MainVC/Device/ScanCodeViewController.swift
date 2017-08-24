@@ -236,7 +236,6 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                     print("lgepk   \(Defaultinfos.getValueForKey(key: Account))  ***  \(user.userPh)")
                    relationVC.user = user
                     //记录已选中设备信息
-                    
                     if dic["State"] as! Int == 0{
 //                        let userInfo = UnarchiveUser()
 //                        userInfo?.deviceId = String(format: "%d", dic["DeviceId"] as! Int)
@@ -256,6 +255,10 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                     }
                     self.activityIndicatorView?.stopAnimating()
                 }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.hide()
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                     self.startScan()
                     self.activityIndicatorView?.stopAnimating()

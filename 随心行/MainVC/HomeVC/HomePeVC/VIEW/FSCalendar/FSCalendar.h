@@ -67,7 +67,7 @@ typedef NS_OPTIONS(NSInteger, FSCalendarUnitState) {
 @property (assign, nonatomic) FSCalendarFlow flow;
 
 @property (assign, nonatomic) BOOL autoAdjustTitleSize;
-@property (assign, nonatomic) BOOL turnRight;
+@property (assign, nonatomic) int turnRight;
 
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) NSInteger oldCurrentPage;

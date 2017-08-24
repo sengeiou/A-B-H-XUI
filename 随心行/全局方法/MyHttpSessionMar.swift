@@ -30,7 +30,6 @@ class MyHttpSessionMar: AFHTTPSessionManager {
         let httpMar = MyHttpSessionMar()
       return httpMar
     }
-  
     
 //        static let shared = MyHttpSessionMar()
 //        private override init() {}

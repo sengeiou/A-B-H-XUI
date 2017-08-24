@@ -227,6 +227,9 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 
             }, failure: { (URLSessionDataTask, Error) in
                 MBProgressHUD.hide()
+                if (Error as NSError).code == -999{
+                    return;
+                }
                 MBProgressHUD.showError(Error.localizedDescription)
             })
             return
@@ -294,6 +297,10 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                         self.navigationController?.pushViewController(BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil), animated: true)
                     }
                 }, failure: { (URLSessionDataTask, Error) in
+                    MBProgressHUD.hide()
+                    if (Error as NSError).code == -999{
+                        return;
+                    }
                     MBProgressHUD.showError(Error.localizedDescription)
                 })
             }

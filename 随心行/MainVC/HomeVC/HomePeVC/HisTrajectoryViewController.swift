@@ -27,6 +27,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
     var search: AMapSearchAPI!
     var checkSearch: Int = 0
     var starTit,endTit: String!
+    var currentMonth: Date!
     override func viewDidLoad() {
         super.viewDidLoad()
         initializeMethod()
@@ -155,7 +156,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         httpMar.post(Prefix + "api/Location/MonthHistoryDays", parameters: reqDic, progress: { (Progress) in
             
         }, success: { (essionDataTask, result) in
-            MBProgressHUD.hide()
+//            MBProgressHUD.hide()
             let resultDic = result as! Dictionary<String, Any>
             let days:NSArray = resultDic["Days"] as! NSArray
             self.hisTrajectorys = days
@@ -175,23 +176,28 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
             formatter1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             let zone = TimeZone(secondsFromGMT: 0)
             formatter1.timeZone = zone
+            var fondHis = false
             //             let dateStr = caledar.selectedDate
             for day in self.hisTrajectorys!{
                 let dateStr = formatter1.date(from: day as! String)! as NSDate
+                 print("dateStr \(dateStr) \n calendar \(caledar.currentMonth)")
                 if (caledar.selectedDate as NSDate).fs_day == dateStr.fs_day && (caledar.selectedDate as NSDate).fs_month == dateStr.fs_month{
-                    requestHistoryDay()
+                    requestHistoryDay(show:false)
                     print("nowdate == ");
+                    fondHis = true
                 }
+            }
+            if !fondHis {
+                MBProgressHUD.hide()
             }
         }
     }
     
-    func requestHistoryDay() {
+    func requestHistoryDay(show: Bool) {
         let formatter1 = DateFormatter()
         formatter1.dateFormat = "yyyy-MM-dd"
         let zone = TimeZone(secondsFromGMT: 0)
         //        formatter1.timeZone = zone
-        
         //        let formatter1 = DateFormatter()
         //        formatter1.dateFormat = "yyyy-MM-dd"
         //        let zone = TimeZone(secondsFromGMT: 0)
@@ -203,8 +209,9 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         //        formatter2.timeZone = zone
         //        print(formatter2.date(from: String(format: "%@ 00:00:00", formatter1.string(from: date)))!.description)
         //        print(formatter2.date(from: String(format: "%@ 23:59:59", formatter1.string(from: date)))!)
-        
-        MBProgressHUD.showMessage(Localizeable(key: "数据请求中...") as String!)
+        if show{
+            MBProgressHUD.showMessage(Localizeable(key: "数据请求中...") as String!)
+        }
         let requestDic = RequestKeyDic()
         requestDic.addEntries(from: ["DeviceId": StrongGoString(object: user.deviceId),
                                      "StartTime": String(format: "%@ 00:00:00", formatter1.string(from: date)),
@@ -286,8 +293,6 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         polylines.append(polyline1)
         mapView.addOverlays(polylines)
         mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(70, 50, 40, 50), animated: true)
-        
-        
     }
     
     func tapDateBut(sender: UIButton) {
@@ -296,6 +301,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
             self.date = Date(timeInterval: (24*60*60) * -1, since: self.date)
             self.dateBut.setTitle(checkDate(date: self.date), for: .normal)
             dateBut.layoutButtonWithEdgeInsetsStyle(style: .buttonddgeinsetsstyletopright, space: 6)
+            print("datadate \(self.date)  \n currentDate \(caledar.currentDate)")
             caledar.changeDate(withSelectedDate: date, currentDate: caledar.currentDate)
             break
         case 1002:
@@ -369,7 +375,7 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
                 let dateStr = formatter1.date(from: day as! String)! as NSDate
                 if (self.date as NSDate).fs_day == dateStr.fs_day && (self.date as NSDate).fs_month == dateStr.fs_month{
                     found = true
-                    requestHistoryDay()
+                    requestHistoryDay(show:true)
                 }
             }
         }
@@ -386,8 +392,12 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
     }
     
     func calendarCurrentMonthDidChange(_ calendar: FSCalendar!) {
-        requestMonthHistoryDays(monDate: calendar.currentMonth)
-        self.caledar.reloadData()
+        if currentMonth == nil || currentMonth != calendar.currentMonth {
+            requestMonthHistoryDays(monDate: calendar.currentMonth)
+            print("**currentDate \(calendar.currentMonth)")
+            self.caledar.reloadData()
+            currentMonth = calendar.currentMonth
+        }
     }
     
     func calendar(_ calendar: FSCalendar!, hasEventFor date: Date!) -> Bool {
@@ -400,8 +410,10 @@ class HisTrajectoryViewController: UIViewController,MAMapViewDelegate,AMapSearch
         if (hisTrajectorys != nil) {
             for day in self.hisTrajectorys!{
                 let dateStr = formatter1.date(from: day as! String)! as NSDate
-                if nowDate.fs_day == dateStr.fs_day && nowDate.fs_month == dateStr.fs_month{
+//                 print("nowDate  \(nowDate) \n dateStr \(dateStr) \n calendar \(calendar.currentMonth)")
+                if nowDate.fs_day == dateStr.fs_day && nowDate.fs_month == dateStr.fs_month && nowDate.fs_month == (calendar.currentMonth as NSDate).fs_month{
                     returnCall = true
+//                    print("nowDate  \(nowDate) \n dateStr \(dateStr) \n calendar \(calendar.currentMonth)")
                     break
                 }
             }
