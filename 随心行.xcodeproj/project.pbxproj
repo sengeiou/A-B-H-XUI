@@ -201,6 +201,7 @@
 		EE2206D41EB85F9200885C15 /* MeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeTableViewController.xib; sourceTree = "<group>"; };
 		EE2206DC1EB8894200885C15 /* officialDemoSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "officialDemoSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE2206DF1EB88DC000885C15 /* DeviceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
+		EE38B4C31F4FFD5D00C33C1D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EE3E3BA41E9744220065827E /* NavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA61E9764C40065827E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA71E9764C40065827E /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -345,6 +346,7 @@
 		72D4383772E4771526AEDD42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE38B4C31F4FFD5D00C33C1D /* MapKit.framework */,
 				EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */,
 				EE4717271EC2C2B700AB4CA4 /* Security.framework */,
 				EE4717251EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd */,

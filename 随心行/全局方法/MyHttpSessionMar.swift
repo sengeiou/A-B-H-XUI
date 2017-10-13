@@ -47,6 +47,11 @@ class MyHttpSessionMar: AFHTTPSessionManager {
     
 //    private override init(){
 //    }
+    
+//    convenience init(frame: CGRect, message: String) {
+//        self.init(frame: frame, message: message)
+//    
+//    }
 //    
 //    required init?(coder aDecoder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")

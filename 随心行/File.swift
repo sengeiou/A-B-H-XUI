@@ -205,7 +205,8 @@ extension UIImage{
     
     //绘制圆角图片
     func drawCornerIma(Sise: CGSize?) -> UIImage {
-        var imaSise:CGSize? = Sise
+        var imaSise:CGSize?
+            = Sise
         if imaSise == nil {
             imaSise = self.size
         }

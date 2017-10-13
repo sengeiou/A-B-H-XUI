@@ -214,7 +214,6 @@ class MssDetailTableViewController: UITableViewController {
                 catch let error as NSError{
                     
                 }
-                
                 //   messRect = MessMode.putMessRect(mess: NSAttributedString(string: newStr), mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])
                 print(htmlStr)
                 messRect = MessMode.putMessRect(mess: htmlStr, mesRect: CGSize(width: labWith, height: 1000), dic: [NSFontAttributeName: UIFont.systemFont(ofSize: 14)])

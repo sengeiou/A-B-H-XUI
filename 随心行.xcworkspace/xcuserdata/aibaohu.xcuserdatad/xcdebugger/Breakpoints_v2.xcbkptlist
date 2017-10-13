@@ -70,59 +70,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/File.swift"
-            timestampString = "519298909.289349"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "StrongGoString(object:)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/VIEW/FSCalendar/FSCalendar.m"
-            timestampString = "522922310.295528"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "650"
-            endingLineNumber = "650"
-            landmarkName = "-didSelectDate:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/MessPeVC/MssDetailTableViewController.swift"
-            timestampString = "521462458.679314"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
-            landmarkName = "tableView(_:heightForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/DeviceInfoViewController.swift"
-            timestampString = "523350387.375488"
+            timestampString = "527766826.094541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "201"
@@ -138,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/DeviceInfoViewController.swift"
-            timestampString = "523350387.375488"
+            timestampString = "527766826.095808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "228"
@@ -150,26 +102,26 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "&#x968f;&#x5fc3;&#x884c;.DeviceInfoViewController.(confimSelect (__ObjC.UIButton) -&gt; ()).(closure #2)"
+                  symbolName = "closure #2 (__ObjC.URLSessionDataTask, Swift.Optional&lt;Any&gt;) -&gt; () in &#x968f;&#x5fc3;&#x884c;.DeviceInfoViewController.confimSelect(__ObjC.UIButton) -&gt; ()"
                   moduleName = "&#x968f;&#x5fc3;&#x884c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/DeviceInfoViewController.swift"
-                  timestampString = "524564893.331429"
+                  timestampString = "527917219.791193"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "228"
                   endingLineNumber = "228"
-                  offsetFromSymbolStart = "2256">
+                  offsetFromSymbolStart = "2208">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "&#x968f;&#x5fc3;&#x884c;.DeviceInfoViewController.(confimSelect (__ObjC.UIButton) -&gt; ()).(closure #2).(closure #1)"
+                  symbolName = "closure #1 () -&gt; () in closure #2 (__ObjC.URLSessionDataTask, Swift.Optional&lt;Any&gt;) -&gt; () in &#x968f;&#x5fc3;&#x884c;.DeviceInfoViewController.confimSelect(__ObjC.UIButton) -&gt; ()"
                   moduleName = "&#x968f;&#x5fc3;&#x884c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/aibaohu/Desktop/SMA%E9%A1%B9%E7%9B%AE%E8%B5%84%E6%96%99/%E8%80%81%E4%BA%BA%E6%9C%BA/%E6%BA%90%E7%A0%81/%E9%9A%8F%E5%BF%83%E8%A1%8C/%E9%9A%8F%E5%BF%83%E8%A1%8C/MainVC/LoginVC/DeviceInfoViewController.swift"
-                  timestampString = "524564893.333024"
+                  timestampString = "527917219.792642"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "229"
@@ -326,48 +278,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/VIEW/FSCalendar/FSCalendar.m"
-            timestampString = "522922310.295528"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/MessPeVC/MssDetailTableViewController.swift"
+            timestampString = "527830874.120052"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
-            landmarkName = "-updatePage:forIndex:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/VIEW/FSCalendar/FSCalendar.m"
-            timestampString = "522922310.295528"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "557"
-            endingLineNumber = "557"
-            landmarkName = "-updatePointer"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/VIEW/FSCalendar/FSCalendar.m"
-            timestampString = "522922310.295528"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "564"
-            endingLineNumber = "564"
-            landmarkName = "-updatePointer"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "initializeMethod(update:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -377,13 +297,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/VIEW/FSCalendar/FSCalendar.m"
-            timestampString = "522922310.295528"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/LoginVC/DeviceInfoViewController.swift"
+            timestampString = "527766826.09738"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "-setCurrentPage:"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "confimSelect(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -393,14 +313,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x968f;&#x5fc3;&#x884c;/MainVC/HomeVC/HomePeVC/HomeViewController.swift"
-            timestampString = "523350387.375488"
+            filePath = "&#x968f;&#x5fc3;&#x884c;/AppDelegate.swift"
+            timestampString = "527917212.019247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "312"
-            endingLineNumber = "312"
-            landmarkName = "timeRequest(httpMa:showPro:)"
-            landmarkType = "7">
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

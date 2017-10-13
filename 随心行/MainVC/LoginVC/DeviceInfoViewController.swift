@@ -202,7 +202,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                                    "Username": deviceRelat.text!,
                                    "Email": "",
                                    "Address": "",
-                                   "Avatar": user!.userIma!,
+                                   "Avatar": user?.userIma ?? "",
                                    "CellPhone": devicePh.text!,
                                    "Sim": "",
                                    "Gender": true,
