@@ -222,6 +222,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
                 parameterDic.addEntries(from: ["SerialNumber":resultObj.stringValue,"UserId": String.init(format: "%d", Defaultinfos.getIntValueForKey(key: UserID))])
                 print("Defaultinfos.getIntValueForKey(key: UserID)  \(Defaultinfos.getIntValueForKey(key: UserID))")
                 print(parameterDic)
+                
                 httpMar.post(Prefix + "api/Device/CheckDevice", parameters: parameterDic, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in

@@ -140,6 +140,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                                                  "TimeOffset": NSNumber(integerLiteral: interval/3600),
                                                  "Token": resultDic["AccessToken"]!])
                     print("requestDic \(requestDic) frb  \(interval)")
+                 
                     httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
                         
                     }, success: { (URLSessionDataTask, result) in

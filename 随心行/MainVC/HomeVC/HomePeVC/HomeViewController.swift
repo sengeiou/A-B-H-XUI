@@ -463,6 +463,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             deviSelView = DeviceView(frame: CGRect(x: 10, y: 4, width: MainScreen.width - 20, height: CGFloat(deviceArr.count) * 44.0))
             deviSelView?.deviceArr = deviceArr
             deviSelView?.isHidden = !indexShow
+
             deviSelView?.selectClosureWithCell { (IndexPath,Dictionary) in
                 if IndexPath?.row == self.deviceArr.count - 1 {
                     let banVC = BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil)
@@ -955,7 +956,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         guard deviceCoor != nil else {
             return
         }
-        
+
         let regeo = AMapReGeocodeSearchRequest()
         regeo.location = AMapGeoPoint.location(withLatitude: CGFloat((deviceCoor?.latitude)!), longitude: CGFloat((deviceCoor?.longitude)!))
         regeo.requireExtension = true
