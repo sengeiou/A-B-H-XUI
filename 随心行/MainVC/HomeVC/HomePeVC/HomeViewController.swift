@@ -35,6 +35,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
     var allowTap: Bool = false
     var requestTimer: Timer!
     var requestNum: Int! = 0
+    var searchNum: Int! = 30
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
@@ -49,6 +50,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         self.navigationController?.navigationBar.setBackgroundImage(UIImage.ImageWithColor(color: ColorFromRGB(rgbValue: 0x389aff), size: CGSize(width: MainScreen.width, height: 64)), for: UIBarMetrics(rawValue: 0)!)
         requestDeviceData(showProgress: false)
         allowTap = false
+        searchNum = 5
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -71,10 +73,23 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         let showProgress =  userDic["showProgress"] as! Bool
         let httpMar = userDic["manager"] as! MyHttpSessionMar
         
-        if self.requestNum >= 30 {
+        if self.requestNum >= searchNum {
             for task in httpMar.tasks{
                 task.cancel()
             }
+            MBProgressHUD.hide()
+            self.addAnnotation()
+            if self.deviceCoor != nil{
+                if (self.mapView.userLocation.location != nil && self.deviceCoor != nil){
+                    var arrCoods:Array<CLLocationCoordinate2D> = [self.mapView.userLocation.location.coordinate,self.deviceCoor!]
+                    let distance = MAMetersBetweenMapPoints(MAMapPointForCoordinate(arrCoods.first!),MAMapPointForCoordinate(arrCoods[1]))
+                    let polyline1:MAPolyline! =  MAPolyline.init(coordinates: &(arrCoods), count: UInt(arrCoods.count))
+                    if distance < 500 {
+                        self.mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(200, 100, self.toolView.frame.height + 150, 100), animated: false)                                            }
+                }
+                self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
+            }
+            self.initializeMethod()
             if (self.requestTimer != nil) {
                 self.requestTimer.invalidate()
                 self.requestTimer = nil
@@ -84,7 +99,6 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         }
        self.requestNum! += 1
         if self.deviceMode != nil {
-            
             let resDic = RequestKeyDic()
             resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
                                      "DeviceModel": self.deviceMode,
@@ -145,10 +159,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             if (items.count > 0) {
                 for i in 0...(items.count - 1){
                     let itemDic = items[i]
+                     print(itemDic)
                     var itemUser = getNewUser()
                     if self.user.deviceId != nil{
                         if Int(self.user.deviceId!) == itemDic["Id"] as? Int{
-                            print(itemDic)
+                           
                             itemUser = self.user
                             self.deviceMode = itemDic["Model"] as! Int
                             if self.deviceCoor == nil{
@@ -163,7 +178,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
 //                                    self.requestTimer = nil
 //                                    self.requestNum = 0
 //                                }
-                                reloadUI = true
+//                                reloadUI = true
                             }
                             if (self.deviceCoor?.latitude != itemDic["Latitude"] as? Double || self.deviceCoor?.longitude != itemDic["Longitude"] as? Double){
                                 self.deviceCoor = CLLocationCoordinate2D(latitude: itemDic["Latitude"] as! Double, longitude: itemDic["Longitude"] as! Double)
@@ -208,6 +223,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             self.requestTimer = nil
                             self.requestNum = 0
                         }
+                         reloadUI = true
                     }
                     print("itemDic   \(itemDic)")
                     itemUser.userId = self.user.userId
@@ -238,7 +254,26 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                             }
                             if showProgress{
                                 DispatchQueue.main.async() { () -> Void in
-                                    MBProgressHUD.hide()
+//                                    MBProgressHUD.hide()
+//                                    if self.deviceCoor != nil{
+//                                        if (self.mapView.userLocation.location != nil && self.deviceCoor != nil){
+//                                            var arrCoods:Array<CLLocationCoordinate2D> = [self.mapView.userLocation.location.coordinate,self.deviceCoor!]
+//                                            let distance = MAMetersBetweenMapPoints(MAMapPointForCoordinate(arrCoods.first!),MAMapPointForCoordinate(arrCoods[1]))
+//                                            let polyline1:MAPolyline! =  MAPolyline.init(coordinates: &(arrCoods), count: UInt(arrCoods.count))
+//                                            if distance < 500 {
+//                                                self.mapView.setVisibleMapRect(polyline1.boundingMapRect, edgePadding: UIEdgeInsetsMake(200, 100, self.toolView.frame.height + 150, 100), animated: false)                                            }
+//                                        }
+//                                        self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
+//                                    }
+                                }
+                            }
+                            DispatchQueue.main.async() { () -> Void in
+                                
+                                if reloadUI{
+                                     for task in httpMar.tasks{
+                                        task.cancel()
+                                    }
+                                    self.addAnnotation()
                                     if self.deviceCoor != nil{
                                         if (self.mapView.userLocation.location != nil && self.deviceCoor != nil){
                                             var arrCoods:Array<CLLocationCoordinate2D> = [self.mapView.userLocation.location.coordinate,self.deviceCoor!]
@@ -249,13 +284,14 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                                         }
                                         self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: self.deviceCoor!.latitude - 0.0001, longitude: self.deviceCoor!.longitude), animated: true)
                                     }
+                                      self.initializeMethod()
+                                    if (self.requestTimer != nil) {
+                                        self.requestTimer.invalidate()
+                                        self.requestTimer = nil
+                                        self.requestNum = 0
+                                    }
                                 }
-                            }
-                            DispatchQueue.main.async() { () -> Void in
-                                self.initializeMethod()
-                                if reloadUI{
-                                    self.addAnnotation()
-                                }
+                              
                                 if self.isNavi{
                                     let but = self.locaView.viewWithTag(1003) as! UIButton
                                     self.tapMapFunction(sender: but)
@@ -304,6 +340,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 self.requestTimer = nil
                 self.requestNum = 0
             }
+            print("33333333333333333 \(error)")
             print(error)
             MBProgressHUD.hide()
             if (error as NSError).code == -999{
@@ -358,6 +395,9 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             }
             
         }) { (URLSessionDataTask, Error) in
+            if (Error as NSError).code == -999{
+                return;
+            }
             if showProgress{
                 MBProgressHUD.hide()
                 MBProgressHUD.showError(Error.localizedDescription)
@@ -432,13 +472,18 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         formatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
                         let zone = TimeZone(secondsFromGMT: 0)
                         formatter1.timeZone = zone
-                        let date0 = formatter1.date(from: self.lastCommunTime)
-                        let date = getNowDateFromatAnDate(anyDate:date0!)
-                        titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
-                        print("-((date?.timeIntervalSinceNow)!)   \(((date.timeIntervalSinceNow))) *****   \(((date0?.timeIntervalSinceNow)))___ \(date)")
-                        print(Int(-((date0?.timeIntervalSinceNow)!))/60)
-                        if Int(-((date0?.timeIntervalSinceNow)!))/60 > 6 {
-                            titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                        if (self.lastCommunTime != nil){
+                            let date0 = formatter1.date(from: self.lastCommunTime)
+                            let date = getNowDateFromatAnDate(anyDate:date0!)
+                            titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                            print("-((date?.timeIntervalSinceNow)!)   \(((date.timeIntervalSinceNow))) *****   \(((date0?.timeIntervalSinceNow)))___ \(date)")
+                            print(Int(-((date0?.timeIntervalSinceNow)!))/60)
+                            if Int(-((date0?.timeIntervalSinceNow)!))/60 > 6 {
+                                titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                            }
+                        }
+                        else{
+                             titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                         }
                     }
                     else{
@@ -466,7 +511,10 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
 
             deviSelView?.selectClosureWithCell { (IndexPath,Dictionary) in
                 if IndexPath?.row == self.deviceArr.count - 1 {
-                    let banVC = BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil)
+//                    let banVC = BandDeviceViewController(nibName: "BandDeviceViewController", bundle: nil)
+//                    banVC.hidesBottomBarWhenPushed = true
+//                    self.navigationController?.pushViewController(banVC, animated: true)
+                    let banVC = ScanCodeViewController()
                     banVC.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(banVC, animated: true)
                     return
@@ -502,12 +550,20 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 }
                 var titleLab: String? = self.user.deviceName
                 if (titleLab != nil){
-                    self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(已连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+                    let  ste = self.titLab.attributedText?.string.range(of: "未连接")
+                    print("))))))))))  \(ste)")
+//                    if ((self.titLab.attributedText?.string.range(of: "未连接")) != nil){
+//                         self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
+//                    }
                 }
                 else{
                     titleLab = "无设备"
                     self.titLab.attributedText = attributedString(strArr: [titleLab!,Localizeable(key: "(未连接)") as String], fontArr: [UIFont.systemFont(ofSize: 20),UIFont.systemFont(ofSize: 14)], colorArr: [UIColor.white,UIColor.white])
                 }
+                for task in MyHttpSessionMar.shared.tasks{
+                    task.cancel()
+                }
+                self.searchNum = 30
                 self.requestDeviceData(showProgress: true)
             }
             view.addSubview(deviSelView!)
@@ -588,6 +644,11 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
         view.addSubview(toolView)
         toolView.tapClosureWithBut { (Int) in
             //            print("点击 \(Int)")
+            if (self.requestTimer != nil) {
+                self.requestTimer.invalidate()
+                self.requestTimer = nil
+                self.requestNum = 0
+            }
             switch Int{
             case 101:
                 if (self.deviceCoor == nil){
@@ -595,7 +656,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     return
                 }
                 
-                let urlStr = "tel://" + self.user.devicePh!
+//                let urlStr = "tel://" + self.user.devicePh!
+                let urlStr = "tel://" + StrongGoString(object: self.user.devicePh).replacingOccurrences(of: " ", with: "")
                 if let url = URL(string: urlStr){
                     if #available(iOS 10, *){
                         UIApplication.shared.open(url, options: [:], completionHandler: { (Bool) in
@@ -628,7 +690,8 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 
                 let http = MyHttpSessionMar.shared
                 var phoneOper = ""
-                http.get("https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + StrongGoString(object: self.user.devicePh), parameters: nil, progress: { (Progress) in
+                let strUrl = "https://sapi.k780.com/?app=phone.get&appkey=21942&sign=377d90ff1f92c75cc21dee2d4384caaa&format=json&phone=" + StrongGoString(object: self.user.devicePh).replacingOccurrences(of: " ", with: "").replacingOccurrences(of: "+86", with: "")
+                http.get(strUrl, parameters: nil, progress: { (Progress) in
                     
                 }, success: { (URLSessionDataTask, result) in
                     if let rdsdic = result as? NSDictionary, let subDic = rdsdic["result"] as? NSDictionary, let operators = subDic["operators"] as? String{
@@ -639,7 +702,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
                                              "DeviceModel": self.deviceMode,
                                              "CmdCode": 2804,
-                                             "Params": self.user.userPh! + inta,
+                                             "Params": self.user.userPh! + inta, //self.user.userPh!
                                              "UserId": self.user.userId!])
                     print("resDic  \(resDic) \n  self.user.devicePh \(self.user.devicePh) \n foig  \(result)")
                     http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
@@ -656,6 +719,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                         }
                     }, failure: { (URLSessionDataTask, Error) in
                         MBProgressHUD.hide()
+                        print("00000000000000 \(Error)")
                         if (Error as NSError).code == -999{
                             return;
                         }
@@ -665,6 +729,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
+                    print("11111111111111111 \(Error)")
                     if (Error as NSError).code == -999{
                         return;
                     }
@@ -709,7 +774,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                 resDic.addEntries(from: ["DeviceId": self.user.deviceId!,
                                          "DeviceModel": self.deviceMode,
                                          "CmdCode": 2810,
-                                         "Params": self.user.userPh! + inta,
+                                         "Params": self.user.userPh! + inta,//
                                          "UserId": self.user.userId!])
                 print("resDic111111111111 \(resDic)  ——————  \(self.user.userPh!)")
                 http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in
@@ -726,6 +791,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
                     }
                 }, failure: { (URLSessionDataTask, Error) in
                     MBProgressHUD.hide()
+                    print("22222222222222222222 \(Error)")
                     if (Error as NSError).code == -999{
                         return;
                     }
@@ -875,6 +941,7 @@ class HomeViewController: UIViewController,MAMapViewDelegate,AMapSearchDelegate 
             self.mapView.setCenter(CLLocationCoordinate2D.init(latitude: mapView.userLocation.location.coordinate.latitude - 0.0001, longitude: mapView.userLocation.location.coordinate.longitude), animated: true)
             break
         case 1002:
+            searchNum = 30
             requestDeviceData(showProgress: true)
             break
         case 1003:

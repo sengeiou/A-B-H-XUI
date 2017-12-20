@@ -90,7 +90,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         let httpMar = MyHttpSessionMar.shared
 //        Defaultinfos.removeValueForKey(key: AccountToken)
         let requDic = RequestKeyDic()
-        requDic.addEntries(from: ["Name":accFie.text!, "Pass":passFie.text!,"LoginType":"0"])
+        requDic.addEntries(from: ["Name":"+86" + accFie.text!, "Pass":passFie.text!,"LoginType":"0"])
 //        requDic.setValue("zh-CN", forKey: "Language")
 //        requDic.removeObject(forKey: "Token")
         print(requDic)
@@ -126,7 +126,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     user.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
                     print("image \(Image)  data \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
                     
-                    Defaultinfos.putKeyWithNsobject(key: Account, value: self.accFie.text!)
+                    Defaultinfos.putKeyWithNsobject(key: Account, value:"+86" + self.accFie.text!)
                     Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"]!)
                     
                     let timeZone = NSTimeZone.system

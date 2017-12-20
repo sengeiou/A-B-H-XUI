@@ -236,7 +236,14 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                     let strs = [Localizeable(key: "高") as String,Localizeable(key: "中") as String,Localizeable(key: "低") as String]
                     if let comValue = dic["CmdValue"] as? String {
                         if comValue != "" {
-                            cell?.detailTextLabel?.text = strs[Int(comValue)! - 1]
+                            if Int(comValue) == 1{
+                                 cell?.detailTextLabel?.text = strs[2]
+                            }else if Int(comValue) == 2{
+                                cell?.detailTextLabel?.text = strs[1]
+                            }else if Int(comValue) == 3{
+                                cell?.detailTextLabel?.text = strs[0]
+                            }
+                           
                         }
                         else {
                             cell?.detailTextLabel?.text = strs.last
@@ -317,6 +324,13 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
             if let comValue = dic["CmdValue"] as? String {
                 if comValue != "" {
                     selectIndex = Int(comValue)! - 1
+                    if Int(comValue) == 1{
+                       selectIndex = 2
+                    }else if Int(comValue) == 2{
+                       selectIndex = 1
+                    }else if Int(comValue) == 3{
+                      selectIndex = 0
+                    }
                     volumeView.VolumepickView.selectRow(selectIndex, inComponent: 0, animated: false)
                 }
                 else {
@@ -333,10 +347,18 @@ class MoreSetTableViewController: UITableViewController,gpsDelegate,nightDelegat
                 MBProgressHUD.showMessage(Localizeable(key: "正在设置...") as String)
                 let resDic = RequestKeyDic()
                 let http = MyHttpSessionMar.shared
+                var selectIndex = 0
+                if Int == 0{
+                    selectIndex = 3
+                }else if Int == 1{
+                    selectIndex = 2
+                }else if Int == 2{
+                    selectIndex = 1
+                }
                 resDic.addEntries(from: ["DeviceId": self.userInfo.deviceId!,
                                          "DeviceModel": self.deviceMode,
                                          "CmdCode": SOUND_SIZE,
-                                         "Params": String.init(format: "%d", Int! + 1),
+                                         "Params": String.init(format: "%d", selectIndex),
                                          "UserId": self.userInfo.userId!])
                 print(resDic)
                 http.post(Prefix + "api/Command/SendCommand", parameters: resDic, progress: { (Progress) in

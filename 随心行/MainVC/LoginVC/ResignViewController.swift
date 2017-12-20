@@ -92,7 +92,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
         parameterDic.addEntries(from: ["LoginName":accTexfild.text!])
         
         if changePass {
-            let parameters:Dictionary<String,String> = ["Phone":self.accTexfild.text!,"VildateSence":"1","Token":"","Language":systLanage(),"AppId":"71"]
+            let parameters:Dictionary<String,String> = ["Phone":"+86" + self.accTexfild.text!,"VildateSence":"1","Token":"","Language":systLanage(),"AppId":"71"]
             print( parameters)
             print(Prefix+"api/User/SendSMSCode")
             httpMar.post(Prefix+"api/User/SendSMSCodeByYunPian", parameters: parameters, progress: { (Progress) in
@@ -125,7 +125,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
             let resDic = result as! Dictionary<String, Any>
             print(resDic["State"]!)
             if (resDic["State"] as! Int == 0) {
-                let parameters:Dictionary<String,String> = ["Phone":self.accTexfild.text!,"VildateSence":"1","Token":"","Language":systLanage(),"AppId":"71"]
+                let parameters:Dictionary<String,String> = ["Phone":"+86" + self.accTexfild.text!,"VildateSence":"1","Token":"","Language":systLanage(),"AppId":"71"]
                 print( parameters)
                 print(Prefix+"api/User/SendSMSCode")
                 httpMar.post(Prefix+"api/User/SendSMSCodeByYunPian", parameters: parameters, progress: { (Progress) in
@@ -207,22 +207,191 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
         let httpMar = MyHttpSessionMar.shared
         let parameterDic = RequestKeyDic()
         if changePass {
-            parameterDic.addEntries(from: ["LoginName":accTexfild.text!,"NewPass":passFild.text!,"SMSCode":codeFild.text!])
+            parameterDic.addEntries(from: ["LoginName":"+86" + accTexfild.text!,"NewPass":passFild.text!,"SMSCode":codeFild.text!])
             httpMar.post(Prefix + "api/User/ChangePasswordNeedSMSCode", parameters: parameterDic, progress: { (Progress) in
                 
             }, success: { (URLSessionDataTask, result) in
                 print("loginResult \(result)")
-                MBProgressHUD.hide()
+//                MBProgressHUD.hide()
                 let resultDic = result as! Dictionary<String, Any>
                 if resultDic["State"] as! Int != 0{
                     MBProgressHUD.showError(resultDic["Message"] as! String)
                 }
                 else{
-                    MBProgressHUD.showSuccess(Localizeable(key: "修改成功") as String!)
-                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-                        //code
-                        _ = self.navigationController?.popViewController(animated: true)
+                    let requDic = RequestKeyDic()
+                    requDic.addEntries(from: ["Name":"+86" + self.accTexfild.text!, "Pass":self.passFild.text!,"LoginType":"0"])
+                    httpMar.post(Prefix + "api/User/Login", parameters: requDic, progress: { (Progress) in
+                        
+                    }, success: { (URLSessionDataTask, result) in
+                        let resultDic = result as! Dictionary<String, Any>
+                        print("返回 \(resultDic)")
+                        
+                        if resultDic["State"] as! Int == 1000{
+                            MBProgressHUD.hide()
+                            MBProgressHUD.showError(Localizeable(key: "账号密码不正确") as String!)
+                        }
+                        else if resultDic["State"] as! Int == 0{
+                            
+                            let userDic = (resultDic["Item"]) as! Dictionary<String, AnyObject>
+                            print("登录返回 \(userDic)")
+                            
+                            let user = getNewUser()
+                            //                if(user == nil) {
+                            //                    user = getNewUser()
+                            //                }
+                            user.userId = StrongGoString(object: userDic["UserId"]  as! Int)
+                            user.userPh = StrongGoString(object: userDic["LoginName"])
+                            user.userName = StrongGoString(object: userDic["Username"])
+                            print("string = \(StrongGoString(object: userDic["Avatar"]))")
+                            // print(URL(string: userDic["Avatar"] as! String)!)
+                            var url = StrongGoString(object: userDic["Avatar"] as AnyObject)
+                            if url == ""{
+                                url = "0"
+                            }
+                            downloadedFrom(url: URL(string: url)!) { (Image) in
+                                user.userIma = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+                                print("image \(Image)  data \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
+                                
+                                Defaultinfos.putKeyWithNsobject(key: Account, value:"+86" + self.accTexfild.text!)
+                                Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"]!)
+                                
+                                let timeZone = NSTimeZone.system
+                                let interval = timeZone.secondsFromGMT()
+                                
+                                let requestDic = RequestKeyDic()
+                                requestDic.addEntries(from: ["UserId": (user.userId)!,
+                                                             "GroupId": "",
+                                                             "MapType": "",
+                                                             "LastTime": Date().description,
+                                                             "TimeOffset": NSNumber(integerLiteral: interval/3600),
+                                                             "Token": resultDic["AccessToken"]!])
+                                print("requestDic \(requestDic) frb  \(interval)")
+                                
+                                httpMar.post(Prefix + "api/Device/PersonDeviceList", parameters: requestDic, progress: { (Progress) in
+                                    
+                                }, success: { (URLSessionDataTask, result) in
+                                    
+                                    let resultDic = result as! Dictionary<String, Any>
+                                    if resultDic["State"] as! Int == 100{
+                                        print("44444 \(user.userPh)")
+                                        ArchiveRoot(userInfo: user)
+                                        Defaultinfos.putKeyWithInt(key: UserID, value: Int(user.userId!)!)
+                                        print(Defaultinfos.getIntValueForKey(key: UserID))
+                                        JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
+                                        DispatchQueue.main.async() { () -> Void in
+                                            MBProgressHUD.hide()
+//                                            MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                                            let homeVC = HomeViewController()
+                                            homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                                            let homeNav = NavViewController(rootViewController: homeVC)
+                                            
+                                            let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                                            messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                                            let messNav = NavViewController(rootViewController: messVC)
+                                            
+                                            let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                                            meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                                            let meNav = NavViewController(rootViewController: meVC)
+                                            
+                                            let tabVC = UITabBarController()
+                                            tabVC.viewControllers = [homeNav,messNav,meNav]
+                                            
+                                            UIApplication.shared.keyWindow?.rootViewController = tabVC
+                                        }
+                                        return
+                                    }
+                                    
+                                    let items:Array<Dictionary<String, Any>> = resultDic["Items"] as! Array<Dictionary<String, Any>>
+                                    if (items.count > 0){
+                                        for i in 0...(items.count - 1){
+                                            print("i== \(i)   itemcount = \(items.count)")
+                                            let itemDic = items[i]
+                                            var itemUser = getNewUser()
+                                            if i == 0{
+                                                itemUser = user
+                                            }
+                                            itemUser.userId = user.userId
+                                            itemUser.deviceId = StrongGoString(object: itemDic["Id"] as! Int)
+                                            itemUser.devicePh = StrongGoString(object: itemDic["Sim"])
+                                            itemUser.deviceName = StrongGoString(object: itemDic["NickName"])
+                                            //   itemUser.relatoin = ""
+                                            var url = StrongGoString(object: userDic["Avatar"])
+                                            if url == ""{
+                                                url = "0"
+                                            }
+                                            downloadedFrom(url: URL(string: url)!, callBack: { (Image) in
+                                                var imaData: String? = UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()
+                                                if imaData == nil{
+                                                    imaData = ""
+                                                }
+                                                itemUser.deviceIma = imaData
+                                                print("返回设备列表数据  \(itemUser) data = \(String(describing: UIImageJPEGRepresentation(Image, 1)?.base64EncodedString()))")
+                                                let fmbase = FMDbase.shared()
+                                                logUser(user: itemUser)
+                                                fmbase.insertUserInfo(userInfo: itemUser)
+                                                if i == 0{
+                                                    print("55555 \(itemUser.userPh)")
+                                                    ArchiveRoot(userInfo: itemUser)
+                                                }
+                                                if i == (items.count - 1){
+                                                    ArchiveRoot(userInfo: user)
+                                                    Defaultinfos.putKeyWithInt(key: UserID, value: Int(user.userId!)!)
+                                                    print(Defaultinfos.getIntValueForKey(key: UserID))
+                                                    JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
+                                                    DispatchQueue.main.async() { () -> Void in
+                                                        MBProgressHUD.hide()
+//                                                        MBProgressHUD.showSuccess(Localizeable(key: "登录成功") as String!)
+                                                    }
+                                                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                                                        let homeVC = HomeViewController()
+                                                        homeVC.tabBarItem = UITabBarItem(title: "主页", image: UIImage(named: "tab_home_pre"), tag: 1001)
+                                                        let homeNav = NavViewController(rootViewController: homeVC)
+                                                        
+                                                        let messVC = MessTableViewController(nibName: "MessTableViewController", bundle: nil)
+                                                        messVC.tabBarItem = UITabBarItem(title: "消息", image: UIImage(named: "tab_messg_pre"), tag: 1002)
+                                                        let messNav = NavViewController(rootViewController: messVC)
+                                                        
+                                                        let meVC = MeTableViewController(nibName: "MeTableViewController", bundle: nil)
+                                                        meVC.tabBarItem = UITabBarItem(title: "我的", image: #imageLiteral(resourceName: "tab_mine_pre"), tag: 1003)
+                                                        let meNav = NavViewController(rootViewController: meVC)
+                                                        
+                                                        let tabVC = UITabBarController()
+                                                        tabVC.viewControllers = [homeNav,messNav,meNav]
+                                                        
+                                                        UIApplication.shared.keyWindow?.rootViewController = tabVC
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    }
+                                    print("返回 \(resultDic) items \(items)")
+                                }, failure: { (URLSessionDataTask, Error) in
+                                    
+                                    MBProgressHUD.hide()
+                                    if (Error as NSError).code == -999{
+                                        return;
+                                    }
+                                    MBProgressHUD.showError(Error.localizedDescription)
+                                })
+                                
+                            }
+                        }
+                        else{
+                            if (resultDic["Message"] != nil){
+                                MBProgressHUD.showError(resultDic["Message"] as! String)
+                            }
+                        }
+                    }) { (URLSessionDataTask, Error) in
+                        MBProgressHUD.hide()
+                        MBProgressHUD.showError(Error.localizedDescription)
                     }
+//                    MBProgressHUD.showSuccess(Localizeable(key: "修改成功") as String!)
+//                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+//                        //code
+//                        _ = self.navigationController?.popViewController(animated: true)
+//                    }
                 }
                 
             }, failure: { (URLSessionDataTask, Error) in
@@ -234,7 +403,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
             })
             return
         }
-        parameterDic.addEntries(from: ["LoginName":accTexfild.text!,"Username":accTexfild.text!,"Email":"","Password":passFild.text!,"SerialNumber":"","Contact":accTexfild.text!,"ContactPhone":accTexfild.text!,"ThirdName":"","ThirdID":"","ThirdType":"","ThirdImg":"","SMSCode":codeFild.text!])
+        parameterDic.addEntries(from: ["LoginName":"+86" + accTexfild.text!,"Username":accTexfild.text!,"Email":"","Password":passFild.text!,"SerialNumber":"","Contact":accTexfild.text!,"ContactPhone":"+86 " + accTexfild.text!,"ThirdName":"","ThirdID":"","ThirdType":"","ThirdImg":"","SMSCode":codeFild.text!])
         print("parameterDic\(parameterDic)")
         /*"api/User/Register" 测试注册  正式注册 api/User/RegisterNeedSMSCode*/
         httpMar.post(Prefix + "api/User/RegisterNeedSMSCode", parameters: parameterDic, progress: { (Progress) in
@@ -256,7 +425,7 @@ class ResignViewController: UIViewController, UITextFieldDelegate {
                 print("777777 \(user.userPh)")
                 ArchiveRoot(userInfo: user)
                 JPUSHService.setTags(nil, alias: "U" + user.userId!, callbackSelector: #selector(self.tagsAliasCallback(resCode:tags:alias:)), object: self)
-                Defaultinfos.putKeyWithNsobject(key: Account, value: self.accTexfild.text!)
+                Defaultinfos.putKeyWithNsobject(key: Account, value:"+86" + self.accTexfild.text!)
                 Defaultinfos.putKeyWithNsobject(key: AccountToken, value: resultDic["AccessToken"] as! String)
                 print((resultDic["User"]! as! Dictionary<String, Any>)["UserId"]!)
                 Defaultinfos.putKeyWithInt(key: UserID, value: (resultDic["User"]! as! Dictionary<String, Any>)["UserId"]! as! Int)

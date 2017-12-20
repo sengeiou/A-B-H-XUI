@@ -45,15 +45,17 @@
 		EE2206D51EB85F9200885C15 /* MeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2206D31EB85F9200885C15 /* MeTableViewController.swift */; };
 		EE2206D61EB85F9200885C15 /* MeTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE2206D41EB85F9200885C15 /* MeTableViewController.xib */; };
 		EE2206E01EB88DC000885C15 /* DeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2206DF1EB88DC000885C15 /* DeviceView.swift */; };
+		EE2D00261FDE5A4100668ABC /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2D00251FDE5A4100668ABC /* MAMapKit.framework */; };
+		EE2D002D1FDE5E8700668ABC /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2D002B1FDE5DBD00668ABC /* AMapNaviKit.framework */; };
+		EE2D00311FDE8EAD00668ABC /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2D002F1FDE8EAD00668ABC /* InputViewController.swift */; };
+		EE2D00321FDE8EAD00668ABC /* InputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE2D00301FDE8EAD00668ABC /* InputViewController.xib */; };
 		EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BA41E9744220065827E /* NavViewController.swift */; };
 		EE3E3BA81E9764C40065827E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BA61E9764C40065827E /* LoginViewController.swift */; };
 		EE3E3BA91E9764C40065827E /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BA71E9764C40065827E /* LoginViewController.xib */; };
 		EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE3E3BAA1E979FE20065827E /* ResignViewController.swift */; };
 		EE3E3BAD1E979FE20065827E /* ResignViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE3E3BAB1E979FE20065827E /* ResignViewController.xib */; };
 		EE4717131EC2C21E00AB4CA4 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE47170F1EC2C21E00AB4CA4 /* AMapFoundationKit.framework */; };
-		EE4717141EC2C21E00AB4CA4 /* AMapNaviKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717101EC2C21E00AB4CA4 /* AMapNaviKit.framework */; };
 		EE4717151EC2C21E00AB4CA4 /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717111EC2C21E00AB4CA4 /* AMapSearchKit.framework */; };
-		EE4717161EC2C21E00AB4CA4 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4717121EC2C21E00AB4CA4 /* MAMapKit.framework */; };
 		EE4717181EC2C26500AB4CA4 /* AMapNavi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE4717171EC2C26500AB4CA4 /* AMapNavi.bundle */; };
 		EE47171A1EC2C27100AB4CA4 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE4717191EC2C27100AB4CA4 /* AMap.bundle */; };
 		EE47171C1EC2C28E00AB4CA4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE47171B1EC2C28E00AB4CA4 /* Foundation.framework */; };
@@ -201,6 +203,11 @@
 		EE2206D41EB85F9200885C15 /* MeTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeTableViewController.xib; sourceTree = "<group>"; };
 		EE2206DC1EB8894200885C15 /* officialDemoSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "officialDemoSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE2206DF1EB88DC000885C15 /* DeviceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceView.swift; sourceTree = "<group>"; };
+		EE2D00251FDE5A4100668ABC /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		EE2D002B1FDE5DBD00668ABC /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
+		EE2D002E1FDE60A100668ABC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		EE2D002F1FDE8EAD00668ABC /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		EE2D00301FDE8EAD00668ABC /* InputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputViewController.xib; sourceTree = "<group>"; };
 		EE38B4C31F4FFD5D00C33C1D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		EE3E3BA41E9744220065827E /* NavViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		EE3E3BA61E9764C40065827E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -208,9 +215,7 @@
 		EE3E3BAA1E979FE20065827E /* ResignViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignViewController.swift; sourceTree = "<group>"; };
 		EE3E3BAB1E979FE20065827E /* ResignViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResignViewController.xib; sourceTree = "<group>"; };
 		EE47170F1EC2C21E00AB4CA4 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		EE4717101EC2C21E00AB4CA4 /* AMapNaviKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapNaviKit.framework; sourceTree = "<group>"; };
 		EE4717111EC2C21E00AB4CA4 /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapSearchKit.framework; sourceTree = "<group>"; };
-		EE4717121EC2C21E00AB4CA4 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
 		EE4717171EC2C26500AB4CA4 /* AMapNavi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMapNavi.bundle; path = AMapNaviKit.framework/AMapNavi.bundle; sourceTree = "<group>"; };
 		EE4717191EC2C27100AB4CA4 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AMap.bundle; path = MAMapKit.framework/AMap.bundle; sourceTree = "<group>"; };
 		EE47171B1EC2C28E00AB4CA4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -318,12 +323,12 @@
 				EE4717261EC2C2B100AB4CA4 /* libstdc++.6.0.9.tbd in Frameworks */,
 				EE4717241EC2C2A600AB4CA4 /* libc++.tbd in Frameworks */,
 				EE4717221EC2C29F00AB4CA4 /* libz.tbd in Frameworks */,
+				EE2D002D1FDE5E8700668ABC /* AMapNaviKit.framework in Frameworks */,
 				EE4717201EC2C29A00AB4CA4 /* SystemConfiguration.framework in Frameworks */,
 				EE47171E1EC2C29400AB4CA4 /* CoreTelephony.framework in Frameworks */,
 				EE47171C1EC2C28E00AB4CA4 /* Foundation.framework in Frameworks */,
-				EE4717141EC2C21E00AB4CA4 /* AMapNaviKit.framework in Frameworks */,
+				EE2D00261FDE5A4100668ABC /* MAMapKit.framework in Frameworks */,
 				EEADA01B1EC19DF3003867DC /* AVFoundation.framework in Frameworks */,
-				EE4717161EC2C21E00AB4CA4 /* MAMapKit.framework in Frameworks */,
 				EE4717151EC2C21E00AB4CA4 /* AMapSearchKit.framework in Frameworks */,
 				EE4717131EC2C21E00AB4CA4 /* AMapFoundationKit.framework in Frameworks */,
 				EE10A6EF1E9CD6DB0036B1E0 /* libsqlite3.0.tbd in Frameworks */,
@@ -346,6 +351,8 @@
 		72D4383772E4771526AEDD42 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE2D002E1FDE60A100668ABC /* CoreLocation.framework */,
+				EE2D002B1FDE5DBD00668ABC /* AMapNaviKit.framework */,
 				EE38B4C31F4FFD5D00C33C1D /* MapKit.framework */,
 				EE4717291EC2C2BD00AB4CA4 /* GLKit.framework */,
 				EE4717271EC2C2B700AB4CA4 /* Security.framework */,
@@ -356,10 +363,9 @@
 				EE47171D1EC2C29400AB4CA4 /* CoreTelephony.framework */,
 				EE47171B1EC2C28E00AB4CA4 /* Foundation.framework */,
 				EE47170F1EC2C21E00AB4CA4 /* AMapFoundationKit.framework */,
-				EE4717101EC2C21E00AB4CA4 /* AMapNaviKit.framework */,
 				EE4717111EC2C21E00AB4CA4 /* AMapSearchKit.framework */,
-				EE4717121EC2C21E00AB4CA4 /* MAMapKit.framework */,
 				EEADA01A1EC19DF3003867DC /* AVFoundation.framework */,
+				EE2D00251FDE5A4100668ABC /* MAMapKit.framework */,
 				EE10A6EE1E9CD6DB0036B1E0 /* libsqlite3.0.tbd */,
 				4C7D6C9227326DC4F0CD900F /* Pods____.framework */,
 			);
@@ -679,6 +685,8 @@
 				EE7CAD191EA5C5CB00A40760 /* BandDeviceViewController.swift */,
 				EE7CAD1A1EA5C5CB00A40760 /* BandDeviceViewController.xib */,
 				EE7CAD1D1EA5E40C00A40760 /* ScanCodeViewController.swift */,
+				EE2D002F1FDE8EAD00668ABC /* InputViewController.swift */,
+				EE2D00301FDE8EAD00668ABC /* InputViewController.xib */,
 			);
 			name = Device;
 			path = ../MainVC/Device;
@@ -832,6 +840,7 @@
 				EE7C35F71E95DBFC000481E2 /* Assets.xcassets in Resources */,
 				EEC3D55C1EAF5B68009E9C09 /* SelectPhotoCollectionViewController.xib in Resources */,
 				EEC3D5601EAF5BA8009E9C09 /* PhotoCollectionViewCell.xib in Resources */,
+				EE2D00321FDE8EAD00668ABC /* InputViewController.xib in Resources */,
 				EE2206D11EB85F7400885C15 /* MessTableViewController.xib in Resources */,
 				EE0868E11EF38C670094F2D7 /* MBProgressHUD.bundle in Resources */,
 				EE9B44201EE8E7E6000E41FD /* MssDetailTableViewController.xib in Resources */,
@@ -951,6 +960,7 @@
 				EE3E3BAC1E979FE20065827E /* ResignViewController.swift in Sources */,
 				EE3E3BA51E9744220065827E /* NavViewController.swift in Sources */,
 				EE0869151EF3A60A0094F2D7 /* MJRefreshFooter.m in Sources */,
+				EE2D00311FDE8EAD00668ABC /* InputViewController.swift in Sources */,
 				EE7CAD1E1EA5E40C00A40760 /* ScanCodeViewController.swift in Sources */,
 				EE2206E01EB88DC000885C15 /* DeviceView.swift in Sources */,
 				EE4717421EC3018B00AB4CA4 /* UIView+FSExtension.m in Sources */,

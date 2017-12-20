@@ -44,7 +44,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
     func createUI(){
         title = "绑定手表"
         view.backgroundColor = UIColor.black
-        let lab = UILabel(frame: CGRect(x: 20, y: 100, width: MainScreen.width - 40, height: 20))
+        let lab = UILabel(frame: CGRect(x: 20, y: 80, width: MainScreen.width - 40, height: 20))
         lab.text = "将取景框对准二维码，即可自动扫描"
         lab.font = UIFont.systemFont(ofSize: 12)
         lab.textAlignment = NSTextAlignment(rawValue: 1)!
@@ -60,7 +60,7 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
         lightBut.setImage(UIImage(named: "qrcode_scan_btn_flash_nor"), for: .normal)
         lightBut.setImage(UIImage(named: "qrcode_scan_btn_flash_down"), for: .selected)
         bottomView.addSubview(lightBut)
-        view.addSubview(bottomView)
+//        view.addSubview(bottomView)
         
         let width = MainScreen.width * 0.6
         scanPane = UIImageView(frame: CGRect(x: (MainScreen.width - width)/2, y: lab.frame.maxY + 20, width: width, height: width * (5/6)))
@@ -73,8 +73,19 @@ class ScanCodeViewController: UIViewController,AVCaptureMetadataOutputObjectsDel
         activityIndicatorView?.hidesWhenStopped = true;
         scanPane?.addSubview(activityIndicatorView!)
         setupScanSession()
+        
+        let but = UIButton(type: UIButtonType.init(rawValue: 0)!)
+        but.frame = CGRect(x: 16, y: (scanPane?.frame.maxY)! + 100, width: MainScreen.size.width - 32, height: 44)
+        but.setTitle("手动输入", for: .normal)
+        but.backgroundColor = ColorFromRGB(rgbValue: 0x389aff)
+        but.addTarget(self, action: #selector(inputSelector(sender:)), for: .touchUpInside)
+        view.addSubview(but)
     }
 
+    func inputSelector(sender: UIButton){
+        navigationController?.pushViewController(InputViewController(nibName: "InputViewController", bundle: nil), animated: true)
+    }
+    
     func setupScanSession()
     {
         do

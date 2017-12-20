@@ -199,7 +199,7 @@ class MessTableViewController: UITableViewController {
             mesDetailVC.title = Localizeable(key: "申请消息") as String
              Defaultinfos.putKeyWithInt(key: applyForNum, value: 0)
         }
-        if indexPath.section == 1 && indexPath.row == 0 {
+        if indexPath.section == 1 {
             let deviceInfo = (messArrs[indexPath.section] as! NSMutableArray)[indexPath.row] as! UserInfo
             mesDetailVC.messType = 999
             mesDetailVC.title = deviceInfo.deviceName! + (Localizeable(key: "的表") as String)

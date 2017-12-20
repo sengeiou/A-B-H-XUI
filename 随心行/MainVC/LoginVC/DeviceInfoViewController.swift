@@ -198,12 +198,19 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         
         if changeUser {
             let dic = RequestKeyDic()
+            var sim = self.devicePh.text!
+            if (self.devicePh.text!.range(of: "+86") != nil){
+                sim = sim.replacingOccurrences(of: " ", with: "")
+            }else{
+                sim = "+86" + self.devicePh.text!
+                sim = sim.replacingOccurrences(of: " ", with: "")
+            }
             dic.addEntries(from: [ "UserId": user!.userId!,
                                    "Username": deviceRelat.text!,
                                    "Email": "",
                                    "Address": "",
                                    "Avatar": user?.userIma ?? "",
-                                   "CellPhone": devicePh.text!,
+                                   "CellPhone": sim,
                                    "Sim": "",
                                    "Gender": true,
                                    "Birthday": "",
@@ -223,7 +230,13 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                 if resDic["State"] as! Int == 0{
                     MBProgressHUD.showSuccess(Localizeable(key: "保存成功") as String)
                     self.user?.userName = self.deviceRelat.text
-                    self.user?.userPh = self.devicePh.text
+                    if (self.devicePh.text!.range(of: "+86") != nil){
+                        sim = sim.replacingOccurrences(of: " ", with: "")
+                    }else{
+                        sim = "+86" + self.devicePh.text!
+                        sim = sim.replacingOccurrences(of: " ", with: "")
+                    }
+                    self.user?.userPh = sim
                     ArchiveRoot(userInfo: self.user!)
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: { 
                         self.navigationController?.popViewController(animated: true)
@@ -244,6 +257,13 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
         }
         
         let dic = RequestKeyDic()
+        var sim = devicePh.text!
+        if (devicePh.text!.range(of: "+86") != nil){
+           sim = sim.replacingOccurrences(of: " ", with: "")
+        }else{
+            sim = "+86" + devicePh.text!
+           sim = sim.replacingOccurrences(of: " ", with: "")
+        }
         dic.addEntries(from: ["Item":["Birthday": "",
                                       "DeviceID": user!.deviceId!,
                                       "Gender": "",
@@ -254,7 +274,7 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
                                       "Weight": "",
                                       "Avatar": user!.deviceIma!,
                                       "UserId": Defaultinfos.getIntValueForKey(key: UserID),
-                                      "Sim": devicePh.text!,
+                                      "Sim": sim,
                                       "Age": "",
                                       "BloodType": "",
                                       "CellPhone": "",
@@ -273,7 +293,14 @@ class DeviceInfoViewController: UIViewController,UIImagePickerControllerDelegate
             let resDic = result as! Dictionary<String,Any?>
             if resDic["State"] as! Int == 0{
                 print("资料设置完成")
-                self.user?.devicePh = self.devicePh.text!
+                var sim = self.devicePh.text!
+                if (self.devicePh.text!.range(of: "+86") != nil){
+                    sim = sim.replacingOccurrences(of: " ", with: "")
+                }else{
+                    sim = "+86" + self.devicePh.text!
+                    sim = sim.replacingOccurrences(of: " ", with: "")
+                }
+                self.user?.devicePh = sim
                 self.user?.deviceName = self.deviceRelat.text!
                 let fmdbase = FMDbase.shared()
                 fmdbase.insertUserInfo(userInfo: self.user!)

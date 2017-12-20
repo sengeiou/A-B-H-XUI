@@ -107,6 +107,9 @@ class GPSViewController: UIViewController {
                 oldSender.isSelected = true
             }
         }, failure: { (URLSessionDataTask, Error) in
+            if (Error as NSError).code == -999{
+                return;
+            }
             MBProgressHUD.showError(Error.localizedDescription)
             let oldSender = self.view.viewWithTag(100 + self.modeSelect) as! UIButton
             self.normalBut.isSelected = false

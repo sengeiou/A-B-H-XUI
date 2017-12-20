@@ -96,7 +96,7 @@
 {
     if (self.driveManager == nil)
     {
-        self.driveManager = [[AMapNaviDriveManager alloc] init];
+        self.driveManager = [AMapNaviDriveManager sharedInstance];
         [self.driveManager setDelegate:self];
         
         [self.driveManager setAllowsBackgroundLocationUpdates:YES];

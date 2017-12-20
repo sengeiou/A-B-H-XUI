@@ -72,7 +72,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
             }, success: { (URLSessionDataTask, result) in
                 
             }, failure: { (URLSessionDataTask, Error) in
-                
+                if (Error as NSError).code == -999{
+                    return;
+                }
             })
         }
         else if Defaultinfos.getIntValueForKey(key: FirstLun) == 1{
@@ -120,7 +122,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,JPUSHRegisterDelegate {
             view.numberOfLines = 0
             self.window?.addSubview(view)
         }
-        
+       let laca = CLLocationManager()
+        laca.requestAlwaysAuthorization()
+        laca.requestWhenInUseAuthorization()
         AMapServices.shared().apiKey = "6ac033c36632fb55fa0c057059298c37"
         UIApplication.shared.statusBarStyle = .lightContent
         UIApplication.shared.applicationIconBadgeNumber = 0
